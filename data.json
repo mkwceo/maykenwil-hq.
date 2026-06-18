@@ -4,6 +4,20 @@
     "shortName": "Maykenwil HQ",
     "model": "Modèle holding familial : chaque membre ouvre d'abord sa propre structure (SASU / micro-entreprise), holding parent différée 12–18 mois."
   },
+  "theme": {
+    "mode": "dark",
+    "wallpaper": ["#1e1b4b", "#312e81", "#0f766e", "#7e22ce", "#0c0a1d"]
+  },
+  "dock": [
+    { "name": "Mail", "icon": "✉️", "color": "#3b82f6" },
+    { "name": "Calendrier", "icon": "📅", "color": "#ef4444" },
+    { "name": "Notes", "icon": "📝", "color": "#f59e0b" },
+    { "name": "Messages", "icon": "💬", "color": "#22c55e" },
+    { "name": "Musique", "icon": "🎵", "color": "#ec4899" },
+    { "name": "Photos", "icon": "🖼️", "color": "#8b5cf6" },
+    { "name": "Météo", "icon": "⛅", "color": "#0ea5e9" },
+    { "name": "Réglages", "icon": "⚙️", "color": "#64748b" }
+  ],
   "overview": {
     "score": 61,
     "scoreMax": 100,

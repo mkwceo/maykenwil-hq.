@@ -31,6 +31,7 @@ const ICONS = {
   clock:        `<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>`,
   'map-pin':    `<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>`,
   info:         `<circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>`,
+  scale:        `<path d="M12 3v18"/><path d="M5 7h14"/><path d="M5 7l-3 6a3 3 0 006 0z"/><path d="M19 7l-3 6a3 3 0 006 0z"/><path d="M8 21h8"/>`,
 };
 
 function makeIcon(name, extraClass) {
@@ -188,7 +189,7 @@ function renderOverview() {
         </div>
         <div>
           <div class="score-verdict">${esc(o.verdict)}</div>
-          <p class="score-desc">Décision conditionnée à la levée des faiblesses avant bascule.</p>
+          <p class="score-desc">${o.scoreBands ? esc(o.scoreBands) : "Décision conditionnée à la levée des faiblesses avant bascule."}</p>
         </div>
       </div>
     </div>
@@ -207,6 +208,19 @@ function renderOverview() {
       <p class="tile-label">${makeIcon("zap")} Règle anti-dispersion</p>
       <div class="banner-text">${esc(o.antiDispersionRule)}</div>
     </div>
+
+    ${Array.isArray(o.scoring) && o.scoring.length ? `
+    <div class="tile s-4" style="--accent:#14e0b1">
+      <p class="tile-label">${makeIcon("scale")} Grille de décision GO / NO-GO</p>
+      <div class="score-grid">
+        ${o.scoring.map(c => `
+          <div class="sg-row">
+            <span class="sg-label">${esc(c.label)}</span>
+            <span class="sg-bar"><span style="width:0" data-w="${(c.weight / 25 * 100).toFixed(0)}%"></span></span>
+            <span class="sg-weight">${esc(c.weight)} pts</span>
+          </div>`).join("")}
+      </div>
+    </div>` : ""}
 
     <div class="tile s-2" style="--accent:#10b981">
       <p class="tile-label">${makeIcon("trending-up")} Forces clés</p>
@@ -229,6 +243,9 @@ function renderOverview() {
   `;
 
   animateGauge();
+  requestAnimationFrame(() => {
+    document.querySelectorAll(".sg-bar > span").forEach(s => { s.style.width = s.dataset.w; });
+  });
   tickClock();
 }
 

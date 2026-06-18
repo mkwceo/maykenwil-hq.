@@ -30,6 +30,14 @@
     "phaseNote": "Bascule vers l'exécution réelle prévue août 2026 (retour à Marseille).",
     "antiDispersionRule": "Maximum 2 priorités opérationnelles actives en même temps.",
     "momentum": [10, 16, 22, 28, 34, 41, 48, 54, 61],
+    "scoreBands": "GO 80+ · GO conditionnel 60–79 · NO-GO < 60",
+    "scoring": [
+      { "label": "Alignement vision 40 ans", "weight": 25 },
+      { "label": "Conformité halal", "weight": 20 },
+      { "label": "Faisabilité (phase actuelle)", "weight": 20 },
+      { "label": "ROI temps / énergie", "weight": 20 },
+      { "label": "Anti-dispersion", "weight": 15 }
+    ],
     "strengths": [
       "Vision long terme (40 ans)",
       "Éthique halal",
@@ -67,11 +75,11 @@
       "summary": "Agence de représentation de joueurs.",
       "status": "Branche la plus crédible",
       "maturity": 70,
-      "next": "Finaliser une première shortlist de joueurs sous-évalués (Bruges / Genk).",
+      "next": "Démarrer la Phase 1 de prép. agent FIFA (9 matières, août–oct 2026).",
       "objectives": [
+        "Obtenir la licence d'agent FFF puis FIFA (examen mai 2027)",
         "Signer 3 premiers joueurs sous mandat d'ici 18 mois",
-        "Construire un réseau de scouts en Europe (BeNeLux, Scandinavie)",
-        "Placer un premier joueur dans un club cible"
+        "Construire un réseau de scouts en Europe (BeNeLux, Scandinavie)"
       ],
       "opportunities": [
         "Marché des profils 18–23 ans sous-évalués",
@@ -79,23 +87,24 @@
         "Peu d'agents structurés sur ce créneau de niche"
       ],
       "risks": [
+        "Examen d'agent exigeant (9 matières, note ≥ 14/20 au spécifique)",
         "Marché très relationnel et concurrentiel",
-        "Licence d'agent FIFA à obtenir",
         "Cycle long avant la première commission"
       ],
       "kpis": [
-        { "label": "Joueurs suivis", "value": "0" },
-        { "label": "Mandats signés", "value": "0" },
+        { "label": "Examen FIFA", "value": "Mai 2027" },
+        { "label": "Matières prêtes", "value": "0/9" },
         { "label": "Clubs cibles", "value": "4" }
       ],
       "plan": [
-        "Passer l'examen d'agent FIFA",
-        "Établir une shortlist de 10 joueurs sous-évalués",
-        "Activer 2 contacts clubs en BeNeLux"
+        "Phase 1 — Fondations : 9 matières (août–oct 2026)",
+        "Épreuve générale (novembre 2026)",
+        "Règlements FIFA RSTJ / FFF / LFP (déc 2026 – fév 2027)",
+        "Sprint final + examen spécifique (mars – mai 2027)"
       ],
       "highlights": [
-        "Scouting de joueurs 18–23 ans",
-        "Cible : profils sous-évalués",
+        "Licence FFF → licence FIFA automatique",
+        "Scouting de joueurs 18–23 ans sous-évalués",
         "Clubs cibles : Bruges, Midtjylland, Braga, Genk"
       ]
     },
@@ -107,31 +116,35 @@
       "summary": "Branche événementiel.",
       "status": "À activer",
       "maturity": 25,
-      "next": "Reprendre contact avec l'institutionnel à Marseille.",
+      "next": "Activer le pipeline (prévu août 2026) avec le pote (contacts institutionnels).",
       "objectives": [
         "Organiser un premier événement pilote à Marseille",
         "Nouer un partenariat institutionnel local durable"
       ],
       "opportunities": [
+        "Collaboration avec un ami bien introduit (contacts institutionnels)",
         "Réseau institutionnel déjà amorcé à Marseille",
-        "Synergie avec le retour à Marseille (août 2026)"
+        "Synergie avec le retour à Marseille (2026)"
       ],
       "risks": [
+        "Doit rester ≤ 1 jour / semaine (l'examen FIFA prime toujours)",
         "Branche encore au stade de simple contact",
-        "Forte dépendance à un seul interlocuteur",
         "Marges faibles sur les premiers événements"
       ],
       "kpis": [
         { "label": "Contacts actifs", "value": "1" },
+        { "label": "Plafond temps", "value": "1 j/sem" },
         { "label": "Événements", "value": "0" }
       ],
       "plan": [
-        "Reprendre contact avec l'institutionnel marseillais",
+        "Activer le pipeline avec le pote (août 2026)",
         "Définir le format du premier événement",
         "Chiffrer un budget pilote"
       ],
       "highlights": [
-        "Contact institutionnel à Marseille"
+        "Collaboration avec un ami (contacts institutionnels)",
+        "Plafond strict : 1 jour / semaine maximum",
+        "Si conflit avec la révision FIFA, la révision gagne"
       ]
     },
     {

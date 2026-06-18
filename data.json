@@ -1,0 +1,97 @@
+{
+  "holding": {
+    "name": "Maykenwil Holding",
+    "shortName": "Maykenwil HQ",
+    "model": "Modèle holding familial : chaque membre ouvre d'abord sa propre structure (SASU / micro-entreprise), holding parent différée 12–18 mois."
+  },
+  "overview": {
+    "score": 61,
+    "scoreMax": 100,
+    "verdict": "GO conditionnel",
+    "phase": "Phase 0 — Préparation",
+    "phaseNote": "Bascule vers l'exécution réelle prévue août 2026 (retour à Marseille).",
+    "antiDispersionRule": "Maximum 2 priorités opérationnelles actives en même temps.",
+    "strengths": [
+      "Vision long terme (40 ans)",
+      "Éthique halal",
+      "Branche Sport crédible"
+    ],
+    "weaknesses": [
+      "Zéro revenu consolidé",
+      "6 branches dormantes",
+      "Risque de « meta-work » : construire de l'infra avant d'avoir des inputs réels"
+    ]
+  },
+  "branches": [
+    {
+      "id": "sport",
+      "name": "Sport",
+      "accent": "#10b981",
+      "icon": "⚽",
+      "tagline": "MKW — More Than Kings Win",
+      "summary": "Agence de représentation de joueurs.",
+      "status": "Branche la plus crédible",
+      "highlights": [
+        "Scouting de joueurs 18–23 ans",
+        "Cible : profils sous-évalués",
+        "Clubs cibles : Bruges, Midtjylland, Braga, Genk"
+      ]
+    },
+    {
+      "id": "events",
+      "name": "Events",
+      "accent": "#f59e0b",
+      "icon": "🎟️",
+      "summary": "Branche événementiel.",
+      "status": "À activer",
+      "highlights": [
+        "Contact institutionnel à Marseille"
+      ]
+    },
+    {
+      "id": "logistique",
+      "name": "Logistique",
+      "accent": "#3b82f6",
+      "icon": "🚚",
+      "summary": "Branche transport.",
+      "status": "Lead identifié",
+      "highlights": [
+        "Lead potentiel : le père (permis PL)"
+      ]
+    },
+    {
+      "id": "beauty",
+      "name": "Beauty",
+      "accent": "#ec4899",
+      "icon": "💄",
+      "summary": "Branche esthétique.",
+      "status": "Lead identifié",
+      "highlights": [
+        "Lead potentielle : la sœur (salon indépendant)"
+      ]
+    },
+    {
+      "id": "capital",
+      "name": "Capital",
+      "accent": "#8b5cf6",
+      "icon": "💎",
+      "summary": "Branche finance / investissement, 100 % halal.",
+      "status": "100 % halal",
+      "highlights": [
+        "Zéro riba (aucun intérêt)",
+        "Mourabaha",
+        "Musharaka",
+        "Sukuk"
+      ]
+    },
+    {
+      "id": "north-vision",
+      "name": "North Vision Development",
+      "accent": "#06b6d4",
+      "icon": "🧭",
+      "summary": "Branche développement.",
+      "status": "Branche développement",
+      "highlights": []
+    }
+  ]
+}

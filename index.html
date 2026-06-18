@@ -1,565 +1,115 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MKW — Command Center</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --void: #05050a;
-    --deep: #0a0a14;
-    --surface: #0f0f1e;
-    --glass: rgba(255,255,255,0.04);
-    --glass-border: rgba(255,255,255,0.08);
-    --glass-hover: rgba(255,255,255,0.07);
-    --gold: #c9a84c;
-    --gold-dim: rgba(201,168,76,0.15);
-    --gold-glow: rgba(201,168,76,0.4);
-    --blue-ice: #a8c5ff;
-    --blue-glow: rgba(168,197,255,0.2);
-    --text-primary: rgba(255,255,255,0.92);
-    --text-secondary: rgba(255,255,255,0.45);
-    --text-muted: rgba(255,255,255,0.22);
-    --sport: #4fc3f7;
-    --events: #ce93d8;
-    --beaute: #f48fb1;
-    --logistique: #80cbc4;
-    --capital: #c9a84c;
-    --nvd: #a5d6a7;
-  }
-
-  html, body {
-    height: 100%;
-    background: var(--void);
-    color: var(--text-primary);
-    font-family: 'Space Grotesk', sans-serif;
-    overflow: hidden;
-  }
-
-  /* ── AMBIENT BACKGROUND ── */
-  .ambient {
-    position: fixed; inset: 0; pointer-events: none; z-index: 0;
-    background:
-      radial-gradient(ellipse 60% 40% at 20% 10%, rgba(201,168,76,0.06) 0%, transparent 70%),
-      radial-gradient(ellipse 50% 60% at 80% 80%, rgba(168,197,255,0.04) 0%, transparent 70%),
-      radial-gradient(ellipse 40% 30% at 50% 50%, rgba(79,195,247,0.03) 0%, transparent 60%);
-  }
-
-  /* ── LAYOUT ── */
-  .shell {
-    position: relative; z-index: 1;
-    display: grid;
-    grid-template-rows: 56px 1fr;
-    grid-template-columns: 220px 1fr 280px;
-    height: 100vh;
-    gap: 0;
-  }
-
-  /* ── TOPBAR ── */
-  .topbar {
-    grid-column: 1 / -1;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 0 24px;
-    border-bottom: 1px solid var(--glass-border);
-    background: rgba(5,5,10,0.8);
-    backdrop-filter: blur(12px);
-  }
-
-  .topbar-brand { display: flex; align-items: center; gap: 12px; }
-
-  .mkw-logo {
-    width: 32px; height: 32px;
-    background: linear-gradient(135deg, var(--gold), #8b6914);
-    border-radius: 6px;
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Space Mono', monospace;
-    font-size: 11px; font-weight: 700;
-    color: var(--void); letter-spacing: -0.5px;
-  }
-
-  .topbar-title { font-size: 13px; font-weight: 600; letter-spacing: 0.08em; color: var(--text-primary); text-transform: uppercase; }
-  .topbar-sub { font-size: 10px; color: var(--text-muted); font-family: 'Space Mono', monospace; letter-spacing: 0.05em; }
-  .topbar-status { display: flex; align-items: center; gap: 20px; }
-  .status-pill { display: flex; align-items: center; gap: 6px; font-size: 10px; font-family: 'Space Mono', monospace; color: var(--text-secondary); letter-spacing: 0.05em; }
-
-  .dot { width: 6px; height: 6px; border-radius: 50%; animation: pulse 2s infinite; }
-  .dot-gold { background: var(--gold); box-shadow: 0 0 6px var(--gold); }
-  .dot-blue { background: var(--blue-ice); box-shadow: 0 0 6px var(--blue-ice); }
-
-  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
-
-  .topbar-phase { font-size: 10px; font-family: 'Space Mono', monospace; color: var(--gold); letter-spacing: 0.1em; border: 1px solid var(--gold-dim); padding: 3px 10px; border-radius: 20px; background: var(--gold-dim); }
-  .topbar-clock { font-size: 11px; font-family: 'Space Mono', monospace; color: var(--text-secondary); letter-spacing: 0.05em; }
-
-  /* ── LEFT SIDEBAR ── */
-  .sidebar-left { border-right: 1px solid var(--glass-border); background: rgba(5,5,10,0.6); padding: 20px 0; overflow-y: auto; display: flex; flex-direction: column; gap: 0; }
-  .sidebar-section { padding: 0 16px 20px; }
-  .sidebar-label { font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-muted); font-family: 'Space Mono', monospace; margin-bottom: 10px; padding: 0 4px; }
-  .nav-item { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 8px; cursor: pointer; transition: all 0.15s ease; font-size: 12px; color: var(--text-secondary); margin-bottom: 2px; border: 1px solid transparent; }
-  .nav-item:hover, .nav-item.active { background: var(--glass); border-color: var(--glass-border); color: var(--text-primary); }
-  .nav-item.active { color: var(--gold); border-color: var(--gold-dim); }
-  .nav-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
-  .nav-label { flex: 1; }
-  .nav-tag { font-size: 9px; font-family: 'Space Mono', monospace; color: var(--text-muted); }
-  .nav-tag.active-tag { color: var(--gold); background: var(--gold-dim); padding: 1px 6px; border-radius: 10px; }
-
-  .sidebar-divider { height: 1px; background: var(--glass-border); margin: 4px 16px 16px; }
-
-  .hub-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 0 16px; }
-  .hub-btn { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; padding: 10px 6px; background: var(--glass); border: 1px solid var(--glass-border); border-radius: 8px; cursor: pointer; transition: all 0.15s ease; font-size: 10px; color: var(--text-secondary); text-align: center; line-height: 1.2; text-decoration: none; }
-  .hub-btn:hover { background: var(--glass-hover); border-color: rgba(255,255,255,0.14); color: var(--text-primary); }
-  .hub-icon { font-size: 16px; }
-
-  /* ── MAIN AREA ── */
-  .main { position: relative; overflow: hidden; background: var(--deep); }
-  .world-stage { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
-  .world-bg { position: absolute; inset: 0;
-    background:
-      radial-gradient(circle at 50% 48%, rgba(168,197,255,0.06) 0%, transparent 58%),
-      radial-gradient(ellipse 80% 50% at 50% 62%, rgba(10,10,30,0.55) 0%, transparent 100%); }
-  /* carte tactique : grille en pointillés + méridiens, estompée sur les bords */
-  .world-bg::before { content:''; position:absolute; inset:0;
-    background-image: radial-gradient(rgba(255,255,255,0.11) 1px, transparent 1.5px);
-    background-size: 22px 22px; opacity: 0.55;
-    -webkit-mask-image: radial-gradient(ellipse 64% 60% at 50% 50%, #000 28%, transparent 76%);
-            mask-image: radial-gradient(ellipse 64% 60% at 50% 50%, #000 28%, transparent 76%); }
-  .world-bg::after { content:''; position:absolute; inset:0;
-    background-image:
-      linear-gradient(rgba(168,197,255,0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(168,197,255,0.05) 1px, transparent 1px);
-    background-size: 90px 90px;
-    -webkit-mask-image: radial-gradient(ellipse 72% 66% at 50% 50%, #000 18%, transparent 82%);
-            mask-image: radial-gradient(ellipse 72% 66% at 50% 50%, #000 18%, transparent 82%); }
-  .map-container { position: relative; width: 100%; height: 100%; }
-
-  @keyframes nodeIn { from { opacity: 0; } to { opacity: 1; } }
-  .building-node { position: absolute; display: flex; flex-direction: column; align-items: center; cursor: pointer; transition: transform 0.2s ease; animation: nodeIn 0.9s ease both; }
-  .node-singapore { animation-delay: .05s; }
-  .node-marseille { animation-delay: .2s; }
-  .node-paris { animation-delay: .35s; }
-  .node-usa { animation-delay: .5s; }
-  .node-mena { animation-delay: .65s; }
-  .building-node:hover { transform: scale(1.05); }
-  .building-node:hover .building-card { border-color: rgba(255,255,255,0.18); background: rgba(255,255,255,0.08); }
-  .building-card { background: rgba(255,255,255,0.05); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 14px 16px; min-width: 140px; transition: all 0.2s ease; position: relative; overflow: hidden; }
-  .building-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent); }
-  .building-card.headquarters { min-width: 180px; border-color: rgba(201,168,76,0.3); background: rgba(201,168,76,0.06); }
-  .building-card.headquarters::before { background: linear-gradient(90deg, transparent, rgba(201,168,76,0.4), transparent); }
-  .building-glow { position: absolute; inset: 0; border-radius: 12px; opacity: 0; transition: opacity 0.3s ease; pointer-events: none; }
-  .building-node:hover .building-glow { opacity: 1; }
-  .b-flag { font-size: 18px; margin-bottom: 6px; }
-  .b-city { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-family: 'Space Mono', monospace; color: var(--text-muted); margin-bottom: 4px; }
-  .b-name { font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 6px; }
-  .b-role { font-size: 10px; color: var(--text-secondary); line-height: 1.4; }
-  .b-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 9px; font-family: 'Space Mono', monospace; padding: 2px 7px; border-radius: 10px; margin-top: 8px; letter-spacing: 0.05em; }
-  .badge-gold { background: var(--gold-dim); color: var(--gold); border: 1px solid rgba(201,168,76,0.3); }
-  .badge-blue { background: rgba(79,195,247,0.1); color: var(--sport); border: 1px solid rgba(79,195,247,0.2); }
-  .badge-purple { background: rgba(206,147,216,0.1); color: var(--events); border: 1px solid rgba(206,147,216,0.2); }
-  .badge-pink { background: rgba(244,143,177,0.1); color: var(--beaute); border: 1px solid rgba(244,143,177,0.2); }
-  .badge-teal { background: rgba(128,203,196,0.1); color: var(--logistique); border: 1px solid rgba(128,203,196,0.2); }
-  .badge-green { background: rgba(165,214,167,0.1); color: var(--nvd); border: 1px solid rgba(165,214,167,0.2); }
-  .b-connector { width: 1px; height: 24px; background: linear-gradient(to bottom, rgba(255,255,255,0.15), transparent); margin: 0 auto; }
-  .b-pin { width: 8px; height: 8px; border-radius: 50%; box-shadow: 0 0 8px currentColor; }
-
-  .node-singapore { top: 52%; left: 72%; }
-  .node-marseille { top: 28%; left: 44%; }
-  .node-paris     { top: 22%; left: 40%; }
-  .node-usa       { top: 35%; left: 12%; }
-  .node-mena      { top: 42%; left: 58%; }
-
-  .flow-svg { position: absolute; inset: 0; pointer-events: none; }
-  .flow-path { fill: none; stroke-width: 1; stroke-dasharray: 6 4; animation: flowDash 3s linear infinite; }
-  .flow-path-gold { stroke: rgba(201,168,76,0.3); }
-  .flow-path-blue { stroke: rgba(79,195,247,0.2); }
-  .flow-path-purple { stroke: rgba(206,147,216,0.15); }
-  @keyframes flowDash { to { stroke-dashoffset: -40; } }
-
-  /* ── PANEL OVERLAY ── */
-  .panel-overlay { position: fixed; inset: 0; background: rgba(5,5,10,0.7); backdrop-filter: blur(4px); z-index: 100; display: none; align-items: center; justify-content: center; padding: 20px; }
-  .panel-overlay.open { display: flex; }
-  .panel-box { background: rgba(10,10,20,0.95); border: 1px solid var(--glass-border); border-radius: 16px; padding: 28px; width: 480px; max-width: 100%; max-height: 85vh; overflow-y: auto; position: relative; backdrop-filter: blur(20px); }
-  .panel-close { position: absolute; top: 16px; right: 16px; width: 28px; height: 28px; border-radius: 6px; background: var(--glass); border: 1px solid var(--glass-border); color: var(--text-secondary); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; transition: all 0.15s; }
-  .panel-close:hover { background: var(--glass-hover); color: var(--text-primary); }
-  .panel-flag { font-size: 32px; margin-bottom: 12px; }
-  .panel-city { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; font-family: 'Space Mono', monospace; color: var(--text-muted); margin-bottom: 4px; }
-  .panel-title { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
-  .panel-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.65; margin-bottom: 20px; }
-  .panel-divider { height: 1px; background: var(--glass-border); margin: 16px 0; }
-  .panel-section-title { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-family: 'Space Mono', monospace; color: var(--text-muted); margin-bottom: 10px; }
-  .panel-items { display: flex; flex-direction: column; gap: 8px; }
-  .panel-item { display: flex; align-items: flex-start; gap: 10px; font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
-  .panel-item-dot { width: 5px; height: 5px; border-radius: 50%; margin-top: 6px; flex-shrink: 0; }
-  .panel-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
-
-  /* ── RIGHT SIDEBAR ── */
-  .sidebar-right { border-left: 1px solid var(--glass-border); background: rgba(5,5,10,0.6); padding: 20px 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; }
-
-  .phase-card { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 10px; padding: 14px; }
-  .phase-card-title { font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; font-family: 'Space Mono', monospace; color: var(--text-muted); margin-bottom: 12px; }
-  .phase-row { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,0.04); cursor: default; }
-  .phase-row:last-child { border-bottom: none; }
-  .phase-num { font-size: 9px; font-family: 'Space Mono', monospace; color: var(--text-muted); width: 16px; flex-shrink: 0; }
-  .phase-bar-wrap { flex: 1; height: 3px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden; }
-  .phase-bar { height: 100%; border-radius: 2px; transition: width 1s ease; }
-  .phase-info { text-align: right; }
-  .phase-years { font-size: 9px; font-family: 'Space Mono', monospace; color: var(--text-muted); }
-  .phase-label { font-size: 11px; color: var(--text-secondary); display: block; margin-bottom: 2px; }
-
-  .branch-list { display: flex; flex-direction: column; gap: 6px; }
-  .branch-item { display: flex; align-items: center; gap: 10px; padding: 9px 10px; background: var(--glass); border: 1px solid var(--glass-border); border-radius: 8px; cursor: pointer; transition: all 0.15s; }
-  .branch-item:hover { background: var(--glass-hover); border-color: rgba(255,255,255,0.12); }
-  .branch-color { width: 3px; height: 28px; border-radius: 2px; flex-shrink: 0; }
-  .branch-info { flex: 1; }
-  .branch-name { font-size: 11px; font-weight: 600; color: var(--text-primary); margin-bottom: 2px; }
-  .branch-sub { font-size: 10px; color: var(--text-muted); }
-  .branch-status { font-size: 9px; font-family: 'Space Mono', monospace; letter-spacing: 0.05em; }
-  .status-active { color: #4ade80; }
-  .status-phase2 { color: var(--gold); }
-  .status-future { color: var(--text-muted); }
-
-  .flux-card { background: var(--glass); border: 1px solid var(--gold-dim); border-radius: 10px; padding: 14px; }
-  .flux-nodes { display: flex; align-items: center; justify-content: space-between; gap: 4px; margin-top: 10px; }
-  .flux-node { display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 9px; color: var(--text-muted); font-family: 'Space Mono', monospace; text-align: center; }
-  .flux-dot-big { width: 10px; height: 10px; border-radius: 50%; }
-  .flux-arrow { font-size: 10px; color: var(--gold-dim); animation: flowPulse 2s infinite; }
-  @keyframes flowPulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
-
-  .family-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
-  .family-member { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 8px; padding: 10px; transition: all 0.15s; cursor: default; }
-  .family-member:hover { background: var(--glass-hover); border-color: rgba(255,255,255,0.12); }
-  .fm-role { font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; font-family: 'Space Mono', monospace; color: var(--text-muted); margin-bottom: 4px; }
-  .fm-name { font-size: 12px; font-weight: 600; color: var(--text-primary); margin-bottom: 3px; }
-  .fm-branch { font-size: 10px; color: var(--text-secondary); }
-
-  ::-webkit-scrollbar { width: 4px; height: 4px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: var(--glass-border); border-radius: 2px; }
-
-  /* ── RESPONSIVE ── */
-  @media (max-width: 1100px) {
-    .sidebar-right { display: none; }
-    .shell { grid-template-columns: 200px 1fr; }
-  }
-
-  /* Mobile : on déplie tout en colonne scrollable (au lieu de cacher) */
-  @media (max-width: 760px) {
-    html, body { overflow: auto; height: auto; }
-    .shell { display: flex; flex-direction: column; height: auto; min-height: 100vh; }
-    .topbar { position: sticky; top: 0; z-index: 40; height: auto; padding: 10px 16px; flex-wrap: wrap; gap: 10px; }
-    .topbar-status { gap: 10px; flex-wrap: wrap; }
-    .sidebar-left { display: flex; border-right: none; border-bottom: 1px solid var(--glass-border); order: 2; }
-    .main { order: 3; min-height: 78vh; }
-    .sidebar-right { display: flex; border-left: none; border-top: 1px solid var(--glass-border); order: 4; }
-    .hub-grid { grid-template-columns: repeat(4, 1fr); }
-    .building-card { min-width: 116px; padding: 10px 12px; }
-    .b-name { font-size: 12px; }
-    .b-role { font-size: 9px; }
-  }
-  @media (max-width: 460px) {
-    .hub-grid { grid-template-columns: repeat(3, 1fr); }
-    .topbar-sub { display: none; }
-    .building-card { min-width: 104px; }
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maykenwil HQ — Dashboard</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+<main>
 
-<div class="ambient"></div>
-
-<div class="shell">
-
-  <!-- ── TOPBAR ── -->
-  <header class="topbar">
-    <div class="topbar-brand">
-      <div class="mkw-logo">MKW</div>
-      <div>
-        <div class="topbar-title">Maykenwil Holding</div>
-        <div class="topbar-sub">COMMAND CENTER · SAMY ZERTIT</div>
-      </div>
-    </div>
-    <div class="topbar-status">
-      <div class="topbar-clock" id="clock">--:--</div>
-      <div class="status-pill"><div class="dot dot-gold"></div> HALAL COMPLIANT</div>
-      <div class="status-pill"><div class="dot dot-blue"></div> PHASE 1 ACTIVE</div>
-      <div class="topbar-phase">MARSEILLE AOÛT 2026</div>
-    </div>
-  </header>
-
-  <!-- ── LEFT SIDEBAR ── -->
-  <aside class="sidebar-left">
-    <div class="sidebar-section">
-      <div class="sidebar-label">Branches MKW</div>
-      <div class="nav-item active" onclick="openPanel('sport')">
-        <div class="nav-dot" style="background:var(--sport)"></div>
-        <span class="nav-label">MKW Sport</span>
-        <span class="nav-tag active-tag">P1</span>
-      </div>
-      <div class="nav-item" onclick="openPanel('events')">
-        <div class="nav-dot" style="background:var(--events)"></div>
-        <span class="nav-label">Jadeliane Events</span>
-        <span class="nav-tag active-tag">P1</span>
-      </div>
-      <div class="nav-item" onclick="openPanel('beaute')">
-        <div class="nav-dot" style="background:var(--beaute)"></div>
-        <span class="nav-label">MKW Beauté</span>
-        <span class="nav-tag">P2</span>
-      </div>
-      <div class="nav-item" onclick="openPanel('logistique')">
-        <div class="nav-dot" style="background:var(--logistique)"></div>
-        <span class="nav-label">MKW Logistique</span>
-        <span class="nav-tag">P2</span>
-      </div>
-      <div class="nav-item" onclick="openPanel('capital')">
-        <div class="nav-dot" style="background:var(--capital)"></div>
-        <span class="nav-label">MKW Capital</span>
-        <span class="nav-tag">P3</span>
-      </div>
-      <div class="nav-item" onclick="openPanel('nvd')">
-        <div class="nav-dot" style="background:var(--nvd)"></div>
-        <span class="nav-label">North Vision Dev</span>
-        <span class="nav-tag">P3</span>
-      </div>
-    </div>
-
-    <div class="sidebar-divider"></div>
-
-    <div class="sidebar-section">
-      <div class="sidebar-label">Outils connectés</div>
-      <div class="hub-grid">
-        <a href="https://drive.google.com" target="_blank" rel="noopener" class="hub-btn"><div class="hub-icon">📁</div>Drive</a>
-        <a href="https://mail.google.com" target="_blank" rel="noopener" class="hub-btn"><div class="hub-icon">📧</div>Gmail</a>
-        <a href="https://calendar.google.com" target="_blank" rel="noopener" class="hub-btn"><div class="hub-icon">📅</div>Calendar</a>
-        <a href="https://notion.so" target="_blank" rel="noopener" class="hub-btn"><div class="hub-icon">📋</div>Notion</a>
-        <a href="https://canva.com" target="_blank" rel="noopener" class="hub-btn"><div class="hub-icon">🎨</div>Canva</a>
-        <a href="https://claude.ai" target="_blank" rel="noopener" class="hub-btn"><div class="hub-icon">🤖</div>Claude</a>
-      </div>
-    </div>
-
-    <div class="sidebar-divider"></div>
-
-    <div class="sidebar-section">
-      <div class="sidebar-label">Réseaux & Perso</div>
-      <div class="hub-grid">
-        <a href="https://instagram.com" target="_blank" rel="noopener" class="hub-btn"><div class="hub-icon">📸</div>Instagram</a>
-        <a href="https://x.com" target="_blank" rel="noopener" class="hub-btn"><div class="hub-icon">𝕏</div>X</a>
-        <a href="https://youtube.com" target="_blank" rel="noopener" class="hub-btn"><div class="hub-icon">▶️</div>YouTube</a>
-        <a href="https://spotify.com" target="_blank" rel="noopener" class="hub-btn"><div class="hub-icon">🎵</div>Spotify</a>
-      </div>
-    </div>
-  </aside>
-
-  <!-- ── MAIN MAP ── -->
-  <main class="main">
-    <div class="world-stage">
-      <div class="world-bg"></div>
-
-      <svg class="flow-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
-        <path class="flow-path flow-path-gold" d="M 72 52 C 60 40, 55 35, 44 28"/>
-        <path class="flow-path flow-path-gold" d="M 72 52 C 58 38, 48 28, 40 22"/>
-        <path class="flow-path flow-path-blue" d="M 72 52 C 50 48, 30 42, 12 35"/>
-        <path class="flow-path flow-path-purple" d="M 72 52 C 68 48, 62 46, 58 43"/>
-        <path class="flow-path flow-path-blue" d="M 44 28 C 43 26, 41 24, 40 22"/>
-        <circle r="0.6" fill="#e3c45f" opacity="0.9">
-          <animateMotion dur="3.2s" repeatCount="indefinite" path="M 72 52 C 60 40, 55 35, 44 28"/>
-        </circle>
-        <circle r="0.6" fill="#e3c45f" opacity="0.9">
-          <animateMotion dur="3.8s" repeatCount="indefinite" path="M 72 52 C 58 38, 48 28, 40 22"/>
-        </circle>
-        <circle r="0.55" fill="#a8c5ff" opacity="0.8">
-          <animateMotion dur="4.4s" repeatCount="indefinite" path="M 72 52 C 50 48, 30 42, 12 35"/>
-        </circle>
-        <circle r="0.55" fill="#ce93d8" opacity="0.8">
-          <animateMotion dur="2.6s" repeatCount="indefinite" path="M 72 52 C 68 48, 62 46, 58 43"/>
-        </circle>
-      </svg>
-
-      <div class="map-container">
-
-        <div class="building-node node-singapore" onclick="openPanel('singapore')">
-          <div class="building-card headquarters">
-            <div class="building-glow" style="background: radial-gradient(ellipse at center, rgba(201,168,76,0.1), transparent)"></div>
-            <div class="b-flag">🇸🇬</div>
-            <div class="b-city">Singapour</div>
-            <div class="b-name">MKW Holding HQ</div>
-            <div class="b-role">Siège social global · Hub financier Halal · Flux central</div>
-            <div class="b-badge badge-gold">⬡ HEADQUARTERS</div>
-          </div>
-          <div class="b-connector"></div>
-          <div class="b-pin" style="color:var(--gold); background:var(--gold)"></div>
-        </div>
-
-        <div class="building-node node-marseille" onclick="openPanel('marseille')">
-          <div class="building-card">
-            <div class="building-glow" style="background: radial-gradient(ellipse at center, rgba(206,147,216,0.08), transparent)"></div>
-            <div class="b-flag">🇫🇷</div>
-            <div class="b-city">Marseille · PACA</div>
-            <div class="b-name">Base Opérationnelle</div>
-            <div class="b-role">Events · Beauté · Recrutement Sport</div>
-            <div class="b-badge badge-purple">▶ PHASE 1</div>
-          </div>
-          <div class="b-connector"></div>
-          <div class="b-pin" style="color:var(--events); background:var(--events)"></div>
-        </div>
-
-        <div class="building-node node-paris" onclick="openPanel('europe')">
-          <div class="building-card">
-            <div class="building-glow" style="background: radial-gradient(ellipse at center, rgba(79,195,247,0.08), transparent)"></div>
-            <div class="b-flag">🇬🇧🇫🇷</div>
-            <div class="b-city">Paris / Londres</div>
-            <div class="b-name">MKW Sport — Europe</div>
-            <div class="b-role">Agence NV15 · Représentation joueurs · Scouting</div>
-            <div class="b-badge badge-blue">⚽ SPORT HUB</div>
-          </div>
-          <div class="b-connector"></div>
-          <div class="b-pin" style="color:var(--sport); background:var(--sport)"></div>
-        </div>
-
-        <div class="building-node node-usa" onclick="openPanel('usa')">
-          <div class="building-card">
-            <div class="building-glow" style="background: radial-gradient(ellipse at center, rgba(244,143,177,0.08), transparent)"></div>
-            <div class="b-flag">🇺🇸</div>
-            <div class="b-city">États-Unis</div>
-            <div class="b-name">Events — Expansion</div>
-            <div class="b-role">Événementiel grand format · Phase 3+</div>
-            <div class="b-badge" style="background:rgba(100,100,100,0.1); color:rgba(255,255,255,0.3); border:1px solid rgba(255,255,255,0.1)">◌ FUTUR</div>
-          </div>
-          <div class="b-connector"></div>
-          <div class="b-pin" style="color:rgba(255,255,255,0.2); background:rgba(255,255,255,0.15)"></div>
-        </div>
-
-        <div class="building-node node-mena" onclick="openPanel('mena')">
-          <div class="building-card">
-            <div class="building-glow" style="background: radial-gradient(ellipse at center, rgba(165,214,167,0.08), transparent)"></div>
-            <div class="b-flag">🇦🇪</div>
-            <div class="b-city">Dubaï / MENA</div>
-            <div class="b-name">Capital & Expansion</div>
-            <div class="b-role">Investissements Halal · Réseau MENA · Phase 3</div>
-            <div class="b-badge badge-green">◌ PHASE 3</div>
-          </div>
-          <div class="b-connector"></div>
-          <div class="b-pin" style="color:var(--nvd); background:var(--nvd); opacity:0.5"></div>
-        </div>
-
-      </div>
-    </div>
-  </main>
-
-  <!-- ── RIGHT SIDEBAR ── -->
-  <aside class="sidebar-right">
-
-    <div class="phase-card">
-      <div class="phase-card-title">Vision 40 ans</div>
-      <div class="phase-row">
-        <div class="phase-num">P1</div>
-        <div style="flex:1">
-          <span class="phase-label">Fondation — Marseille</span>
-          <div class="phase-bar-wrap"><div class="phase-bar" data-w="12%" style="width:0; background:var(--gold)"></div></div>
-        </div>
-        <div class="phase-info"><div class="phase-years">2026–30</div></div>
-      </div>
-      <div class="phase-row">
-        <div class="phase-num">P2</div>
-        <div style="flex:1">
-          <span class="phase-label">Expansion France</span>
-          <div class="phase-bar-wrap"><div class="phase-bar" data-w="0%" style="width:0; background:var(--sport)"></div></div>
-        </div>
-        <div class="phase-info"><div class="phase-years">2030–35</div></div>
-      </div>
-      <div class="phase-row">
-        <div class="phase-num">P3</div>
-        <div style="flex:1">
-          <span class="phase-label">Domination Europe</span>
-          <div class="phase-bar-wrap"><div class="phase-bar" data-w="0%" style="width:0; background:var(--events)"></div></div>
-        </div>
-        <div class="phase-info"><div class="phase-years">2035–45</div></div>
-      </div>
-      <div class="phase-row">
-        <div class="phase-num">P4</div>
-        <div style="flex:1">
-          <span class="phase-label">Héritage · OM</span>
-          <div class="phase-bar-wrap"><div class="phase-bar" data-w="0%" style="width:0; background:var(--beaute)"></div></div>
-        </div>
-        <div class="phase-info"><div class="phase-years">2045–65</div></div>
-      </div>
-    </div>
-
-    <div class="flux-card">
-      <div class="phase-card-title">Flux circulaire</div>
-      <div class="flux-nodes">
-        <div class="flux-node"><div class="flux-dot-big" style="background:var(--sport)"></div>SPORT</div>
-        <div class="flux-arrow">→</div>
-        <div class="flux-node"><div class="flux-dot-big" style="background:var(--beaute)"></div>BEAUTÉ</div>
-        <div class="flux-arrow">→</div>
-        <div class="flux-node"><div class="flux-dot-big" style="background:var(--events)"></div>EVENTS</div>
-        <div class="flux-arrow">→</div>
-        <div class="flux-node"><div class="flux-dot-big" style="background:var(--capital)"></div>CAPITAL</div>
-      </div>
-      <div style="text-align:center; margin-top:10px; font-size:9px; font-family:'Space Mono',monospace; color:var(--text-muted);">↺ RÉINVESTISSEMENT HALAL CONTINU</div>
-    </div>
-
+  <!-- MENU -->
+  <nav class="main-menu">
     <div>
-      <div class="phase-card-title" style="margin-bottom:8px;">État des branches</div>
-      <div class="branch-list">
-        <div class="branch-item" onclick="openPanel('sport')">
-          <div class="branch-color" style="background:var(--sport)"></div>
-          <div class="branch-info"><div class="branch-name">MKW Sport · NV15</div><div class="branch-sub">Agence football · Examen FFF mai 2027</div></div>
-          <div class="branch-status status-active">● ACTIF</div>
+      <div class="user-info">
+        <div class="user-avatar">SZ</div>
+        <p>Samy Zertit</p>
+        <p class="user-role">Maykenwil Holding</p>
+      </div>
+      <ul>
+        <li class="nav-item active"><a href="#"><i class="fa fa-map nav-icon"></i><span class="nav-text">Vue d'ensemble</span></a></li>
+        <li class="nav-item"><a href="#"><i class="fa fa-sitemap nav-icon"></i><span class="nav-text">Branches</span></a></li>
+        <li class="nav-item"><a href="#"><i class="fa fa-arrow-trend-up nav-icon"></i><span class="nav-text">Roadmap</span></a></li>
+        <li class="nav-item"><a href="#"><i class="fa fa-users nav-icon"></i><span class="nav-text">Famille</span></a></li>
+        <li class="nav-item"><a href="#"><i class="fa fa-coins nav-icon"></i><span class="nav-text">Capital</span></a></li>
+      </ul>
+    </div>
+    <ul>
+      <li class="nav-item"><a href="#"><i class="fa fa-user nav-icon"></i><span class="nav-text">Profil</span></a></li>
+      <li class="nav-item"><a href="#"><i class="fa fa-gear nav-icon"></i><span class="nav-text">Réglages</span></a></li>
+      <li class="nav-item"><a href="command-center.html"><i class="fa fa-globe nav-icon"></i><span class="nav-text">Command Center</span></a></li>
+    </ul>
+  </nav>
+
+  <section class="content">
+    <div class="left-content">
+
+      <!-- SLIDER : BRANCHES -->
+      <div class="slider-container">
+        <h1>Les 6 branches Maykenwil</h1>
+        <div class="swiper">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide"><div class="slide-bg" style="--c:#4fc3f7"></div><div class="slide-overlay" style="--c:#4fc3f7"><span class="slide-eyebrow">Phase 1 · Active</span><h2>MKW Sport — NV15</h2><p class="slide-sub">Agence d'agents FIFA · « More Than Kings Win »</p><button>Découvrir <i class="fa-solid fa-arrow-right"></i></button></div></div>
+            <div class="swiper-slide"><div class="slide-bg" style="--c:#ce93d8"></div><div class="slide-overlay" style="--c:#ce93d8"><span class="slide-eyebrow">Phase 1 · Active</span><h2>Jadeliane Events</h2><p class="slide-sub">Événementiel PACA · réseau institutionnel</p><button>Découvrir <i class="fa-solid fa-arrow-right"></i></button></div></div>
+            <div class="swiper-slide"><div class="slide-bg" style="--c:#f48fb1"></div><div class="slide-overlay" style="--c:#f48fb1"><span class="slide-eyebrow">Phase 2 · Développement</span><h2>MKW Beauté</h2><p class="slide-sub">Franchise esthétique · salon de la sœur</p><button>Découvrir <i class="fa-solid fa-arrow-right"></i></button></div></div>
+            <div class="swiper-slide"><div class="slide-bg" style="--c:#80cbc4"></div><div class="slide-overlay" style="--c:#80cbc4"><span class="slide-eyebrow">Phase 2 · Lead</span><h2>MKW Logistique</h2><p class="slide-sub">Transport & supply chain · le père (permis PL)</p><button>Découvrir <i class="fa-solid fa-arrow-right"></i></button></div></div>
+            <div class="swiper-slide"><div class="slide-bg" style="--c:#c9a84c"></div><div class="slide-overlay" style="--c:#c9a84c"><span class="slide-eyebrow">Phase 3 · Planification</span><h2>MKW Capital</h2><p class="slide-sub">Finance 100 % halal · zéro riba</p><button>Découvrir <i class="fa-solid fa-arrow-right"></i></button></div></div>
+            <div class="swiper-slide"><div class="slide-bg" style="--c:#a5d6a7"></div><div class="slide-overlay" style="--c:#a5d6a7"><span class="slide-eyebrow">Phase 3 · Planification</span><h2>North Vision Dev</h2><p class="slide-sub">Impact social · quartiers nord de Marseille</p><button>Découvrir <i class="fa-solid fa-arrow-right"></i></button></div></div>
+          </div>
+          <div class="swiper-pagination"></div>
         </div>
-        <div class="branch-item" onclick="openPanel('events')">
-          <div class="branch-color" style="background:var(--events)"></div>
-          <div class="branch-info"><div class="branch-name">Jadeliane Events</div><div class="branch-sub">Événementiel PACA · Réseau institutionnel</div></div>
-          <div class="branch-status status-active">● ACTIF</div>
+      </div>
+
+      <!-- FAMILLE -->
+      <div class="artists">
+        <h1>Direction familiale</h1>
+        <div class="artist-container containers">
+          <div class="artist"><div class="fam-avatar" style="--c:#c9a84c"><i class="fa-solid fa-crown"></i></div><p>Samy<br><span class="fam-role">Fondateur</span></p></div>
+          <div class="artist"><div class="fam-avatar" style="--c:#c9a84c"><i class="fa-solid fa-coins"></i></div><p>Le frère<br><span class="fam-role">Capital</span></p></div>
+          <div class="artist"><div class="fam-avatar" style="--c:#f48fb1"><i class="fa-solid fa-spa"></i></div><p>La sœur<br><span class="fam-role">Beauté</span></p></div>
+          <div class="artist"><div class="fam-avatar" style="--c:#ce93d8"><i class="fa-solid fa-star"></i></div><p>La mère<br><span class="fam-role">Jadeliane</span></p></div>
+          <div class="artist"><div class="fam-avatar" style="--c:#80cbc4"><i class="fa-solid fa-truck"></i></div><p>Le père<br><span class="fam-role">Logistique</span></p></div>
         </div>
-        <div class="branch-item" onclick="openPanel('beaute')">
-          <div class="branch-color" style="background:var(--beaute)"></div>
-          <div class="branch-info"><div class="branch-name">MKW Beauté</div><div class="branch-sub">Salon sœur · Franchise en construction</div></div>
-          <div class="branch-status status-phase2">◑ P2</div>
-        </div>
-        <div class="branch-item" onclick="openPanel('logistique')">
-          <div class="branch-color" style="background:var(--logistique)"></div>
-          <div class="branch-info"><div class="branch-name">MKW Logistique</div><div class="branch-sub">Père · Permis poids lourds · Transport</div></div>
-          <div class="branch-status status-phase2">◑ P2</div>
-        </div>
-        <div class="branch-item" onclick="openPanel('capital')">
-          <div class="branch-color" style="background:var(--capital)"></div>
-          <div class="branch-info"><div class="branch-name">MKW Capital</div><div class="branch-sub">Finance Halal · Murabaha · Ijara</div></div>
-          <div class="branch-status status-future">○ P3</div>
-        </div>
-        <div class="branch-item" onclick="openPanel('nvd')">
-          <div class="branch-color" style="background:var(--nvd)"></div>
-          <div class="branch-info"><div class="branch-name">North Vision Dev</div><div class="branch-sub">Impact social · Quartiers nord</div></div>
-          <div class="branch-status status-future">○ P3</div>
+      </div>
+
+      <!-- ROADMAP / PHASES -->
+      <div class="albums">
+        <h1>Vision 40 ans</h1>
+        <div class="album-container containers">
+          <div class="album"><div class="album-frame" style="--c:#4fc3f7"><span class="phase-num">P1</span><span class="phase-years">2026 – 2030</span></div><div><h2>Fondation — Marseille</h2><p>Premiers revenus · 0 → 500 K€</p></div></div>
+          <div class="album"><div class="album-frame" style="--c:#ce93d8"><span class="phase-num">P2</span><span class="phase-years">2030 – 2035</span></div><div><h2>Expansion France</h2><p>Lyon · Paris · Nice</p></div></div>
+          <div class="album"><div class="album-frame" style="--c:#c9a84c"><span class="phase-num">P3</span><span class="phase-years">2035 – 2045</span></div><div><h2>Domination Europe</h2><p>10 M€+ · réseau MENA</p></div></div>
+          <div class="album"><div class="album-frame" style="--c:#f48fb1"><span class="phase-num">P4</span><span class="phase-years">2045 – 2065</span></div><div><h2>Héritage · OM</h2><p>Objectif empire familial</p></div></div>
         </div>
       </div>
     </div>
 
-    <div>
-      <div class="phase-card-title" style="margin-bottom:8px;">Direction familiale</div>
-      <div class="family-grid">
-        <div class="family-member"><div class="fm-role">Fondateur</div><div class="fm-name">Samy</div><div class="fm-branch" style="color:var(--gold)">Cerveau central</div></div>
-        <div class="family-member"><div class="fm-role">Frère</div><div class="fm-name">—</div><div class="fm-branch" style="color:var(--capital)">Capital · Risques</div></div>
-        <div class="family-member"><div class="fm-role">Sœur</div><div class="fm-name">—</div><div class="fm-branch" style="color:var(--beaute)">MKW Beauté</div></div>
-        <div class="family-member"><div class="fm-role">Mère</div><div class="fm-name">—</div><div class="fm-branch" style="color:var(--events)">Jadeliane</div></div>
-        <div class="family-member" style="grid-column:1/-1;"><div class="fm-role">Père</div><div class="fm-name">—</div><div class="fm-branch" style="color:var(--logistique)">MKW Logistique · 53 ans · Permis PL</div></div>
+    <!-- RIGHT -->
+    <div class="right-content">
+      <div class="recommended-songs">
+        <h1>Priorités actives</h1>
+        <div class="song-container">
+          <div class="song"><div class="prio-num" style="--c:#f59e0b">1</div><div class="song-title"><h2>Emploi retail télécom à Marseille</h2><p>Sem. 1 — août 2026 · en attente du départ</p></div></div>
+          <div class="song"><div class="prio-num" style="--c:#4fc3f7">2</div><div class="song-title"><h2>Examen Agent FFF — épreuve générale</h2><p>Novembre 2026 · préparation en cours</p></div></div>
+          <div class="song"><div class="prio-num" style="--c:#ce93d8">3</div><div class="song-title"><h2>Collaboration Events</h2><p>Dès l'arrivée · en attente du départ</p></div></div>
+          <div class="song"><div class="prio-num" style="--c:#a5d6a7">4</div><div class="song-title"><h2>Installation Samy OS (skills)</h2><p>Juillet 2026 · en cours</p></div></div>
+        </div>
+      </div>
+
+      <div class="music-player">
+        <div class="player-label">Ambiance focus</div>
+        <div class="album-cover">
+          <img src="https://github.com/ecemgo/mini-samples-great-tricks/assets/13468728/398875d0-9b9e-494a-8906-210aa3f777e0" id="rotatingImage" alt="" />
+          <span class="point"></span>
+        </div>
+        <h2>Redemption</h2>
+        <p class="track-artist">Besomorph &amp; Coopex</p>
+        <audio id="song"><source src="https://github.com/ecemgo/mini-samples-great-tricks/raw/main/song-list/Besomorph-Coopex-Redemption.mp3" type="audio/mpeg" /></audio>
+        <input type="range" value="0" id="progress" />
+        <div class="controls">
+          <button class="backward"><i class="fa-solid fa-backward"></i></button>
+          <button class="play-pause-btn"><i class="fa-solid fa-play" id="controlIcon"></i></button>
+          <button class="forward"><i class="fa-solid fa-forward"></i></button>
+        </div>
       </div>
     </div>
+  </section>
+</main>
 
-  </aside>
-</div>
-
-<div class="panel-overlay" id="panelOverlay" onclick="closePanel(event)">
-  <div class="panel-box" id="panelBox">
-    <div class="panel-close" onclick="closePanelDirect()">✕</div>
-    <div id="panelContent"></div>
-  </div>
-</div>
-
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script src="app.js" defer></script>
-
 </body>
 </html>

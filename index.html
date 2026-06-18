@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Maykenwil HQ</title>
+  <meta name="description" content="Dashboard de pilotage — Maykenwil Holding" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="aurora" id="aurora"><span></span><span></span><span></span></div>
+
+  <main class="wrap">
+    <header class="topbar animate-fade">
+      <div class="brand">
+        <span class="brand-dot"></span>
+        <span class="brand-name" id="brand-name">Maykenwil HQ</span>
+      </div>
+      <div class="topstatus" id="topstatus"></div>
+    </header>
+
+    <section class="hero" id="hero"></section>
+
+    <section class="bento" id="overview"></section>
+
+    <div class="row-cap">
+      <span>Branches</span>
+      <span class="cap-line"></span>
+      <span class="cap-count" id="branch-count"></span>
+    </div>
+    <section class="bento bento-branches" id="branches"></section>
+  </main>
+
+  <nav class="dock" id="dock" aria-label="Applications"></nav>
+
+  <div class="modal-backdrop" id="modal-backdrop"></div>
+  <div class="modal" id="modal" role="dialog" aria-modal="true"></div>
+
+  <script src="app.js" defer></script>
+</body>
+</html>

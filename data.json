@@ -1,0 +1,284 @@
+{
+  "holding": {
+    "name": "Maykenwil Holding",
+    "shortName": "Maykenwil HQ",
+    "model": "Modèle holding familial : chaque membre ouvre d'abord sa propre structure (SASU / micro-entreprise), holding parent différée 12–18 mois."
+  },
+  "theme": {
+    "mode": "dark",
+    "wallpaper": ["#1e1b4b", "#312e81", "#0f766e", "#7e22ce", "#0c0a1d"]
+  },
+  "dock": [
+    { "name": "Notes", "icon": "file-text", "color": "#f59e0b", "app": "notes" },
+    { "name": "Agenda", "icon": "calendar", "color": "#ef4444", "app": "agenda" },
+    { "name": "Branches", "icon": "grid", "color": "#8b5cf6", "app": "branches" },
+    { "name": "Mail", "icon": "mail", "color": "#3b82f6", "app": "soon" },
+    { "name": "Messages", "icon": "message", "color": "#22c55e", "app": "soon" },
+    { "name": "Musique", "icon": "music", "color": "#ec4899", "app": "soon" },
+    { "name": "Météo", "icon": "cloud-sun", "color": "#0ea5e9", "app": "weather" },
+    { "name": "Réglages", "icon": "settings", "color": "#64748b", "app": "settings" }
+  ],
+  "weather": {
+    "city": "Marseille",
+    "note": "Ville de bascule (août 2026)"
+  },
+  "overview": {
+    "score": 61,
+    "scoreMax": 100,
+    "verdict": "GO conditionnel",
+    "phase": "Phase 0 — Préparation",
+    "phaseNote": "Bascule vers l'exécution réelle prévue août 2026 (retour à Marseille).",
+    "antiDispersionRule": "Maximum 2 priorités opérationnelles actives en même temps.",
+    "momentum": [10, 16, 22, 28, 34, 41, 48, 54, 61],
+    "strengths": [
+      "Vision long terme (40 ans)",
+      "Éthique halal",
+      "Branche Sport crédible"
+    ],
+    "weaknesses": [
+      "Zéro revenu consolidé",
+      "6 branches dormantes",
+      "Risque de « meta-work » : construire de l'infra avant d'avoir des inputs réels"
+    ]
+  },
+  "notes": [
+    { "title": "Vision 40 ans", "body": "Holding familial pensé sur 40 ans, 100 % éthique halal. La structure sert la famille avant le profit court terme." },
+    { "title": "Les 5 Piliers du Fondateur", "body": "Vision & narration · Lecture des chiffres · Recrutement & jugement humain · Architecture de systèmes · Éthique & conformité halal. Compétences non délégables, à maîtriser personnellement." },
+    { "title": "Modèle d'amorçage", "body": "Chaque membre ouvre d'abord sa propre structure (SASU / micro-entreprise). La holding parent ne vient qu'après 12–18 mois, une fois des revenus réels prouvés." },
+    { "title": "Règle anti-dispersion", "body": "Maximum 2 priorités opérationnelles actives en même temps. On finit avant d'ouvrir." },
+    { "title": "Écosystème médiatique", "body": "LinkedIn (plateforme centrale, investisseurs & B2B), Instagram (marque & branches), YouTube/Podcast « Le Bâtisseur », et le site maykenwil.com comme hub central." },
+    { "title": "Risque principal", "body": "Le « meta-work » : éviter de construire de l'infrastructure (outils, branding, dashboards) avant d'avoir de vrais inputs et de vrais clients." }
+  ],
+  "agenda": [
+    { "date": "Été 2026", "label": "Retour et installation à Marseille (Phase 1)", "tag": "Holding" },
+    { "date": "Avril 2027", "label": "Création de la première entité juridique Maykenwil", "tag": "Structure" },
+    { "date": "2028–2030", "label": "Première branche opérationnelle — objectif 50 K€+ de CA", "tag": "Croissance" },
+    { "date": "2030–2035", "label": "Holding multi-branches active — objectif 500 K€+", "tag": "Croissance" },
+    { "date": "2035–2045", "label": "Expansion internationale — objectif 10 M€+", "tag": "Expansion" },
+    { "date": "2045–2066", "label": "Objectif empire familial — aboutissement de la vision 40 ans", "tag": "Vision" }
+  ],
+  "branches": [
+    {
+      "id": "sport",
+      "name": "Sport",
+      "accent": "#10b981",
+      "icon": "trophy",
+      "tagline": "MKW — More Than Kings Win",
+      "summary": "Agence de représentation de joueurs.",
+      "status": "Branche la plus crédible",
+      "maturity": 70,
+      "next": "Finaliser une première shortlist de joueurs sous-évalués (Bruges / Genk).",
+      "objectives": [
+        "Signer 3 premiers joueurs sous mandat d'ici 18 mois",
+        "Construire un réseau de scouts en Europe (BeNeLux, Scandinavie)",
+        "Placer un premier joueur dans un club cible"
+      ],
+      "opportunities": [
+        "Marché des profils 18–23 ans sous-évalués",
+        "Clubs « tremplins » qui revendent avec plus-value",
+        "Peu d'agents structurés sur ce créneau de niche"
+      ],
+      "risks": [
+        "Marché très relationnel et concurrentiel",
+        "Licence d'agent FIFA à obtenir",
+        "Cycle long avant la première commission"
+      ],
+      "kpis": [
+        { "label": "Joueurs suivis", "value": "0" },
+        { "label": "Mandats signés", "value": "0" },
+        { "label": "Clubs cibles", "value": "4" }
+      ],
+      "plan": [
+        "Passer l'examen d'agent FIFA",
+        "Établir une shortlist de 10 joueurs sous-évalués",
+        "Activer 2 contacts clubs en BeNeLux"
+      ],
+      "highlights": [
+        "Scouting de joueurs 18–23 ans",
+        "Cible : profils sous-évalués",
+        "Clubs cibles : Bruges, Midtjylland, Braga, Genk"
+      ]
+    },
+    {
+      "id": "events",
+      "name": "Events",
+      "accent": "#f59e0b",
+      "icon": "ticket",
+      "summary": "Branche événementiel.",
+      "status": "À activer",
+      "maturity": 25,
+      "next": "Reprendre contact avec l'institutionnel à Marseille.",
+      "objectives": [
+        "Organiser un premier événement pilote à Marseille",
+        "Nouer un partenariat institutionnel local durable"
+      ],
+      "opportunities": [
+        "Réseau institutionnel déjà amorcé à Marseille",
+        "Synergie avec le retour à Marseille (août 2026)"
+      ],
+      "risks": [
+        "Branche encore au stade de simple contact",
+        "Forte dépendance à un seul interlocuteur",
+        "Marges faibles sur les premiers événements"
+      ],
+      "kpis": [
+        { "label": "Contacts actifs", "value": "1" },
+        { "label": "Événements", "value": "0" }
+      ],
+      "plan": [
+        "Reprendre contact avec l'institutionnel marseillais",
+        "Définir le format du premier événement",
+        "Chiffrer un budget pilote"
+      ],
+      "highlights": [
+        "Contact institutionnel à Marseille"
+      ]
+    },
+    {
+      "id": "logistique",
+      "name": "Logistique",
+      "accent": "#3b82f6",
+      "icon": "truck",
+      "summary": "Branche transport.",
+      "status": "Lead identifié",
+      "maturity": 35,
+      "next": "Cadrer le projet avec le père (permis PL).",
+      "objectives": [
+        "Lancer une première activité de transport via le père",
+        "Valider un modèle rentable avant d'investir"
+      ],
+      "opportunities": [
+        "Compétence interne immédiate (père, permis PL)",
+        "Demande structurelle forte en transport",
+        "Démarrage possible sans gros capital (sous-traitance)"
+      ],
+      "risks": [
+        "Marges serrées, secteur capitalistique",
+        "Dépendance à une seule personne",
+        "Réglementation transport lourde"
+      ],
+      "kpis": [
+        { "label": "Chauffeurs", "value": "1 lead" },
+        { "label": "Contrats", "value": "0" }
+      ],
+      "plan": [
+        "Cadrer le projet avec le père",
+        "Choisir le statut (transport léger vs PL)",
+        "Trouver un premier donneur d'ordre"
+      ],
+      "highlights": [
+        "Lead potentiel : le père (permis PL)"
+      ]
+    },
+    {
+      "id": "beauty",
+      "name": "Beauty",
+      "accent": "#ec4899",
+      "icon": "sparkles",
+      "summary": "Branche esthétique.",
+      "status": "Lead identifié",
+      "maturity": 35,
+      "next": "Définir l'offre avec la sœur (salon indépendant).",
+      "objectives": [
+        "Structurer l'activité de la sœur en véritable marque",
+        "Tester une offre avant d'ouvrir un lieu physique"
+      ],
+      "opportunities": [
+        "Savoir-faire interne (la sœur)",
+        "Marché beauté résilient",
+        "Démarrage possible en indépendante / à domicile"
+      ],
+      "risks": [
+        "Secteur très concurrentiel",
+        "Dépendance à une seule personne",
+        "Faible barrière à l'entrée : différenciation nécessaire"
+      ],
+      "kpis": [
+        { "label": "Praticiennes", "value": "1 lead" },
+        { "label": "Clientes", "value": "0" }
+      ],
+      "plan": [
+        "Définir l'offre et le positionnement avec la sœur",
+        "Créer une identité de marque",
+        "Lancer une page de réservation en ligne"
+      ],
+      "highlights": [
+        "Lead potentielle : la sœur (salon indépendant)"
+      ]
+    },
+    {
+      "id": "capital",
+      "name": "Capital",
+      "accent": "#8b5cf6",
+      "icon": "gem",
+      "summary": "Branche finance / investissement, 100 % halal.",
+      "status": "100 % halal",
+      "maturity": 30,
+      "next": "Choisir le 1er instrument halal à structurer (Mourabaha).",
+      "objectives": [
+        "Structurer un premier véhicule d'investissement 100 % halal",
+        "Réinvestir les premiers profits des autres branches"
+      ],
+      "opportunities": [
+        "Demande croissante de finance éthique / halal",
+        "Réinvestissement interne des branches du groupe",
+        "Différenciation par la conformité (zéro riba)"
+      ],
+      "risks": [
+        "Conformité charia exigeante",
+        "Capital de départ nécessaire",
+        "Compétence financière à acquérir ou recruter"
+      ],
+      "kpis": [
+        { "label": "Capital déployé", "value": "0 €" },
+        { "label": "Instruments", "value": "4 étudiés" }
+      ],
+      "plan": [
+        "Choisir le 1er instrument (Mourabaha)",
+        "Valider la conformité (avis charia)",
+        "Définir une politique de réinvestissement interne"
+      ],
+      "highlights": [
+        "Responsable pressenti : le frère",
+        "Zéro riba (aucun intérêt)",
+        "Mourabaha",
+        "Musharaka",
+        "Ijara (leasing halal)",
+        "Sukuk"
+      ]
+    },
+    {
+      "id": "north-vision",
+      "name": "North Vision Development",
+      "accent": "#06b6d4",
+      "icon": "compass",
+      "summary": "Branche développement, impact social et famille.",
+      "status": "Branche développement",
+      "maturity": 15,
+      "next": "Préciser le périmètre exact de la branche (développement + impact social).",
+      "objectives": [
+        "Porter la dimension impact social et valeurs familiales du groupe",
+        "Centraliser les outils et l'infrastructure du groupe"
+      ],
+      "opportunities": [
+        "Incarner la dimension éthique et sociale de Maykenwil",
+        "Mutualiser les outils des autres branches",
+        "Capitaliser sur les compétences tech / digitales"
+      ],
+      "risks": [
+        "Périmètre encore flou",
+        "Risque de « meta-work » : construire avant d'avoir des besoins réels",
+        "Branche la moins mature du groupe"
+      ],
+      "kpis": [
+        { "label": "Périmètre", "value": "À définir" }
+      ],
+      "plan": [
+        "Clarifier la mission de la branche",
+        "Lister les besoins réels des autres branches",
+        "Prioriser un seul chantier concret"
+      ],
+      "highlights": []
+    }
+  ]
+}

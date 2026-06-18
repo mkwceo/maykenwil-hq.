@@ -1,0 +1,41 @@
+name: Déploiement GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+      - claude/behance-project-review-dfnm4k
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configurer Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - name: Uploader le site statique
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Déployer vers GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

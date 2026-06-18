@@ -42,15 +42,20 @@
     ]
   },
   "notes": [
-    { "title": "Vision", "body": "Holding familial pensé sur 40 ans, 100 % éthique halal. La structure sert la famille avant le profit court terme." },
+    { "title": "Vision 40 ans", "body": "Holding familial pensé sur 40 ans, 100 % éthique halal. La structure sert la famille avant le profit court terme." },
+    { "title": "Les 5 Piliers du Fondateur", "body": "Vision & narration · Lecture des chiffres · Recrutement & jugement humain · Architecture de systèmes · Éthique & conformité halal. Compétences non délégables, à maîtriser personnellement." },
     { "title": "Modèle d'amorçage", "body": "Chaque membre ouvre d'abord sa propre structure (SASU / micro-entreprise). La holding parent ne vient qu'après 12–18 mois, une fois des revenus réels prouvés." },
     { "title": "Règle anti-dispersion", "body": "Maximum 2 priorités opérationnelles actives en même temps. On finit avant d'ouvrir." },
+    { "title": "Écosystème médiatique", "body": "LinkedIn (plateforme centrale, investisseurs & B2B), Instagram (marque & branches), YouTube/Podcast « Le Bâtisseur », et le site maykenwil.com comme hub central." },
     { "title": "Risque principal", "body": "Le « meta-work » : éviter de construire de l'infrastructure (outils, branding, dashboards) avant d'avoir de vrais inputs et de vrais clients." }
   ],
   "agenda": [
-    { "date": "T3 2026", "label": "Ouverture de la première structure (SASU / micro-entreprise)", "tag": "Holding" },
-    { "date": "Août 2026", "label": "Bascule en exécution réelle — retour à Marseille", "tag": "Holding" },
-    { "date": "+12–18 mois", "label": "Création de la holding parent une fois les revenus prouvés", "tag": "Holding" }
+    { "date": "Été 2026", "label": "Retour et installation à Marseille (Phase 1)", "tag": "Holding" },
+    { "date": "Avril 2027", "label": "Création de la première entité juridique Maykenwil", "tag": "Structure" },
+    { "date": "2028–2030", "label": "Première branche opérationnelle — objectif 50 K€+ de CA", "tag": "Croissance" },
+    { "date": "2030–2035", "label": "Holding multi-branches active — objectif 500 K€+", "tag": "Croissance" },
+    { "date": "2035–2045", "label": "Expansion internationale — objectif 10 M€+", "tag": "Expansion" },
+    { "date": "2045–2066", "label": "Objectif empire familial — aboutissement de la vision 40 ans", "tag": "Vision" }
   ],
   "branches": [
     {
@@ -234,9 +239,11 @@
         "Définir une politique de réinvestissement interne"
       ],
       "highlights": [
+        "Responsable pressenti : le frère",
         "Zéro riba (aucun intérêt)",
         "Mourabaha",
         "Musharaka",
+        "Ijara (leasing halal)",
         "Sukuk"
       ]
     },
@@ -245,15 +252,16 @@
       "name": "North Vision Development",
       "accent": "#06b6d4",
       "icon": "compass",
-      "summary": "Branche développement.",
+      "summary": "Branche développement, impact social et famille.",
       "status": "Branche développement",
       "maturity": 15,
-      "next": "Préciser le périmètre exact de la branche développement.",
+      "next": "Préciser le périmètre exact de la branche (développement + impact social).",
       "objectives": [
-        "Définir précisément le rôle de la branche développement",
+        "Porter la dimension impact social et valeurs familiales du groupe",
         "Centraliser les outils et l'infrastructure du groupe"
       ],
       "opportunities": [
+        "Incarner la dimension éthique et sociale de Maykenwil",
         "Mutualiser les outils des autres branches",
         "Capitaliser sur les compétences tech / digitales"
       ],

@@ -13,9 +13,11 @@
     { "name": "Agenda", "icon": "calendar", "color": "#ef4444", "app": "agenda" },
     { "name": "Branches", "icon": "grid", "color": "#8b5cf6", "app": "branches" },
     { "name": "Code du Fondateur", "icon": "book", "color": "#c9a84c", "app": "code" },
-    { "name": "Mail", "icon": "mail", "color": "#3b82f6", "app": "soon" },
-    { "name": "Messages", "icon": "message", "color": "#22c55e", "app": "soon" },
-    { "name": "Météo", "icon": "cloud-sun", "color": "#0ea5e9", "app": "weather" },
+    { "name": "Site — maykenwil.com", "icon": "globe", "color": "#06b6d4", "app": "link", "url": "https://maykenwil.com" },
+    { "name": "LinkedIn", "icon": "linkedin", "color": "#0a66c2", "app": "link", "url": "https://www.linkedin.com" },
+    { "name": "Instagram", "icon": "instagram", "color": "#e1306c", "app": "link", "url": "https://www.instagram.com" },
+    { "name": "YouTube — Le Bâtisseur", "icon": "youtube", "color": "#ef4444", "app": "link", "url": "https://www.youtube.com" },
+    { "name": "Spotify", "icon": "music", "color": "#1db954", "app": "link", "url": "https://open.spotify.com" },
     { "name": "Réglages", "icon": "settings", "color": "#64748b", "app": "settings" }
   ],
   "weather": {

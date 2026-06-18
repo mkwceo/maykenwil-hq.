@@ -36,6 +36,10 @@ const ICONS = {
   user:         `<path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>`,
   layers:       `<polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>`,
   flag:         `<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/>`,
+  globe:        `<circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15 15 0 010 20 15 15 0 010-20z"/>`,
+  youtube:      `<path d="M22 8.5a3 3 0 00-2.1-2.1C18 6 12 6 12 6s-6 0-7.9.4A3 3 0 002 8.5 31 31 0 002 12a31 31 0 00.1 3.5 3 3 0 002.1 2.1C6 18 12 18 12 18s6 0 7.9-.4a3 3 0 002.1-2.1A31 31 0 0022 12a31 31 0 00-.1-3.5z"/><polygon points="10 9 16 12 10 15"/>`,
+  linkedin:     `<path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4V8h4v1.5"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>`,
+  instagram:    `<rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6"/>`,
 };
 
 function makeIcon(name, extraClass) {
@@ -329,7 +333,7 @@ function renderDock() {
   dock.innerHTML = (state.data.dock || []).map(a => `
     <button class="dock-app" style="--app-color:${esc(a.color || "#64748b")}"
             title="${esc(a.name)}" data-app="${esc(a.app || "soon")}" data-name="${esc(a.name)}"
-            data-color="${esc(a.color || "#64748b")}" data-icon="${esc(a.icon)}">
+            data-color="${esc(a.color || "#64748b")}" data-icon="${esc(a.icon)}" data-url="${esc(a.url || "")}">
       ${makeIcon(a.icon)}
       <span class="tip">${esc(a.name)}</span>
     </button>
@@ -417,6 +421,12 @@ function openModal(id) {
 function openApp(d) {
   const modal = document.getElementById("modal");
   const name = d.name, color = d.color, icon = d.icon, app = d.app;
+
+  if (app === "link" && d.url) {
+    window.open(d.url, "_blank", "noopener");
+    return;
+  }
+
   modal.style.setProperty("--m-accent", color);
 
   let body = "";

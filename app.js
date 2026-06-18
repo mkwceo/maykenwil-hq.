@@ -309,9 +309,33 @@ function openModal(id) {
   const modal = document.getElementById("modal");
   const backdrop = document.getElementById("modal-backdrop");
 
+  const listBlock = (items, cls, icon) => items?.length
+    ? `<ul class="dot-list ${cls}">${items.map(x => `<li><span class="dl-dot">${icon ? makeIcon(icon) : ""}</span><span>${esc(x)}</span></li>`).join("")}</ul>`
+    : "";
+
+  const kpis = b.kpis?.length
+    ? `<div class="kpi-row">${b.kpis.map(k => `
+        <div class="kpi"><span class="kpi-value">${esc(k.value)}</span><span class="kpi-label">${esc(k.label)}</span></div>`).join("")}</div>`
+    : "";
+
+  const plan = b.plan?.length
+    ? `<p class="modal-cap">Plan d'action</p><ol class="plan-list">${b.plan.map(p => `<li>${esc(p)}</li>`).join("")}</ol>`
+    : "";
+
+  const oppRisk = (b.opportunities?.length || b.risks?.length)
+    ? `<div class="opp-risk">
+        ${b.opportunities?.length ? `<div><p class="modal-cap mc-up">${makeIcon("trending-up")} Opportunités</p>${listBlock(b.opportunities, "up")}</div>` : ""}
+        ${b.risks?.length ? `<div><p class="modal-cap mc-down">${makeIcon("trending-down")} Risques</p>${listBlock(b.risks, "down")}</div>` : ""}
+      </div>`
+    : "";
+
+  const objectives = b.objectives?.length
+    ? `<p class="modal-cap">Objectifs</p>${listBlock(b.objectives, "neutral")}`
+    : "";
+
   const highlights = b.highlights?.length
-    ? `<ul class="hl-list">${b.highlights.map(h => `<li><span class="hl-dot"></span><span>${esc(h)}</span></li>`).join("")}</ul>`
-    : `<p class="empty-note">Aucun point clé renseigné pour l'instant.</p>`;
+    ? `<p class="modal-cap">Points clés</p><ul class="hl-list">${b.highlights.map(h => `<li><span class="hl-dot"></span><span>${esc(h)}</span></li>`).join("")}</ul>`
+    : "";
 
   modal.style.setProperty("--m-accent", b.accent);
   modal.innerHTML = `
@@ -330,8 +354,11 @@ function openModal(id) {
         <div class="maturity-head"><span>Niveau d'activation</span><span>${esc(b.maturity)}%</span></div>
         <div class="maturity-bar"><span style="width:0" data-w="${esc(b.maturity)}%"></span></div>
       </div>` : ""}
+    ${kpis}
     ${b.next ? `<div class="modal-next">${makeIcon("zap")}<div><span class="mn-label">Prochaine action</span><span class="mn-text">${esc(b.next)}</span></div></div>` : ""}
-    <p class="modal-cap">Points clés</p>
+    ${objectives}
+    ${oppRisk}
+    ${plan}
     ${highlights}
   `;
 

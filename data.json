@@ -63,6 +63,31 @@
       "status": "Branche la plus crédible",
       "maturity": 70,
       "next": "Finaliser une première shortlist de joueurs sous-évalués (Bruges / Genk).",
+      "objectives": [
+        "Signer 3 premiers joueurs sous mandat d'ici 18 mois",
+        "Construire un réseau de scouts en Europe (BeNeLux, Scandinavie)",
+        "Placer un premier joueur dans un club cible"
+      ],
+      "opportunities": [
+        "Marché des profils 18–23 ans sous-évalués",
+        "Clubs « tremplins » qui revendent avec plus-value",
+        "Peu d'agents structurés sur ce créneau de niche"
+      ],
+      "risks": [
+        "Marché très relationnel et concurrentiel",
+        "Licence d'agent FIFA à obtenir",
+        "Cycle long avant la première commission"
+      ],
+      "kpis": [
+        { "label": "Joueurs suivis", "value": "0" },
+        { "label": "Mandats signés", "value": "0" },
+        { "label": "Clubs cibles", "value": "4" }
+      ],
+      "plan": [
+        "Passer l'examen d'agent FIFA",
+        "Établir une shortlist de 10 joueurs sous-évalués",
+        "Activer 2 contacts clubs en BeNeLux"
+      ],
       "highlights": [
         "Scouting de joueurs 18–23 ans",
         "Cible : profils sous-évalués",
@@ -78,6 +103,28 @@
       "status": "À activer",
       "maturity": 25,
       "next": "Reprendre contact avec l'institutionnel à Marseille.",
+      "objectives": [
+        "Organiser un premier événement pilote à Marseille",
+        "Nouer un partenariat institutionnel local durable"
+      ],
+      "opportunities": [
+        "Réseau institutionnel déjà amorcé à Marseille",
+        "Synergie avec le retour à Marseille (août 2026)"
+      ],
+      "risks": [
+        "Branche encore au stade de simple contact",
+        "Forte dépendance à un seul interlocuteur",
+        "Marges faibles sur les premiers événements"
+      ],
+      "kpis": [
+        { "label": "Contacts actifs", "value": "1" },
+        { "label": "Événements", "value": "0" }
+      ],
+      "plan": [
+        "Reprendre contact avec l'institutionnel marseillais",
+        "Définir le format du premier événement",
+        "Chiffrer un budget pilote"
+      ],
       "highlights": [
         "Contact institutionnel à Marseille"
       ]
@@ -91,6 +138,29 @@
       "status": "Lead identifié",
       "maturity": 35,
       "next": "Cadrer le projet avec le père (permis PL).",
+      "objectives": [
+        "Lancer une première activité de transport via le père",
+        "Valider un modèle rentable avant d'investir"
+      ],
+      "opportunities": [
+        "Compétence interne immédiate (père, permis PL)",
+        "Demande structurelle forte en transport",
+        "Démarrage possible sans gros capital (sous-traitance)"
+      ],
+      "risks": [
+        "Marges serrées, secteur capitalistique",
+        "Dépendance à une seule personne",
+        "Réglementation transport lourde"
+      ],
+      "kpis": [
+        { "label": "Chauffeurs", "value": "1 lead" },
+        { "label": "Contrats", "value": "0" }
+      ],
+      "plan": [
+        "Cadrer le projet avec le père",
+        "Choisir le statut (transport léger vs PL)",
+        "Trouver un premier donneur d'ordre"
+      ],
       "highlights": [
         "Lead potentiel : le père (permis PL)"
       ]
@@ -104,6 +174,29 @@
       "status": "Lead identifié",
       "maturity": 35,
       "next": "Définir l'offre avec la sœur (salon indépendant).",
+      "objectives": [
+        "Structurer l'activité de la sœur en véritable marque",
+        "Tester une offre avant d'ouvrir un lieu physique"
+      ],
+      "opportunities": [
+        "Savoir-faire interne (la sœur)",
+        "Marché beauté résilient",
+        "Démarrage possible en indépendante / à domicile"
+      ],
+      "risks": [
+        "Secteur très concurrentiel",
+        "Dépendance à une seule personne",
+        "Faible barrière à l'entrée : différenciation nécessaire"
+      ],
+      "kpis": [
+        { "label": "Praticiennes", "value": "1 lead" },
+        { "label": "Clientes", "value": "0" }
+      ],
+      "plan": [
+        "Définir l'offre et le positionnement avec la sœur",
+        "Créer une identité de marque",
+        "Lancer une page de réservation en ligne"
+      ],
       "highlights": [
         "Lead potentielle : la sœur (salon indépendant)"
       ]
@@ -117,6 +210,29 @@
       "status": "100 % halal",
       "maturity": 30,
       "next": "Choisir le 1er instrument halal à structurer (Mourabaha).",
+      "objectives": [
+        "Structurer un premier véhicule d'investissement 100 % halal",
+        "Réinvestir les premiers profits des autres branches"
+      ],
+      "opportunities": [
+        "Demande croissante de finance éthique / halal",
+        "Réinvestissement interne des branches du groupe",
+        "Différenciation par la conformité (zéro riba)"
+      ],
+      "risks": [
+        "Conformité charia exigeante",
+        "Capital de départ nécessaire",
+        "Compétence financière à acquérir ou recruter"
+      ],
+      "kpis": [
+        { "label": "Capital déployé", "value": "0 €" },
+        { "label": "Instruments", "value": "4 étudiés" }
+      ],
+      "plan": [
+        "Choisir le 1er instrument (Mourabaha)",
+        "Valider la conformité (avis charia)",
+        "Définir une politique de réinvestissement interne"
+      ],
       "highlights": [
         "Zéro riba (aucun intérêt)",
         "Mourabaha",
@@ -133,6 +249,27 @@
       "status": "Branche développement",
       "maturity": 15,
       "next": "Préciser le périmètre exact de la branche développement.",
+      "objectives": [
+        "Définir précisément le rôle de la branche développement",
+        "Centraliser les outils et l'infrastructure du groupe"
+      ],
+      "opportunities": [
+        "Mutualiser les outils des autres branches",
+        "Capitaliser sur les compétences tech / digitales"
+      ],
+      "risks": [
+        "Périmètre encore flou",
+        "Risque de « meta-work » : construire avant d'avoir des besoins réels",
+        "Branche la moins mature du groupe"
+      ],
+      "kpis": [
+        { "label": "Périmètre", "value": "À définir" }
+      ],
+      "plan": [
+        "Clarifier la mission de la branche",
+        "Lister les besoins réels des autres branches",
+        "Prioriser un seul chantier concret"
+      ],
       "highlights": []
     }
   ]

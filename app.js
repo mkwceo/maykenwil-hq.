@@ -253,6 +253,12 @@ function animateGauge() {
   })(t0);
 }
 
+/* derive a smooth trend series from a maturity value (for sparklines) */
+function trendFor(m) {
+  const start = Math.max(2, Math.round((m || 0) * 0.35));
+  return Array.from({ length: 7 }, (_, i) => Math.round(start + ((m || 0) - start) * (i / 6)));
+}
+
 /* -------------------------------------------------- branch tiles */
 function renderBranches() {
   const el = document.getElementById("branches");
@@ -268,17 +274,11 @@ function renderBranches() {
       <h3 class="branch-name">${esc(b.name)}</h3>
       <p class="branch-summary">${esc(b.summary || "")}</p>
       ${typeof b.maturity === "number" ? `
-        <div class="maturity">
-          <div class="maturity-head"><span>Activation</span><span>${esc(b.maturity)}%</span></div>
-          <div class="maturity-bar"><span style="width:0" data-w="${esc(b.maturity)}%"></span></div>
-        </div>` : ""}
+        <div class="branch-spark">${makeAreaChart(trendFor(b.maturity), b.accent)}</div>
+        <div class="maturity-head"><span>Activation</span><span>${esc(b.maturity)}%</span></div>` : ""}
       ${b.status ? `<span class="branch-status">${esc(b.status)}</span>` : ""}
     </button>
   `).join("");
-
-  requestAnimationFrame(() => {
-    el.querySelectorAll(".maturity-bar > span").forEach(s => { s.style.width = s.dataset.w; });
-  });
 
   el.querySelectorAll(".branch").forEach(btn => {
     btn.addEventListener("click", () => openModal(btn.dataset.id));

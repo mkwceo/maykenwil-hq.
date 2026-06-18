@@ -32,6 +32,10 @@ const ICONS = {
   'map-pin':    `<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>`,
   info:         `<circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>`,
   scale:        `<path d="M12 3v18"/><path d="M5 7h14"/><path d="M5 7l-3 6a3 3 0 006 0z"/><path d="M19 7l-3 6a3 3 0 006 0z"/><path d="M8 21h8"/>`,
+  book:         `<path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>`,
+  user:         `<path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>`,
+  layers:       `<polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>`,
+  flag:         `<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/>`,
 };
 
 function makeIcon(name, extraClass) {
@@ -204,9 +208,26 @@ function renderOverview() {
       <p class="chart-foot">Progression vers la bascule d'août 2026</p>
     </div>
 
-    <div class="tile s-4" style="--accent:#f59e0b">
-      <p class="tile-label">${makeIcon("zap")} Règle anti-dispersion</p>
-      <div class="banner-text">${esc(o.antiDispersionRule)}</div>
+    ${Array.isArray(o.priorities) && o.priorities.length ? `
+    <div class="tile s-2 r-2" style="--accent:#f59e0b">
+      <p class="tile-label">${makeIcon("flag")} Priorités actives</p>
+      <ol class="prio-list">
+        ${o.priorities.map(p => `
+          <li>
+            <span class="prio-n">${esc(p.n)}</span>
+            <div class="prio-body">
+              <span class="prio-action">${esc(p.action)}</span>
+              <span class="prio-meta">${esc(p.deadline)} · ${esc(p.status)}</span>
+            </div>
+          </li>`).join("")}
+      </ol>
+    </div>` : ""}
+
+    <div class="tile s-2 r-2" style="--accent:#fb7185">
+      <p class="tile-label">${makeIcon("scale")} Règles non-négociables</p>
+      <ul class="rules-list">
+        ${(o.rules || [o.antiDispersionRule]).map((r, i) => `<li><span class="rule-n">${i + 1}</span><span>${esc(r)}</span></li>`).join("")}
+      </ul>
     </div>
 
     ${Array.isArray(o.scoring) && o.scoring.length ? `
@@ -366,6 +387,11 @@ function openModal(id) {
       </div>
     </div>
     ${b.status ? `<span class="modal-status">${esc(b.status)}</span>` : ""}
+    ${(b.lead || b.phase) ? `
+      <div class="modal-meta">
+        ${b.lead ? `<span class="meta-chip">${makeIcon("user")} ${esc(b.lead)}</span>` : ""}
+        ${b.phase ? `<span class="meta-chip">${makeIcon("layers")} ${esc(b.phase)}</span>` : ""}
+      </div>` : ""}
     ${typeof b.maturity === "number" ? `
       <div class="modal-maturity">
         <div class="maturity-head"><span>Niveau d'activation</span><span>${esc(b.maturity)}%</span></div>
@@ -421,6 +447,25 @@ function openApp(d) {
         <div><div class="kv-main">${esc(w.city || "—")}</div>
         <div class="kv-note">${esc(w.note || "")}</div></div></div>
       <p class="empty-note" style="margin-top:14px">Météo live à brancher plus tard (nécessite une clé API).</p>`;
+  } else if (app === "code") {
+    const fc = state.data.founderCode;
+    body = fc ? `
+      <div class="code-doc">
+        ${fc.intro ? `<p class="code-intro">${esc(fc.intro)}</p>` : ""}
+        ${(fc.sections || []).map(s => `
+          <div class="code-section">
+            <div class="code-section-head">
+              <span class="code-num">${esc(s.num || "")}</span>
+              <span class="code-title">${esc(s.title)}</span>
+              ${s.tag ? `<span class="code-tag">${esc(s.tag)}</span>` : ""}
+            </div>
+            <ol class="code-laws">
+              ${s.laws.map(l => `<li>${esc(l)}</li>`).join("")}
+            </ol>
+          </div>`).join("")}
+        ${fc.creed ? `<blockquote class="code-creed">${esc(fc.creed)}</blockquote>` : ""}
+      </div>`
+      : `<p class="empty-note">Code du Fondateur non renseigné.</p>`;
   } else if (app === "settings") {
     body = `<div class="note-grid">
         <div class="note-card"><h4>Modifier le contenu</h4><p>Tout le texte du dashboard vit dans le fichier <code>data.json</code>. Édite-le et le site se met à jour, sans toucher au design.</p></div>

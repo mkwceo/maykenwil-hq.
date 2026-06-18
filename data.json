@@ -12,9 +12,9 @@
     { "name": "Notes", "icon": "file-text", "color": "#f59e0b", "app": "notes" },
     { "name": "Agenda", "icon": "calendar", "color": "#ef4444", "app": "agenda" },
     { "name": "Branches", "icon": "grid", "color": "#8b5cf6", "app": "branches" },
+    { "name": "Code du Fondateur", "icon": "book", "color": "#c9a84c", "app": "code" },
     { "name": "Mail", "icon": "mail", "color": "#3b82f6", "app": "soon" },
     { "name": "Messages", "icon": "message", "color": "#22c55e", "app": "soon" },
-    { "name": "Musique", "icon": "music", "color": "#ec4899", "app": "soon" },
     { "name": "Météo", "icon": "cloud-sun", "color": "#0ea5e9", "app": "weather" },
     { "name": "Réglages", "icon": "settings", "color": "#64748b", "app": "settings" }
   ],
@@ -37,6 +37,19 @@
       { "label": "Faisabilité (phase actuelle)", "weight": 20 },
       { "label": "ROI temps / énergie", "weight": 20 },
       { "label": "Anti-dispersion", "weight": 15 }
+    ],
+    "priorities": [
+      { "n": 1, "action": "Emploi retail télécom à Marseille", "deadline": "Sem. 1 — août 2026", "status": "En attente du départ" },
+      { "n": 2, "action": "Examen Agent FFF — épreuve générale", "deadline": "Novembre 2026", "status": "Préparation en cours" },
+      { "n": 3, "action": "Collaboration Events", "deadline": "Dès l'arrivée", "status": "En attente du départ" },
+      { "n": 4, "action": "Installation Samy OS (skills)", "deadline": "Juillet 2026", "status": "En cours" }
+    ],
+    "rules": [
+      "Maximum 2 priorités opérationnelles simultanées",
+      "Finance islamique uniquement — zéro riba",
+      "Toute décision majeure passe par le scoring GO/NO-GO (100 pts)",
+      "Events ne cannibalisent jamais la prépa de l'examen d'agent",
+      "Famille : vision partagée seulement quand les fondations sont concrètes"
     ],
     "strengths": [
       "Vision long terme (40 ans)",
@@ -65,6 +78,49 @@
     { "date": "2035–2045", "label": "Expansion internationale — objectif 10 M€+", "tag": "Expansion" },
     { "date": "2045–2066", "label": "Objectif empire familial — aboutissement de la vision 40 ans", "tag": "Vision" }
   ],
+  "founderCode": {
+    "intro": "Les lois que je me donne à moi-même. Pas des conseils — des règles. On ne négocie pas avec elles, surtout les jours où c'est dur.",
+    "creed": "Je décide à froid. J'exécute sur le terrain. Je construis pour quarante ans.",
+    "sections": [
+      {
+        "num": "I", "title": "L'argent & la finance", "tag": "Halal · Rigueur",
+        "laws": [
+          "Zéro riba. Aucune exception, jamais.",
+          "Je ne dépense jamais sans avoir prévu.",
+          "Je ne laisse aucune dette ouverte derrière moi.",
+          "Je règle l'inconfortable en premier, pas en dernier."
+        ]
+      },
+      {
+        "num": "II", "title": "Le mental & les décisions", "tag": "Lucidité · Exécution",
+        "laws": [
+          "Je ne décide jamais sous le coup de l'émotion.",
+          "Les chiffres tranchent, pas les sentiments.",
+          "Exécuter prime sur préparer.",
+          "Pas l'outil le plus impressionnant — l'outil qui produit.",
+          "Je nomme mes patterns pour ne pas les répéter."
+        ]
+      },
+      {
+        "num": "III", "title": "Les relations & le réseau", "tag": "Sélectivité · Famille",
+        "laws": [
+          "Je filtre mon entourage par alignement, pas par habitude.",
+          "Fondateur silencieux, pas chef de clan.",
+          "Les conversations difficiles, je les prépare et je les affronte.",
+          "Mon réseau est un capital — je l'entretiens avant d'en avoir besoin."
+        ]
+      },
+      {
+        "num": "IV", "title": "La trajectoire & le corps", "tag": "Long terme · Discipline",
+        "laws": [
+          "Je pense en décennies, j'agis aujourd'hui.",
+          "Terrain d'abord, outils ensuite.",
+          "Mon corps est le premier actif. Je l'entretiens comme tel.",
+          "Je ne cherche pas la vitesse. Je cherche la solidité."
+        ]
+      }
+    ]
+  },
   "branches": [
     {
       "id": "sport",
@@ -74,6 +130,8 @@
       "tagline": "MKW — More Than Kings Win",
       "summary": "Agence de représentation de joueurs.",
       "status": "Branche la plus crédible",
+      "lead": "Le fondateur",
+      "phase": "Active · Phase 1",
       "maturity": 70,
       "next": "Démarrer la Phase 1 de prép. agent FIFA (9 matières, août–oct 2026).",
       "objectives": [
@@ -115,6 +173,8 @@
       "icon": "ticket",
       "summary": "Branche événementiel.",
       "status": "À activer",
+      "lead": "Un associé (contact institutionnel)",
+      "phase": "Active · Phase 1",
       "maturity": 25,
       "next": "Activer le pipeline (prévu août 2026) avec le pote (contacts institutionnels).",
       "objectives": [
@@ -154,6 +214,8 @@
       "icon": "truck",
       "summary": "Branche transport.",
       "status": "Lead identifié",
+      "lead": "Le père (permis PL)",
+      "phase": "Dormante · Phase 3+",
       "maturity": 35,
       "next": "Cadrer le projet avec le père (permis PL).",
       "objectives": [
@@ -190,6 +252,8 @@
       "icon": "sparkles",
       "summary": "Branche esthétique.",
       "status": "Lead identifié",
+      "lead": "La sœur (salon indépendant)",
+      "phase": "Développement · Phase 2",
       "maturity": 35,
       "next": "Définir l'offre avec la sœur (salon indépendant).",
       "objectives": [
@@ -226,6 +290,8 @@
       "icon": "gem",
       "summary": "Branche finance / investissement, 100 % halal.",
       "status": "100 % halal",
+      "lead": "Le frère",
+      "phase": "Planification · Phase 3+",
       "maturity": 30,
       "next": "Choisir le 1er instrument halal à structurer (Mourabaha).",
       "objectives": [
@@ -267,6 +333,8 @@
       "icon": "compass",
       "summary": "Branche développement, impact social et famille.",
       "status": "Branche développement",
+      "lead": "La mère",
+      "phase": "Planification · Phase 3+",
       "maturity": 15,
       "next": "Préciser le périmètre exact de la branche (développement + impact social).",
       "objectives": [

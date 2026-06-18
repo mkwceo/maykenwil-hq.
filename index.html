@@ -118,10 +118,32 @@
   /* ── MAIN AREA ── */
   .main { position: relative; overflow: hidden; background: var(--deep); }
   .world-stage { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
-  .world-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 80% 50% at 50% 60%, rgba(10,10,30,0.9) 0%, transparent 100%); }
+  .world-bg { position: absolute; inset: 0;
+    background:
+      radial-gradient(circle at 50% 48%, rgba(168,197,255,0.06) 0%, transparent 58%),
+      radial-gradient(ellipse 80% 50% at 50% 62%, rgba(10,10,30,0.55) 0%, transparent 100%); }
+  /* carte tactique : grille en pointillés + méridiens, estompée sur les bords */
+  .world-bg::before { content:''; position:absolute; inset:0;
+    background-image: radial-gradient(rgba(255,255,255,0.11) 1px, transparent 1.5px);
+    background-size: 22px 22px; opacity: 0.55;
+    -webkit-mask-image: radial-gradient(ellipse 64% 60% at 50% 50%, #000 28%, transparent 76%);
+            mask-image: radial-gradient(ellipse 64% 60% at 50% 50%, #000 28%, transparent 76%); }
+  .world-bg::after { content:''; position:absolute; inset:0;
+    background-image:
+      linear-gradient(rgba(168,197,255,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(168,197,255,0.05) 1px, transparent 1px);
+    background-size: 90px 90px;
+    -webkit-mask-image: radial-gradient(ellipse 72% 66% at 50% 50%, #000 18%, transparent 82%);
+            mask-image: radial-gradient(ellipse 72% 66% at 50% 50%, #000 18%, transparent 82%); }
   .map-container { position: relative; width: 100%; height: 100%; }
 
-  .building-node { position: absolute; display: flex; flex-direction: column; align-items: center; cursor: pointer; transition: transform 0.2s ease; }
+  @keyframes nodeIn { from { opacity: 0; } to { opacity: 1; } }
+  .building-node { position: absolute; display: flex; flex-direction: column; align-items: center; cursor: pointer; transition: transform 0.2s ease; animation: nodeIn 0.9s ease both; }
+  .node-singapore { animation-delay: .05s; }
+  .node-marseille { animation-delay: .2s; }
+  .node-paris { animation-delay: .35s; }
+  .node-usa { animation-delay: .5s; }
+  .node-mena { animation-delay: .65s; }
   .building-node:hover { transform: scale(1.05); }
   .building-node:hover .building-card { border-color: rgba(255,255,255,0.18); background: rgba(255,255,255,0.08); }
   .building-card { background: rgba(255,255,255,0.05); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 14px 16px; min-width: 140px; transition: all 0.2s ease; position: relative; overflow: hidden; }
@@ -342,6 +364,18 @@
         <path class="flow-path flow-path-blue" d="M 72 52 C 50 48, 30 42, 12 35"/>
         <path class="flow-path flow-path-purple" d="M 72 52 C 68 48, 62 46, 58 43"/>
         <path class="flow-path flow-path-blue" d="M 44 28 C 43 26, 41 24, 40 22"/>
+        <circle r="0.6" fill="#e3c45f" opacity="0.9">
+          <animateMotion dur="3.2s" repeatCount="indefinite" path="M 72 52 C 60 40, 55 35, 44 28"/>
+        </circle>
+        <circle r="0.6" fill="#e3c45f" opacity="0.9">
+          <animateMotion dur="3.8s" repeatCount="indefinite" path="M 72 52 C 58 38, 48 28, 40 22"/>
+        </circle>
+        <circle r="0.55" fill="#a8c5ff" opacity="0.8">
+          <animateMotion dur="4.4s" repeatCount="indefinite" path="M 72 52 C 50 48, 30 42, 12 35"/>
+        </circle>
+        <circle r="0.55" fill="#ce93d8" opacity="0.8">
+          <animateMotion dur="2.6s" repeatCount="indefinite" path="M 72 52 C 68 48, 62 46, 58 43"/>
+        </circle>
       </svg>
 
       <div class="map-container">

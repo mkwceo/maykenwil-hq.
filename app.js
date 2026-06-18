@@ -1,544 +1,178 @@
 /* ============================================================
-   Maykenwil HQ — bento dashboard
-   Contenu : data.json. Icônes : SVG inline (Feather-style).
+   MKW — Command Center · logique des panneaux + horloge
+   Contenu éditable : l'objet `panels` ci-dessous.
    ============================================================ */
 
-const state = { data: null };
-
-/* -------------------------------------------------- SVG icon library */
-const ICONS = {
-  trophy:       `<path d="M8 21h8M12 17v4"/><path d="M5 4H2v4a4 4 0 004 4h1"/><path d="M19 4h3v4a4 4 0 01-4 4h-1"/><rect x="7" y="2" width="10" height="11" rx="1"/>`,
-  ticket:       `<path d="M3 10.5v-1A2.5 2.5 0 013 5V4h18v1a2.5 2.5 0 010 5v1a2.5 2.5 0 010 5v1H3v-1a2.5 2.5 0 010-5z"/><line x1="9" y1="4" x2="9" y2="20" stroke-dasharray="2 2"/>`,
-  truck:        `<rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>`,
-  sparkles:     `<path d="M12 3l1.9 5.5 5.6 1-4.5 3.8 1.4 5.7L12 16l-4.4 3 1.4-5.7-4.5-3.8 5.6-1z"/><path d="M19 15l.75 2.25L22 18l-2.25.75L19 21l-.75-2.25L16 18l2.25-.75z"/><path d="M5 2l.6 1.8L7.4 4l-1.8.6L5 6.4l-.6-1.8L2.6 4l1.8-.6z"/>`,
-  gem:          `<polygon points="12 2 22 9 17 22 7 22 2 9"/><line x1="2" y1="9" x2="22" y2="9"/><line x1="17" y1="22" x2="12" y2="9"/><line x1="7" y1="22" x2="12" y2="9"/>`,
-  compass:      `<circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88"/>`,
-  mail:         `<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>`,
-  calendar:     `<rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>`,
-  'file-text':  `<path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>`,
-  message:      `<path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>`,
-  music:        `<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>`,
-  image:        `<rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>`,
-  'cloud-sun':  `<path d="M17.5 19H9a7 7 0 113.4-13.1 7 7 0 016.1 8.1"/><line x1="22" y1="15" x2="22" y2="15"/><path d="M22 9a1 1 0 100-2 1 1 0 000 2z"/><circle cx="19" cy="12" r="3"/>`,
-  settings:     `<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06-.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/>`,
-  target:       `<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>`,
-  'trending-up':   `<polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/>`,
-  'trending-down': `<polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/>`,
-  zap:          `<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>`,
-  building:     `<path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>`,
-  'arrow-right': `<line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>`,
-  grid:         `<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/>`,
-  clock:        `<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>`,
-  'map-pin':    `<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>`,
-  info:         `<circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>`,
-  scale:        `<path d="M12 3v18"/><path d="M5 7h14"/><path d="M5 7l-3 6a3 3 0 006 0z"/><path d="M19 7l-3 6a3 3 0 006 0z"/><path d="M8 21h8"/>`,
-  book:         `<path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>`,
-  user:         `<path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>`,
-  layers:       `<polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>`,
-  flag:         `<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/>`,
-  globe:        `<circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15 15 0 010 20 15 15 0 010-20z"/>`,
-  youtube:      `<path d="M22 8.5a3 3 0 00-2.1-2.1C18 6 12 6 12 6s-6 0-7.9.4A3 3 0 002 8.5 31 31 0 002 12a31 31 0 00.1 3.5 3 3 0 002.1 2.1C6 18 12 18 12 18s6 0 7.9-.4a3 3 0 002.1-2.1A31 31 0 0022 12a31 31 0 00-.1-3.5z"/><polygon points="10 9 16 12 10 15"/>`,
-  linkedin:     `<path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4V8h4v1.5"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>`,
-  instagram:    `<rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6"/>`,
+const panels = {
+  singapore: {
+    flag: '🇸🇬', city: 'Singapour', title: 'MKW Holding HQ',
+    desc: "Le siège social mondial de Maykenwil Holding. Choisi pour sa fiscalité optimale, sa stabilité juridique et son accès aux marchés MENA et Asie-Pacifique. Tout le flux financier de la holding transite par ici. Gouvernance 100% Halal — zéro Riba, zéro dette conventionnelle.",
+    sections: [
+      { title: 'Rôle', items: ['Hub financier central de la holding', 'Siège social légal de toutes les sous-branches', 'Contrôle du flux circulaire entre les 6 branches', 'Véhicules : Murabaha, Ijara, Moucharaka'] },
+      { title: 'Pourquoi Singapour', items: ['Fiscalité optimale — impôt sur sociétés 17%', 'Neutralité géopolitique et stabilité juridique', 'Accès direct aux marchés MENA et APAC', 'Infrastructure fintech compatible finance islamique'] }
+    ],
+    badges: ['badge-gold', 'badge-gold'], badgeLabels: ['⬡ HEADQUARTERS', '∞ HALAL COMPLIANT']
+  },
+  marseille: {
+    flag: '🇫🇷', city: 'Marseille · PACA', title: 'Base Opérationnelle Phase 1',
+    desc: "Point de départ de l'empire. Retour de Samy en août 2026. C'est ici que tout commence : les premiers événements Jadeliane, le recrutement de joueurs NV15, le développement du réseau institutionnel PACA. Conquérir Marseille avant de conquérir le monde.",
+    sections: [
+      { title: 'Opérations actives', items: ['Jadeliane Events — événements PACA, réseau élus locaux', 'MKW Sport — premiers contrats joueurs, examen FFF mai 2027', 'MKW Beauté — salon sœur, 2-3 zones Marseille', 'Réseau clé : ami proche avec accès institutionnel PACA'] },
+      { title: 'Objectif Phase 1', items: ['Générer les premiers revenus 0 → 500K€', 'Légitimité locale construite', 'Tous les frères et sœurs intégrés dans leurs branches'] }
+    ],
+    badges: ['badge-purple', 'badge-blue'], badgeLabels: ['▶ PHASE 1 ACTIF', '⚽ FFF MAI 2027']
+  },
+  europe: {
+    flag: '🇫🇷🇬🇧', city: 'Paris / Londres', title: 'MKW Sport — Europe Hub',
+    desc: "Le centre névralgique de l'agence de football NV15. L'Europe est là où se jouent la Champions League, les meilleurs transferts, les joueurs les plus bankables. Ce bureau gère les opérations sport au quotidien — distinct du siège financier à Singapour.",
+    sections: [
+      { title: 'Activités', items: ['Représentation de joueurs professionnels', "Formation interne d'agents et d'analystes vidéo", 'Scouting : FC Midtjylland, Sporting Braga, Genk, Vitória SC', 'Suivi data et performance des joueurs du portefeuille'] },
+      { title: 'Modèle de rétention unique', items: ['Les collaborateurs sont formés par la holding', 'Accès au portefeuille joueurs MKW pour démarrer', "S'ils partent : renoncent au portefeuille, gardent les outils", "Accord de non-agression permanent — jamais d'ennemis"] }
+    ],
+    badges: ['badge-blue', 'badge-gold'], badgeLabels: ['⚽ NV15 · NORTH VISTA 15', '◑ MORE THAN KINGS WIN']
+  },
+  usa: {
+    flag: '🇺🇸', city: 'États-Unis', title: 'Events — Expansion Future',
+    desc: "La destination finale de Jadeliane Events. L'Amérique représente le plus grand marché événementiel au monde. Mais d'abord, on conquiert Marseille, puis la France, puis l'Europe. Les USA arrivent quand les fondations sont solides.",
+    sections: [
+      { title: 'Chemin vers les USA', items: ['Phase 1 : Conquérir Marseille et PACA', 'Phase 2 : Expansion France — Lyon, Paris, Nice', 'Phase 3 : Présence Europe + premiers contacts US', 'Phase 4 : Bureau opérationnel New York / Miami'] },
+      { title: 'Avantages USA', items: ['Marché événementiel le plus grand au monde', 'Clientèle anglophone — Samy bilingue', 'Connexions via réseau international MENA', 'Revenus en USD — force de change pour la holding'] }
+    ],
+    badges: ['badge-green', 'badge-green'], badgeLabels: ['◌ PHASE 3+', '◌ VISION LONG TERME']
+  },
+  mena: {
+    flag: '🇦🇪', city: 'Dubaï · MENA', title: 'Capital & Expansion MENA',
+    desc: "La région MENA (Moyen-Orient et Afrique du Nord) est stratégique pour la finance islamique et l'expansion événementielle. Dubaï comme hub secondaire, complémentaire à Singapour.",
+    sections: [
+      { title: 'Rôle MENA', items: ["Accès aux fonds d'investissement Halal de la région", 'Réseau clientèle HNWI pour Jadeliane Events', "Développement North Vision dans les pays d'origine", 'Connexion avec les ligues de football africaines et arabes'] }
+    ],
+    badges: ['badge-green', 'badge-gold'], badgeLabels: ['◌ PHASE 3', '∞ FINANCE ISLAMIQUE']
+  },
+  sport: {
+    flag: '⚽', city: 'MKW Sport · NV15', title: 'North Vista 15',
+    desc: "L'agence football de Maykenwil. NV15 (North Vista 15) est une agence d'un nouveau genre — pas seulement de la représentation, mais un écosystème complet : formation, data, scouting, et un modèle de rétention des talents unique.",
+    sections: [
+      { title: 'Services', items: ['Représentation de joueurs professionnels', "Recrutement et formation d'agents internes", "Équipe d'analyse vidéo et data scouting", 'Négociation de contrats et transferts'] },
+      { title: 'Modèle économique unique', items: ['CDI avec clause de loyauté patrimoniale', 'Agents formés → accès portefeuille MKW joueurs', 'Départ = renonciation au portefeuille, pas aux outils', 'Accord de non-agression permanent avec les partants'] },
+      { title: 'Priorités 2026-2027', items: ['Retour Marseille août 2026', 'Examen FFF agent : mai 2027', 'Premiers 3-5 joueurs signés', 'Bureau Paris ou Londres opérationnel'] }
+    ],
+    badges: ['badge-blue', 'badge-blue'], badgeLabels: ['● PHASE 1 ACTIF', '⚽ FFF MAI 2027']
+  },
+  events: {
+    flag: '🎭', city: 'Jadeliane Events', title: 'Événementiel PACA',
+    desc: "La branche événementielle de Maykenwil. Jadeliane Events cible d'abord Marseille et la région PACA, avec un accès unique aux élus locaux et personnalités institutionnelles via un réseau clé déjà en place.",
+    sections: [
+      { title: 'Offre', items: ['Événements privés haut de gamme', 'Événements institutionnels et publics', 'Conventions, galas, soirées VIP', 'Production complète : traiteur, décor, logistique'] },
+      { title: 'Réseau clé PACA', items: ['Ami proche avec accès aux élus locaux', 'Connexions personnalités publiques PACA', 'Mère : directrice nominale, polyvalente, exécutante née', 'Capacité de scaling vers Lyon, Nice, Paris dès Phase 2'] }
+    ],
+    badges: ['badge-purple', 'badge-purple'], badgeLabels: ['● PHASE 1 ACTIF', '◑ EXPANSION FRANCE P2']
+  },
+  beaute: {
+    flag: '💎', city: 'MKW Beauté', title: 'Franchise Esthétique',
+    desc: "La branche beauté, portée par la sœur de Samy — déjà opérationnelle avec son propre salon. La vision : construire une vraie marque esthétique, conquérir Marseille zone par zone, puis lancer une franchise nationale.",
+    sections: [
+      { title: 'Roadmap', items: ['Phase 1 : Salon existant sœur, SASU/micro-entreprise maintenant', 'Phase 1-2 : Conquête 2-3 zones de Marseille', 'Phase 2 : Génération capital → investissement franchise', 'Phase 2-3 : Création de la marque propre MKW Beauté'] },
+      { title: 'Vision franchise', items: ['Modèle inspiré des grandes marques cosmétiques', 'Plusieurs salons en simultané sous la même marque', 'Marque propre développée après 5 ans de terrain', 'Extension nationale puis internationale'] }
+    ],
+    badges: ['badge-pink', 'badge-pink'], badgeLabels: ['◑ PHASE 2', '◌ FRANCHISE VISION']
+  },
+  logistique: {
+    flag: '🚛', city: 'MKW Logistique', title: 'Transport & Supply Chain',
+    desc: "La branche portée par le père — des capacités énormes que la famille a toujours sous-estimées. 53 ans, en excellente santé, permis poids lourds et multiples. MKW Logistique lui donne la reconnaissance qu'il mérite.",
+    sections: [
+      { title: 'Atouts du père', items: ['Permis poids lourds et multiples spécialisés', 'Expérience terrain comme chauffeur-livreur', 'Rigueur de travail, santé et endurance à 53 ans', 'Réseau de contacts dans le secteur transport'] },
+      { title: 'Structure', items: ['Père comme directeur nominal — sa branche lui appartient', 'Démarrage progressif, financé par Sport + Beauté', 'SASU/micro-entreprise recommandée dès maintenant', 'Scaling avec des chauffeurs et partenaires en Phase 2'] }
+    ],
+    badges: ['badge-teal', 'badge-teal'], badgeLabels: ['◑ PHASE 2', '◌ STRUCTURE PÈRE']
+  },
+  capital: {
+    flag: '⬡', city: 'MKW Capital', title: 'Bras Financier Halal',
+    desc: "Le moteur d'investissement de la holding. Zéro Riba, zéro dette conventionnelle. Chaque euro investi par MKW Capital suit les principes de la finance islamique. Ce n'est pas une contrainte — c'est une force.",
+    sections: [
+      { title: 'Véhicules Halal', items: ['Murabaha — achat-revente avec marge fixe', 'Ijara — leasing islamique sans intérêt', 'Moucharaka — participation en capital', 'Sukuk — obligations islamiques'] },
+      { title: 'Rôle dans la holding', items: ['Réinvestissement des profits de toutes les branches', 'Financement des acquisitions stratégiques', 'Fonds propre Maykenwil à horizon 10-15 ans', "Objectif final : financer l'acquisition OM"] }
+    ],
+    badges: ['badge-gold', 'badge-gold'], badgeLabels: ['◌ PHASE 3', '∞ ZÉRO RIBA']
+  },
+  nvd: {
+    flag: '🌍', city: 'North Vision Development', title: 'Impact Social',
+    desc: "La branche qui boucle le cercle. North Vision Development réinvestit dans les territoires qui ont formé Samy — les quartiers nord. Ce n'est pas de la philanthropie, c'est du réinvestissement humain.",
+    sections: [
+      { title: 'Mission', items: ['Formation de jeunes talents des quartiers nord', 'Développement communautaire Marseille', 'Soutien aux projets sportifs locaux', 'Connexion avec MKW Sport pour détecter les talents'] },
+      { title: 'Activation', items: ['Active en Phase 2-3, financée par les profits', 'Partenariats avec collectivités locales', 'Vision : institution sociale Maykenwil reconnue', 'Outil de légitimité et de marque territoriale'] }
+    ],
+    badges: ['badge-green', 'badge-green'], badgeLabels: ['◌ PHASE 3', '◌ IMPACT LOCAL']
+  }
 };
 
-function makeIcon(name, extraClass) {
-  const paths = ICONS[name] ?? ICONS.zap;
-  const cls = "icon" + (extraClass ? " " + extraClass : "");
-  return `<svg class="${cls}" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths}</svg>`;
+function esc(s) {
+  return String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 }
 
-/* -------------------------------------------------- utils */
-function esc(str) {
-  return String(str ?? "").replace(/[&<>"']/g, (c) => ({
-    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
-  }[c]));
-}
-function pad(n) { return String(n).padStart(2, "0"); }
-function cap(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : s; }
+function openPanel(key) {
+  const data = panels[key];
+  if (!data) return;
 
-/* -------------------------------------------------- live clock */
+  let html = `
+    <div class="panel-flag">${data.flag}</div>
+    <div class="panel-city">${esc(data.city)}</div>
+    <div class="panel-title">${esc(data.title)}</div>
+    <div class="panel-desc">${esc(data.desc)}</div>
+  `;
+
+  data.sections.forEach(section => {
+    html += `
+      <div class="panel-divider"></div>
+      <div class="panel-section-title">${esc(section.title)}</div>
+      <div class="panel-items">
+        ${section.items.map(item => `
+          <div class="panel-item">
+            <div class="panel-item-dot" style="background:var(--gold)"></div>
+            <span>${esc(item)}</span>
+          </div>`).join('')}
+      </div>`;
+  });
+
+  if (data.badges && data.badges.length) {
+    html += `<div class="panel-badges">`;
+    data.badges.forEach((badge, i) => {
+      html += `<div class="b-badge ${esc(badge)}">${esc(data.badgeLabels[i])}</div>`;
+    });
+    html += `</div>`;
+  }
+
+  document.getElementById('panelContent').innerHTML = html;
+  document.getElementById('panelOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closePanel(e) {
+  if (e.target === document.getElementById('panelOverlay')) closePanelDirect();
+}
+function closePanelDirect() {
+  document.getElementById('panelOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+window.openPanel = openPanel;
+window.closePanel = closePanel;
+window.closePanelDirect = closePanelDirect;
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closePanelDirect(); });
+
+/* horloge live */
 function tickClock() {
+  const el = document.getElementById('clock');
+  if (!el) return;
   const now = new Date();
-  const hh = document.getElementById("clock-hh");
-  const mm = document.getElementById("clock-mm");
-  const dt = document.getElementById("clock-date");
-  if (!hh) return;
-  hh.textContent = pad(now.getHours());
-  mm.textContent = pad(now.getMinutes());
-  if (dt) dt.textContent = cap(now.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" }));
+  const pad = n => String(n).padStart(2, '0');
+  el.textContent = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
 }
+tickClock();
+setInterval(tickClock, 1000);
 
-/* -------------------------------------------------- area chart (SVG) */
-function makeAreaChart(series, accent) {
-  const W = 300, H = 78, pad = 6;
-  const max = Math.max(...series), min = Math.min(...series);
-  const range = (max - min) || 1;
-  const pts = series.map((v, i) => {
-    const x = pad + (i / (series.length - 1)) * (W - 2 * pad);
-    const y = H - pad - ((v - min) / range) * (H - 2 * pad);
-    return [x, y];
+/* animation des barres de phase au chargement */
+requestAnimationFrame(() => {
+  document.querySelectorAll('.phase-bar').forEach(bar => {
+    if (bar.dataset.w) bar.style.width = bar.dataset.w;
   });
-  const line = pts.map((p, i) => (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" ");
-  const area = `${line} L${(W - pad).toFixed(1)} ${H - pad} L${pad} ${H - pad} Z`;
-  const gid = "cg" + Math.random().toString(36).slice(2, 8);
-  const last = pts[pts.length - 1];
-  return `
-    <svg class="chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true">
-      <defs><linearGradient id="${gid}" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="${accent}" stop-opacity="0.38"/>
-        <stop offset="1" stop-color="${accent}" stop-opacity="0"/>
-      </linearGradient></defs>
-      <path d="${area}" fill="url(#${gid})"/>
-      <path class="chart-line" d="${line}" fill="none" stroke="${accent}" stroke-width="2.5"
-            stroke-linecap="round" stroke-linejoin="round"/>
-      <circle cx="${last[0].toFixed(1)}" cy="${last[1].toFixed(1)}" r="3.4" fill="${accent}"/>
-    </svg>`;
-}
-
-/* -------------------------------------------------- hero : command center + branch network */
-function renderHero() {
-  const o = state.data.overview;
-  const branches = state.data.branches;
-  const W = 920, H = 360, cx = 458, cy = 186, rx = 330, ry = 122;
-
-  const nodes = branches.map((b, i) => {
-    const ang = -Math.PI / 2 + (i / branches.length) * 2 * Math.PI;
-    return {
-      b,
-      x: cx + rx * Math.cos(ang),
-      y: cy + ry * Math.sin(ang),
-      r: 15 + ((b.maturity || 0) / 100) * 13,
-    };
-  });
-
-  const links = nodes.map(n =>
-    `<line class="net-link" x1="${cx}" y1="${cy}" x2="${n.x.toFixed(0)}" y2="${n.y.toFixed(0)}" style="stroke:${esc(n.b.accent)}"/>`
-  ).join("");
-
-  const dots = nodes.map((n, i) => `
-    <g class="net-node" data-id="${esc(n.b.id)}" style="--c:${esc(n.b.accent)}; animation-delay:${(i * 0.12).toFixed(2)}s">
-      <circle class="net-halo" cx="${n.x.toFixed(0)}" cy="${n.y.toFixed(0)}" r="${(n.r + 11).toFixed(0)}"/>
-      <circle class="net-dot"  cx="${n.x.toFixed(0)}" cy="${n.y.toFixed(0)}" r="${n.r.toFixed(0)}"/>
-      <text class="net-label" x="${n.x.toFixed(0)}" y="${(n.y + n.r + 17).toFixed(0)}" text-anchor="middle">${esc(n.b.name.split(" ")[0])}</text>
-    </g>`).join("");
-
-  document.getElementById("hero").innerHTML = `
-    <div class="hero-info">
-      <span class="hero-eyebrow">${makeIcon("zap")} Centre de pilotage</span>
-      <div class="hero-clock">
-        <span id="clock-hh">00</span><span class="clock-colon">:</span><span id="clock-mm">00</span>
-      </div>
-      <div id="clock-date" class="hero-date"></div>
-      <div class="hero-chips">
-        <span class="chip chip-accent">${esc(o.verdict)}</span>
-        <span class="chip">${esc(o.phase)}</span>
-      </div>
-      <p class="hero-note">${esc(o.phaseNote)}</p>
-    </div>
-    <div class="hero-map">
-      <span class="hero-map-cap">Réseau des branches</span>
-      <svg class="net" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
-        <g class="net-links">${links}</g>
-        <g class="net-center">
-          <circle class="net-core-halo" cx="${cx}" cy="${cy}" r="44"/>
-          <circle class="net-core" cx="${cx}" cy="${cy}" r="29"/>
-          <text class="net-core-text" x="${cx}" y="${cy + 5}" text-anchor="middle">HQ</text>
-        </g>
-        ${dots}
-      </svg>
-    </div>
-  `;
-
-  document.querySelectorAll(".net-node").forEach(g =>
-    g.addEventListener("click", () => openModal(g.dataset.id)));
-
-  tickClock();
-}
-
-/* -------------------------------------------------- topbar */
-function renderTopbar() {
-  const bn = document.getElementById("brand-name");
-  const ts = document.getElementById("topstatus");
-  const o = state.data.overview;
-  if (bn) bn.textContent = state.data.holding.shortName || state.data.holding.name;
-  if (ts) ts.innerHTML = `
-    <span class="status-pill">${esc(o.verdict)}</span>
-    <span class="status-phase">${esc(o.phase)}</span>
-  `;
-}
-
-/* -------------------------------------------------- overview bento */
-function renderOverview() {
-  const o = state.data.overview;
-  const h = state.data.holding;
-  const R = 38;
-  const circ = +(2 * Math.PI * R).toFixed(2);
-  const offset = +(circ * (1 - o.score / o.scoreMax)).toFixed(2);
-
-  const mom = Array.isArray(o.momentum) && o.momentum.length > 1 ? o.momentum : null;
-  const delta = mom ? mom[mom.length - 1] - mom[0] : 0;
-
-  document.getElementById("overview").innerHTML = `
-
-    <div class="tile s-2 r-2" style="--accent:#14e0b1">
-      <p class="tile-label">${makeIcon("target")} Score GO / NO-GO</p>
-      <div class="score-row">
-        <div class="gauge">
-          <svg width="88" height="88" viewBox="0 0 88 88">
-            <circle class="track" cx="44" cy="44" r="${R}"/>
-            <circle class="fill"  cx="44" cy="44" r="${R}"
-              stroke-dasharray="${circ}" stroke-dashoffset="${circ}" data-offset="${offset}"/>
-          </svg>
-          <div class="gauge-center">
-            <span class="gauge-score" data-count="${o.score}">0</span>
-            <span class="gauge-max">/${esc(o.scoreMax)}</span>
-          </div>
-        </div>
-        <div>
-          <div class="score-verdict">${esc(o.verdict)}</div>
-          <p class="score-desc">${o.scoreBands ? esc(o.scoreBands) : "Décision conditionnée à la levée des faiblesses avant bascule."}</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="tile s-2 r-2 chart-tile" style="--accent:#14e0b1">
-      <p class="tile-label">${makeIcon("trending-up")} Momentum</p>
-      <div class="chart-head">
-        <span class="chart-value">${esc(o.score)}</span>
-        ${mom ? `<span class="chart-delta">+${esc(delta)} pts</span>` : ""}
-      </div>
-      ${mom ? makeAreaChart(mom, "#14e0b1") : ""}
-      <p class="chart-foot">Progression vers la bascule d'août 2026</p>
-    </div>
-
-    ${Array.isArray(o.priorities) && o.priorities.length ? `
-    <div class="tile s-2 r-2" style="--accent:#f59e0b">
-      <p class="tile-label">${makeIcon("flag")} Priorités actives</p>
-      <ol class="prio-list">
-        ${o.priorities.map(p => `
-          <li>
-            <span class="prio-n">${esc(p.n)}</span>
-            <div class="prio-body">
-              <span class="prio-action">${esc(p.action)}</span>
-              <span class="prio-meta">${esc(p.deadline)} · ${esc(p.status)}</span>
-            </div>
-          </li>`).join("")}
-      </ol>
-    </div>` : ""}
-
-    <div class="tile s-2 r-2" style="--accent:#fb7185">
-      <p class="tile-label">${makeIcon("scale")} Règles non-négociables</p>
-      <ul class="rules-list">
-        ${(o.rules || [o.antiDispersionRule]).map((r, i) => `<li><span class="rule-n">${i + 1}</span><span>${esc(r)}</span></li>`).join("")}
-      </ul>
-    </div>
-
-    ${Array.isArray(o.scoring) && o.scoring.length ? `
-    <div class="tile s-4" style="--accent:#14e0b1">
-      <p class="tile-label">${makeIcon("scale")} Grille de décision GO / NO-GO</p>
-      <div class="score-grid">
-        ${o.scoring.map(c => `
-          <div class="sg-row">
-            <span class="sg-label">${esc(c.label)}</span>
-            <span class="sg-bar"><span style="width:0" data-w="${(c.weight / 25 * 100).toFixed(0)}%"></span></span>
-            <span class="sg-weight">${esc(c.weight)} pts</span>
-          </div>`).join("")}
-      </div>
-    </div>` : ""}
-
-    <div class="tile s-2" style="--accent:#10b981">
-      <p class="tile-label">${makeIcon("trending-up")} Forces clés</p>
-      <ul class="mini-list">
-        ${o.strengths.map(s => `<li><span class="mi up">${makeIcon("trending-up")}</span><span>${esc(s)}</span></li>`).join("")}
-      </ul>
-    </div>
-
-    <div class="tile s-2" style="--accent:#ef4444">
-      <p class="tile-label">${makeIcon("trending-down")} Faiblesses clés</p>
-      <ul class="mini-list">
-        ${o.weaknesses.map(w => `<li><span class="mi down">${makeIcon("trending-down")}</span><span>${esc(w)}</span></li>`).join("")}
-      </ul>
-    </div>
-
-    <div class="tile s-4" style="--accent:#8b5cf6">
-      <p class="tile-label">${makeIcon("building")} Structure holding</p>
-      <div class="kv-note" style="font-size:14px">${esc(h.model)}</div>
-    </div>
-  `;
-
-  animateGauge();
-  requestAnimationFrame(() => {
-    document.querySelectorAll(".sg-bar > span").forEach(s => { s.style.width = s.dataset.w; });
-  });
-  tickClock();
-}
-
-function animateGauge() {
-  const fill = document.querySelector(".gauge .fill");
-  const counter = document.querySelector(".gauge-score");
-  if (!fill || !counter) return;
-
-  const targetOffset = parseFloat(fill.dataset.offset);
-  requestAnimationFrame(() => { fill.style.strokeDashoffset = targetOffset; });
-
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    counter.textContent = counter.dataset.count;
-    return;
-  }
-  const end = parseInt(counter.dataset.count, 10);
-  const t0 = performance.now();
-  (function step(now) {
-    const p = Math.min(1, (now - t0) / 1100);
-    counter.textContent = Math.round(end * (1 - Math.pow(1 - p, 3)));
-    if (p < 1) requestAnimationFrame(step);
-  })(t0);
-}
-
-/* derive a smooth trend series from a maturity value (for sparklines) */
-function trendFor(m) {
-  const start = Math.max(2, Math.round((m || 0) * 0.35));
-  return Array.from({ length: 7 }, (_, i) => Math.round(start + ((m || 0) - start) * (i / 6)));
-}
-
-/* -------------------------------------------------- branch tiles */
-function renderBranches() {
-  const el = document.getElementById("branches");
-  const cnt = document.getElementById("branch-count");
-  if (cnt) cnt.textContent = state.data.branches.length;
-
-  el.innerHTML = state.data.branches.map(b => `
-    <button class="tile branch" data-id="${esc(b.id)}" style="--accent:${esc(b.accent)}">
-      <div class="branch-top">
-        <div class="icon-box">${makeIcon(b.icon)}</div>
-        <span class="branch-arrow">${makeIcon("arrow-right")}</span>
-      </div>
-      <h3 class="branch-name">${esc(b.name)}</h3>
-      <p class="branch-summary">${esc(b.summary || "")}</p>
-      ${typeof b.maturity === "number" ? `
-        <div class="branch-spark">${makeAreaChart(trendFor(b.maturity), b.accent)}</div>
-        <div class="maturity-head"><span>Activation</span><span>${esc(b.maturity)}%</span></div>` : ""}
-      ${b.status ? `<span class="branch-status">${esc(b.status)}</span>` : ""}
-    </button>
-  `).join("");
-
-  el.querySelectorAll(".branch").forEach(btn => {
-    btn.addEventListener("click", () => openModal(btn.dataset.id));
-  });
-}
-
-/* -------------------------------------------------- dock */
-function renderDock() {
-  const dock = document.getElementById("dock");
-  dock.innerHTML = (state.data.dock || []).map(a => `
-    <button class="dock-app" style="--app-color:${esc(a.color || "#64748b")}"
-            title="${esc(a.name)}" data-app="${esc(a.app || "soon")}" data-name="${esc(a.name)}"
-            data-color="${esc(a.color || "#64748b")}" data-icon="${esc(a.icon)}" data-url="${esc(a.url || "")}">
-      ${makeIcon(a.icon)}
-      <span class="tip">${esc(a.name)}</span>
-    </button>
-  `).join("");
-
-  dock.querySelectorAll(".dock-app").forEach(btn => {
-    btn.addEventListener("click", () => openApp(btn.dataset));
-  });
-}
-
-/* -------------------------------------------------- modal */
-function openModal(id) {
-  const b = state.data.branches.find(x => x.id === id);
-  if (!b) return;
-  const modal = document.getElementById("modal");
-  const backdrop = document.getElementById("modal-backdrop");
-
-  const listBlock = (items, cls, icon) => items?.length
-    ? `<ul class="dot-list ${cls}">${items.map(x => `<li><span class="dl-dot">${icon ? makeIcon(icon) : ""}</span><span>${esc(x)}</span></li>`).join("")}</ul>`
-    : "";
-
-  const kpis = b.kpis?.length
-    ? `<div class="kpi-row">${b.kpis.map(k => `
-        <div class="kpi"><span class="kpi-value">${esc(k.value)}</span><span class="kpi-label">${esc(k.label)}</span></div>`).join("")}</div>`
-    : "";
-
-  const plan = b.plan?.length
-    ? `<p class="modal-cap">Plan d'action</p><ol class="plan-list">${b.plan.map(p => `<li>${esc(p)}</li>`).join("")}</ol>`
-    : "";
-
-  const oppRisk = (b.opportunities?.length || b.risks?.length)
-    ? `<div class="opp-risk">
-        ${b.opportunities?.length ? `<div><p class="modal-cap mc-up">${makeIcon("trending-up")} Opportunités</p>${listBlock(b.opportunities, "up")}</div>` : ""}
-        ${b.risks?.length ? `<div><p class="modal-cap mc-down">${makeIcon("trending-down")} Risques</p>${listBlock(b.risks, "down")}</div>` : ""}
-      </div>`
-    : "";
-
-  const objectives = b.objectives?.length
-    ? `<p class="modal-cap">Objectifs</p>${listBlock(b.objectives, "neutral")}`
-    : "";
-
-  const highlights = b.highlights?.length
-    ? `<p class="modal-cap">Points clés</p><ul class="hl-list">${b.highlights.map(h => `<li><span class="hl-dot"></span><span>${esc(h)}</span></li>`).join("")}</ul>`
-    : "";
-
-  modal.style.setProperty("--m-accent", b.accent);
-  modal.innerHTML = `
-    <button class="modal-close" id="modal-close" aria-label="Fermer">✕</button>
-    <div class="modal-hero">
-      <div class="icon-box modal-icon" style="--accent:${esc(b.accent)}">${makeIcon(b.icon)}</div>
-      <div>
-        <h2 class="modal-title">${esc(b.name)}</h2>
-        ${b.tagline ? `<div class="modal-tagline">${esc(b.tagline)}</div>` : ""}
-        <p class="modal-summary">${esc(b.summary || "")}</p>
-      </div>
-    </div>
-    ${b.status ? `<span class="modal-status">${esc(b.status)}</span>` : ""}
-    ${(b.lead || b.phase) ? `
-      <div class="modal-meta">
-        ${b.lead ? `<span class="meta-chip">${makeIcon("user")} ${esc(b.lead)}</span>` : ""}
-        ${b.phase ? `<span class="meta-chip">${makeIcon("layers")} ${esc(b.phase)}</span>` : ""}
-      </div>` : ""}
-    ${typeof b.maturity === "number" ? `
-      <div class="modal-maturity">
-        <div class="maturity-head"><span>Niveau d'activation</span><span>${esc(b.maturity)}%</span></div>
-        <div class="maturity-bar"><span style="width:0" data-w="${esc(b.maturity)}%"></span></div>
-      </div>` : ""}
-    ${kpis}
-    ${b.next ? `<div class="modal-next">${makeIcon("zap")}<div><span class="mn-label">Prochaine action</span><span class="mn-text">${esc(b.next)}</span></div></div>` : ""}
-    ${objectives}
-    ${oppRisk}
-    ${plan}
-    ${highlights}
-  `;
-
-  document.getElementById("modal-close").addEventListener("click", closeModal);
-  showModal();
-  requestAnimationFrame(() => {
-    const bar = modal.querySelector(".maturity-bar > span");
-    if (bar) bar.style.width = bar.dataset.w;
-  });
-}
-
-/* -------------------------------------------------- dock apps */
-function openApp(d) {
-  const modal = document.getElementById("modal");
-  const name = d.name, color = d.color, icon = d.icon, app = d.app;
-
-  if (app === "link" && d.url) {
-    window.open(d.url, "_blank", "noopener");
-    return;
-  }
-
-  modal.style.setProperty("--m-accent", color);
-
-  let body = "";
-  if (app === "notes") {
-    const notes = state.data.notes || [];
-    body = notes.length
-      ? `<div class="note-grid">${notes.map(n => `
-          <div class="note-card"><h4>${esc(n.title)}</h4><p>${esc(n.body)}</p></div>`).join("")}</div>`
-      : `<p class="empty-note">Aucune note pour l'instant.</p>`;
-  } else if (app === "agenda") {
-    const ag = state.data.agenda || [];
-    body = ag.length
-      ? `<ul class="agenda-list">${ag.map(e => `
-          <li><span class="ag-date">${esc(e.date)}</span>
-              <div><span class="ag-label">${esc(e.label)}</span>
-              ${e.tag ? `<span class="ag-tag">${esc(e.tag)}</span>` : ""}</div></li>`).join("")}</ul>`
-      : `<p class="empty-note">Aucune échéance planifiée.</p>`;
-  } else if (app === "branches") {
-    body = `<ul class="hl-list">${state.data.branches.map(b => `
-      <li data-go="${esc(b.id)}" style="cursor:pointer">
-        <span class="hl-dot" style="background:${esc(b.accent)};box-shadow:0 0 9px ${esc(b.accent)}"></span>
-        <span>${esc(b.name)}</span>
-        <span class="ag-tag" style="margin-left:auto">${esc(b.maturity ?? 0)}%</span></li>`).join("")}</ul>`;
-  } else if (app === "weather") {
-    const w = state.data.weather || {};
-    body = `<div class="weather-panel">
-        ${makeIcon("map-pin")}
-        <div><div class="kv-main">${esc(w.city || "—")}</div>
-        <div class="kv-note">${esc(w.note || "")}</div></div></div>
-      <p class="empty-note" style="margin-top:14px">Météo live à brancher plus tard (nécessite une clé API).</p>`;
-  } else if (app === "code") {
-    const fc = state.data.founderCode;
-    body = fc ? `
-      <div class="code-doc">
-        ${fc.intro ? `<p class="code-intro">${esc(fc.intro)}</p>` : ""}
-        ${(fc.sections || []).map(s => `
-          <div class="code-section">
-            <div class="code-section-head">
-              <span class="code-num">${esc(s.num || "")}</span>
-              <span class="code-title">${esc(s.title)}</span>
-              ${s.tag ? `<span class="code-tag">${esc(s.tag)}</span>` : ""}
-            </div>
-            <ol class="code-laws">
-              ${s.laws.map(l => `<li>${esc(l)}</li>`).join("")}
-            </ol>
-          </div>`).join("")}
-        ${fc.creed ? `<blockquote class="code-creed">${esc(fc.creed)}</blockquote>` : ""}
-      </div>`
-      : `<p class="empty-note">Code du Fondateur non renseigné.</p>`;
-  } else if (app === "settings") {
-    body = `<div class="note-grid">
-        <div class="note-card"><h4>Modifier le contenu</h4><p>Tout le texte du dashboard vit dans le fichier <code>data.json</code>. Édite-le et le site se met à jour, sans toucher au design.</p></div>
-        <div class="note-card"><h4>Mise en ligne</h4><p>Le site se déploie tout seul à chaque sauvegarde, via GitHub Pages.</p></div>
-      </div>`;
-  } else {
-    body = `<p class="empty-note">L'application « ${esc(name)} » est décorative pour l'instant — on pourra la rendre vivante plus tard.</p>`;
-  }
-
-  modal.innerHTML = `
-    <button class="modal-close" id="modal-close" aria-label="Fermer">✕</button>
-    <div class="modal-hero">
-      <div class="icon-box modal-icon" style="--accent:${esc(color)}">${makeIcon(icon)}</div>
-      <div><h2 class="modal-title">${esc(name)}</h2></div>
-    </div>
-    ${body}
-  `;
-  document.getElementById("modal-close").addEventListener("click", closeModal);
-  modal.querySelectorAll("[data-go]").forEach(li =>
-    li.addEventListener("click", () => openModal(li.dataset.go)));
-  showModal();
-}
-
-function showModal() {
-  document.getElementById("modal-backdrop").classList.add("show");
-  document.getElementById("modal").classList.add("show");
-  document.body.style.overflow = "hidden";
-}
-
-function closeModal() {
-  document.getElementById("modal-backdrop").classList.remove("show");
-  document.getElementById("modal").classList.remove("show");
-  document.body.style.overflow = "";
-}
-
-document.getElementById("modal-backdrop").addEventListener("click", closeModal);
-document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
-
-/* -------------------------------------------------- init */
-async function init() {
-  try {
-    const res = await fetch("data.json", { cache: "no-store" });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    state.data = await res.json();
-  } catch (err) {
-    document.body.innerHTML = `
-      <div style="display:flex;height:100vh;align-items:center;justify-content:center;
-                  font-family:Inter,sans-serif;color:#f4f4f6;text-align:center;padding:2rem">
-        <div>
-          <p style="font-size:1.1rem;margin-bottom:.5rem">Impossible de charger <code>data.json</code></p>
-          <p style="opacity:.55;font-size:.9rem">Lancez un serveur local&nbsp;: <code>python3 -m http.server</code></p>
-        </div>
-      </div>`;
-    console.error(err);
-    return;
-  }
-
-  renderTopbar();
-  renderHero();
-  renderOverview();
-  renderBranches();
-  renderDock();
-  setInterval(tickClock, 1000);
-}
-
-init();
+});

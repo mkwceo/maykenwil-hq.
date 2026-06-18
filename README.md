@@ -40,7 +40,13 @@ python3 -m http.server 8000
 ## Mise en ligne (GitHub Pages)
 
 Le workflow `.github/workflows/deploy.yml` publie automatiquement le site à chaque
-push. **Étape unique à faire une fois** : dans le dépôt GitHub →
-*Settings → Pages → Build and deployment → Source* = **GitHub Actions**.
+push. Il **active Pages tout seul** (paramètre `enablement: true`), donc aucune
+configuration manuelle n'est normalement requise.
 
-L'URL publique apparaît ensuite dans l'onglet *Actions* / *Settings → Pages*.
+L'URL publique apparaît dans l'onglet *Actions* (job *deploy*) ou dans
+*Settings → Pages*.
+
+> Si jamais le déploiement échoue encore avec « Get Pages site failed », c'est
+> que l'activation automatique a été refusée : va dans *Settings → Pages →
+> Build and deployment → Source* et choisis **GitHub Actions** une seule fois,
+> puis relance le workflow (*Re-run*).

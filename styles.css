@@ -5,14 +5,15 @@
    ============================================================ */
 
 :root {
-  --bg: #08080c;
-  --text: #f4f4f6;
-  --text-soft: rgba(244, 244, 246, 0.66);
-  --text-faint: rgba(244, 244, 246, 0.4);
-  --card: rgba(255, 255, 255, 0.04);
+  --bg: #080d14;
+  --teal: #14e0b1;
+  --text: #eaf1f4;
+  --text-soft: rgba(234, 241, 244, 0.64);
+  --text-faint: rgba(234, 241, 244, 0.38);
+  --card: rgba(255, 255, 255, 0.035);
   --card-hover: rgba(255, 255, 255, 0.06);
-  --border: rgba(255, 255, 255, 0.09);
-  --border-soft: rgba(255, 255, 255, 0.06);
+  --border: rgba(255, 255, 255, 0.08);
+  --border-soft: rgba(255, 255, 255, 0.05);
   --radius-xl: 26px;
   --radius-lg: 22px;
   --radius: 18px;
@@ -37,20 +38,23 @@ body {
 }
 
 /* ---------------------------------------------------------- Aurora bg */
-.aurora { position: fixed; inset: 0; z-index: -2; overflow: hidden; filter: blur(80px); opacity: 0.5; }
+.aurora { position: fixed; inset: 0; z-index: -2; overflow: hidden; filter: blur(90px); opacity: 0.42; }
 .aurora span {
   position: absolute; display: block; border-radius: 50%;
   width: 46vw; height: 46vw; mix-blend-mode: screen;
 }
-.aurora span:nth-child(1) { background: #7e22ce; top: -12%; left: -8%; animation: float1 24s var(--ease) infinite alternate; }
-.aurora span:nth-child(2) { background: #0f766e; top: -6%; right: -10%; animation: float2 28s var(--ease) infinite alternate; }
-.aurora span:nth-child(3) { background: #312e81; bottom: -18%; left: 28%; animation: float3 30s var(--ease) infinite alternate; }
+.aurora span:nth-child(1) { background: #0f766e; top: -12%; left: -8%; animation: float1 24s var(--ease) infinite alternate; }
+.aurora span:nth-child(2) { background: #0891b2; top: -6%; right: -10%; animation: float2 28s var(--ease) infinite alternate; }
+.aurora span:nth-child(3) { background: #1e3a8a; bottom: -18%; left: 28%; animation: float3 30s var(--ease) infinite alternate; }
 @keyframes float1 { to { transform: translate(8vw, 10vh) scale(1.15); } }
 @keyframes float2 { to { transform: translate(-8vw, 12vh) scale(1.2); } }
 @keyframes float3 { to { transform: translate(6vw, -8vh) scale(1.1); } }
 body::after {
   content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
-  background: radial-gradient(130% 90% at 50% 0%, transparent 40%, rgba(8,8,12,0.6) 100%);
+  background:
+    linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px) 0 0 / 100% 46px,
+    linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px) 0 0 / 46px 100%,
+    radial-gradient(130% 90% at 50% 0%, transparent 38%, rgba(8,13,20,0.72) 100%);
 }
 
 /* ---------------------------------------------------------- Layout */
@@ -86,6 +90,62 @@ body::after {
   color: #6ee7b7;
 }
 .status-phase { font-size: 13px; color: var(--text-soft); font-weight: 500; }
+
+/* ---------------------------------------------------------- Hero : command center */
+.hero {
+  position: relative; display: grid; grid-template-columns: minmax(220px, 0.85fr) 1.4fr;
+  gap: 18px; margin-bottom: 14px; padding: clamp(20px, 3vw, 30px);
+  border: 1px solid var(--border); border-radius: 30px; overflow: hidden;
+  background:
+    radial-gradient(120% 120% at 0% 0%, rgba(20,224,177,0.10), transparent 46%),
+    radial-gradient(120% 120% at 100% 100%, rgba(30,58,138,0.20), transparent 50%),
+    linear-gradient(160deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015));
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  animation: fadeIn 0.6s var(--ease) both;
+}
+.hero-info { display: flex; flex-direction: column; justify-content: center; z-index: 1; }
+.hero-eyebrow { display: inline-flex; align-items: center; gap: 7px; font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 1.2px; color: var(--teal); }
+.hero-eyebrow svg { width: 14px; height: 14px; }
+.hero-clock { font-size: clamp(46px, 7vw, 78px); font-weight: 800; line-height: 0.98; letter-spacing: -2.5px;
+  font-variant-numeric: tabular-nums; margin-top: 8px; }
+.hero-date { font-size: 14px; font-weight: 600; color: var(--text-soft); text-transform: capitalize; margin-top: 2px; }
+.hero-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.hero-note { color: var(--text-soft); font-size: 13px; margin: 12px 0 0; max-width: 44ch; }
+.chip { font-size: 12px; font-weight: 600; padding: 6px 12px; border-radius: 999px;
+  background: rgba(255,255,255,0.06); border: 1px solid var(--border); color: var(--text-soft); }
+.chip-accent { background: color-mix(in srgb, var(--teal) 16%, transparent);
+  border-color: color-mix(in srgb, var(--teal) 42%, transparent); color: #7df0d6; font-weight: 700; }
+
+.hero-map { position: relative; min-height: 250px; }
+.hero-map-cap { position: absolute; top: 4px; right: 6px; font-size: 10.5px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 1px; color: var(--text-faint); z-index: 2; }
+.net { width: 100%; height: 100%; min-height: 250px; display: block; }
+.net-link { stroke-width: 1.4; opacity: 0.28; stroke-dasharray: 3 5;
+  animation: dash 18s linear infinite; }
+@keyframes dash { to { stroke-dashoffset: -160; } }
+.net-core { fill: rgba(255,255,255,0.10); stroke: rgba(255,255,255,0.5); stroke-width: 1.5; }
+.net-core-halo { fill: rgba(255,255,255,0.06); animation: pulse 3.4s var(--ease) infinite; transform-origin: center; transform-box: fill-box; }
+.net-core-text { fill: #fff; font-size: 16px; font-weight: 800; font-family: inherit; letter-spacing: 0.5px; }
+.net-node { cursor: pointer; }
+.net-dot { fill: color-mix(in srgb, var(--c) 30%, #0a1018); stroke: var(--c); stroke-width: 2;
+  filter: drop-shadow(0 0 8px color-mix(in srgb, var(--c) 70%, transparent)); transition: all 0.3s var(--spring); }
+.net-halo { fill: var(--c); opacity: 0.12; animation: pulse 3s var(--ease) infinite; transform-origin: center; transform-box: fill-box; }
+.net-node:hover .net-dot { fill: color-mix(in srgb, var(--c) 55%, #0a1018); r: 26; }
+.net-label { fill: var(--text-soft); font-size: 12px; font-weight: 700; font-family: inherit; }
+.net-node:hover .net-label { fill: #fff; }
+@keyframes pulse { 0%,100% { transform: scale(1); opacity: 0.16; } 50% { transform: scale(1.18); opacity: 0.05; } }
+
+/* ---------------------------------------------------------- Charts */
+.chart-tile { display: flex; flex-direction: column; }
+.chart-head { display: flex; align-items: baseline; gap: 10px; }
+.chart-value { font-size: 34px; font-weight: 800; letter-spacing: -1px; line-height: 1; }
+.chart-delta { font-size: 12.5px; font-weight: 700; color: #6ee7b7;
+  background: color-mix(in srgb, var(--teal) 16%, transparent); padding: 3px 9px; border-radius: 999px; }
+.chart { width: 100%; height: 78px; margin: 12px 0 6px; flex: 1; min-height: 64px; }
+.chart-line { stroke-dasharray: 600; stroke-dashoffset: 600; animation: draw 1.6s var(--ease) 0.2s forwards; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+.chart-foot { font-size: 12px; color: var(--text-faint); margin: 0; }
 
 /* ---------------------------------------------------------- Bento grid */
 .bento {
@@ -344,6 +404,8 @@ body::after {
   .bento { grid-template-columns: repeat(2, 1fr); }
   .s-2, .s-4 { grid-column: span 2; }
   .r-2 { grid-row: span 1; }
+  .hero { grid-template-columns: 1fr; }
+  .hero-map { min-height: 280px; }
 }
 @media (max-width: 560px) {
   .bento { grid-template-columns: 1fr; gap: 12px; }

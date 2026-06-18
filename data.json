@@ -29,6 +29,7 @@
     "phase": "Phase 0 — Préparation",
     "phaseNote": "Bascule vers l'exécution réelle prévue août 2026 (retour à Marseille).",
     "antiDispersionRule": "Maximum 2 priorités opérationnelles actives en même temps.",
+    "momentum": [10, 16, 22, 28, 34, 41, 48, 54, 61],
     "strengths": [
       "Vision long terme (40 ans)",
       "Éthique halal",

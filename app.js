@@ -60,6 +60,93 @@ function tickClock() {
   if (dt) dt.textContent = cap(now.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" }));
 }
 
+/* -------------------------------------------------- area chart (SVG) */
+function makeAreaChart(series, accent) {
+  const W = 300, H = 78, pad = 6;
+  const max = Math.max(...series), min = Math.min(...series);
+  const range = (max - min) || 1;
+  const pts = series.map((v, i) => {
+    const x = pad + (i / (series.length - 1)) * (W - 2 * pad);
+    const y = H - pad - ((v - min) / range) * (H - 2 * pad);
+    return [x, y];
+  });
+  const line = pts.map((p, i) => (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" ");
+  const area = `${line} L${(W - pad).toFixed(1)} ${H - pad} L${pad} ${H - pad} Z`;
+  const gid = "cg" + Math.random().toString(36).slice(2, 8);
+  const last = pts[pts.length - 1];
+  return `
+    <svg class="chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true">
+      <defs><linearGradient id="${gid}" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="${accent}" stop-opacity="0.38"/>
+        <stop offset="1" stop-color="${accent}" stop-opacity="0"/>
+      </linearGradient></defs>
+      <path d="${area}" fill="url(#${gid})"/>
+      <path class="chart-line" d="${line}" fill="none" stroke="${accent}" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="${last[0].toFixed(1)}" cy="${last[1].toFixed(1)}" r="3.4" fill="${accent}"/>
+    </svg>`;
+}
+
+/* -------------------------------------------------- hero : command center + branch network */
+function renderHero() {
+  const o = state.data.overview;
+  const branches = state.data.branches;
+  const W = 920, H = 360, cx = 458, cy = 186, rx = 330, ry = 122;
+
+  const nodes = branches.map((b, i) => {
+    const ang = -Math.PI / 2 + (i / branches.length) * 2 * Math.PI;
+    return {
+      b,
+      x: cx + rx * Math.cos(ang),
+      y: cy + ry * Math.sin(ang),
+      r: 15 + ((b.maturity || 0) / 100) * 13,
+    };
+  });
+
+  const links = nodes.map(n =>
+    `<line class="net-link" x1="${cx}" y1="${cy}" x2="${n.x.toFixed(0)}" y2="${n.y.toFixed(0)}" style="stroke:${esc(n.b.accent)}"/>`
+  ).join("");
+
+  const dots = nodes.map((n, i) => `
+    <g class="net-node" data-id="${esc(n.b.id)}" style="--c:${esc(n.b.accent)}; animation-delay:${(i * 0.12).toFixed(2)}s">
+      <circle class="net-halo" cx="${n.x.toFixed(0)}" cy="${n.y.toFixed(0)}" r="${(n.r + 11).toFixed(0)}"/>
+      <circle class="net-dot"  cx="${n.x.toFixed(0)}" cy="${n.y.toFixed(0)}" r="${n.r.toFixed(0)}"/>
+      <text class="net-label" x="${n.x.toFixed(0)}" y="${(n.y + n.r + 17).toFixed(0)}" text-anchor="middle">${esc(n.b.name.split(" ")[0])}</text>
+    </g>`).join("");
+
+  document.getElementById("hero").innerHTML = `
+    <div class="hero-info">
+      <span class="hero-eyebrow">${makeIcon("zap")} Centre de pilotage</span>
+      <div class="hero-clock">
+        <span id="clock-hh">00</span><span class="clock-colon">:</span><span id="clock-mm">00</span>
+      </div>
+      <div id="clock-date" class="hero-date"></div>
+      <div class="hero-chips">
+        <span class="chip chip-accent">${esc(o.verdict)}</span>
+        <span class="chip">${esc(o.phase)}</span>
+      </div>
+      <p class="hero-note">${esc(o.phaseNote)}</p>
+    </div>
+    <div class="hero-map">
+      <span class="hero-map-cap">Réseau des branches</span>
+      <svg class="net" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
+        <g class="net-links">${links}</g>
+        <g class="net-center">
+          <circle class="net-core-halo" cx="${cx}" cy="${cy}" r="44"/>
+          <circle class="net-core" cx="${cx}" cy="${cy}" r="29"/>
+          <text class="net-core-text" x="${cx}" y="${cy + 5}" text-anchor="middle">HQ</text>
+        </g>
+        ${dots}
+      </svg>
+    </div>
+  `;
+
+  document.querySelectorAll(".net-node").forEach(g =>
+    g.addEventListener("click", () => openModal(g.dataset.id)));
+
+  tickClock();
+}
+
 /* -------------------------------------------------- topbar */
 function renderTopbar() {
   const bn = document.getElementById("brand-name");
@@ -80,17 +167,12 @@ function renderOverview() {
   const circ = +(2 * Math.PI * R).toFixed(2);
   const offset = +(circ * (1 - o.score / o.scoreMax)).toFixed(2);
 
+  const mom = Array.isArray(o.momentum) && o.momentum.length > 1 ? o.momentum : null;
+  const delta = mom ? mom[mom.length - 1] - mom[0] : 0;
+
   document.getElementById("overview").innerHTML = `
 
-    <div class="tile s-2 r-2 clock-tile" style="--accent:#8b5cf6">
-      <p class="tile-label">${makeIcon("zap")} Maykenwil HQ</p>
-      <div class="clock-time">
-        <span id="clock-hh">00</span><span class="clock-colon">:</span><span id="clock-mm">00</span>
-      </div>
-      <div id="clock-date" class="clock-date"></div>
-    </div>
-
-    <div class="tile s-2 r-2" style="--accent:#10b981">
+    <div class="tile s-2 r-2" style="--accent:#14e0b1">
       <p class="tile-label">${makeIcon("target")} Score GO / NO-GO</p>
       <div class="score-row">
         <div class="gauge">
@@ -111,10 +193,14 @@ function renderOverview() {
       </div>
     </div>
 
-    <div class="tile s-2" style="--accent:#0ea5e9">
-      <p class="tile-label">${makeIcon("compass")} Trajectoire</p>
-      <div class="kv-main">${esc(o.phase)}</div>
-      <div class="kv-note">${esc(o.phaseNote)}</div>
+    <div class="tile s-2 r-2 chart-tile" style="--accent:#14e0b1">
+      <p class="tile-label">${makeIcon("trending-up")} Momentum</p>
+      <div class="chart-head">
+        <span class="chart-value">${esc(o.score)}</span>
+        ${mom ? `<span class="chart-delta">+${esc(delta)} pts</span>` : ""}
+      </div>
+      ${mom ? makeAreaChart(mom, "#14e0b1") : ""}
+      <p class="chart-foot">Progression vers la bascule d'août 2026</p>
     </div>
 
     <div class="tile s-4" style="--accent:#f59e0b">
@@ -349,6 +435,7 @@ async function init() {
   }
 
   renderTopbar();
+  renderHero();
   renderOverview();
   renderBranches();
   renderDock();

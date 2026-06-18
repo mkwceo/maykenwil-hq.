@@ -27,6 +27,10 @@ const ICONS = {
   zap:          `<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>`,
   building:     `<path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>`,
   'arrow-right': `<line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>`,
+  grid:         `<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/>`,
+  clock:        `<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>`,
+  'map-pin':    `<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>`,
+  info:         `<circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>`,
 };
 
 function makeIcon(name, extraClass) {
@@ -177,9 +181,18 @@ function renderBranches() {
       </div>
       <h3 class="branch-name">${esc(b.name)}</h3>
       <p class="branch-summary">${esc(b.summary || "")}</p>
+      ${typeof b.maturity === "number" ? `
+        <div class="maturity">
+          <div class="maturity-head"><span>Activation</span><span>${esc(b.maturity)}%</span></div>
+          <div class="maturity-bar"><span style="width:0" data-w="${esc(b.maturity)}%"></span></div>
+        </div>` : ""}
       ${b.status ? `<span class="branch-status">${esc(b.status)}</span>` : ""}
     </button>
   `).join("");
+
+  requestAnimationFrame(() => {
+    el.querySelectorAll(".maturity-bar > span").forEach(s => { s.style.width = s.dataset.w; });
+  });
 
   el.querySelectorAll(".branch").forEach(btn => {
     btn.addEventListener("click", () => openModal(btn.dataset.id));
@@ -188,12 +201,19 @@ function renderBranches() {
 
 /* -------------------------------------------------- dock */
 function renderDock() {
-  document.getElementById("dock").innerHTML = (state.data.dock || []).map(a => `
-    <div class="dock-app" style="--app-color:${esc(a.color || "#64748b")}" title="${esc(a.name)}">
+  const dock = document.getElementById("dock");
+  dock.innerHTML = (state.data.dock || []).map(a => `
+    <button class="dock-app" style="--app-color:${esc(a.color || "#64748b")}"
+            title="${esc(a.name)}" data-app="${esc(a.app || "soon")}" data-name="${esc(a.name)}"
+            data-color="${esc(a.color || "#64748b")}" data-icon="${esc(a.icon)}">
       ${makeIcon(a.icon)}
       <span class="tip">${esc(a.name)}</span>
-    </div>
+    </button>
   `).join("");
+
+  dock.querySelectorAll(".dock-app").forEach(btn => {
+    btn.addEventListener("click", () => openApp(btn.dataset));
+  });
 }
 
 /* -------------------------------------------------- modal */
@@ -219,13 +239,84 @@ function openModal(id) {
       </div>
     </div>
     ${b.status ? `<span class="modal-status">${esc(b.status)}</span>` : ""}
+    ${typeof b.maturity === "number" ? `
+      <div class="modal-maturity">
+        <div class="maturity-head"><span>Niveau d'activation</span><span>${esc(b.maturity)}%</span></div>
+        <div class="maturity-bar"><span style="width:0" data-w="${esc(b.maturity)}%"></span></div>
+      </div>` : ""}
+    ${b.next ? `<div class="modal-next">${makeIcon("zap")}<div><span class="mn-label">Prochaine action</span><span class="mn-text">${esc(b.next)}</span></div></div>` : ""}
     <p class="modal-cap">Points clés</p>
     ${highlights}
   `;
 
   document.getElementById("modal-close").addEventListener("click", closeModal);
-  backdrop.classList.add("show");
-  modal.classList.add("show");
+  showModal();
+  requestAnimationFrame(() => {
+    const bar = modal.querySelector(".maturity-bar > span");
+    if (bar) bar.style.width = bar.dataset.w;
+  });
+}
+
+/* -------------------------------------------------- dock apps */
+function openApp(d) {
+  const modal = document.getElementById("modal");
+  const name = d.name, color = d.color, icon = d.icon, app = d.app;
+  modal.style.setProperty("--m-accent", color);
+
+  let body = "";
+  if (app === "notes") {
+    const notes = state.data.notes || [];
+    body = notes.length
+      ? `<div class="note-grid">${notes.map(n => `
+          <div class="note-card"><h4>${esc(n.title)}</h4><p>${esc(n.body)}</p></div>`).join("")}</div>`
+      : `<p class="empty-note">Aucune note pour l'instant.</p>`;
+  } else if (app === "agenda") {
+    const ag = state.data.agenda || [];
+    body = ag.length
+      ? `<ul class="agenda-list">${ag.map(e => `
+          <li><span class="ag-date">${esc(e.date)}</span>
+              <div><span class="ag-label">${esc(e.label)}</span>
+              ${e.tag ? `<span class="ag-tag">${esc(e.tag)}</span>` : ""}</div></li>`).join("")}</ul>`
+      : `<p class="empty-note">Aucune échéance planifiée.</p>`;
+  } else if (app === "branches") {
+    body = `<ul class="hl-list">${state.data.branches.map(b => `
+      <li data-go="${esc(b.id)}" style="cursor:pointer">
+        <span class="hl-dot" style="background:${esc(b.accent)};box-shadow:0 0 9px ${esc(b.accent)}"></span>
+        <span>${esc(b.name)}</span>
+        <span class="ag-tag" style="margin-left:auto">${esc(b.maturity ?? 0)}%</span></li>`).join("")}</ul>`;
+  } else if (app === "weather") {
+    const w = state.data.weather || {};
+    body = `<div class="weather-panel">
+        ${makeIcon("map-pin")}
+        <div><div class="kv-main">${esc(w.city || "—")}</div>
+        <div class="kv-note">${esc(w.note || "")}</div></div></div>
+      <p class="empty-note" style="margin-top:14px">Météo live à brancher plus tard (nécessite une clé API).</p>`;
+  } else if (app === "settings") {
+    body = `<div class="note-grid">
+        <div class="note-card"><h4>Modifier le contenu</h4><p>Tout le texte du dashboard vit dans le fichier <code>data.json</code>. Édite-le et le site se met à jour, sans toucher au design.</p></div>
+        <div class="note-card"><h4>Mise en ligne</h4><p>Le site se déploie tout seul à chaque sauvegarde, via GitHub Pages.</p></div>
+      </div>`;
+  } else {
+    body = `<p class="empty-note">L'application « ${esc(name)} » est décorative pour l'instant — on pourra la rendre vivante plus tard.</p>`;
+  }
+
+  modal.innerHTML = `
+    <button class="modal-close" id="modal-close" aria-label="Fermer">✕</button>
+    <div class="modal-hero">
+      <div class="icon-box modal-icon" style="--accent:${esc(color)}">${makeIcon(icon)}</div>
+      <div><h2 class="modal-title">${esc(name)}</h2></div>
+    </div>
+    ${body}
+  `;
+  document.getElementById("modal-close").addEventListener("click", closeModal);
+  modal.querySelectorAll("[data-go]").forEach(li =>
+    li.addEventListener("click", () => openModal(li.dataset.go)));
+  showModal();
+}
+
+function showModal() {
+  document.getElementById("modal-backdrop").classList.add("show");
+  document.getElementById("modal").classList.add("show");
   document.body.style.overflow = "hidden";
 }
 

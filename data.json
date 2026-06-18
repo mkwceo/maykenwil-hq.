@@ -9,15 +9,19 @@
     "wallpaper": ["#1e1b4b", "#312e81", "#0f766e", "#7e22ce", "#0c0a1d"]
   },
   "dock": [
-    { "name": "Mail", "icon": "mail", "color": "#3b82f6" },
-    { "name": "Calendrier", "icon": "calendar", "color": "#ef4444" },
-    { "name": "Notes", "icon": "file-text", "color": "#f59e0b" },
-    { "name": "Messages", "icon": "message", "color": "#22c55e" },
-    { "name": "Musique", "icon": "music", "color": "#ec4899" },
-    { "name": "Photos", "icon": "image", "color": "#8b5cf6" },
-    { "name": "Météo", "icon": "cloud-sun", "color": "#0ea5e9" },
-    { "name": "Réglages", "icon": "settings", "color": "#64748b" }
+    { "name": "Notes", "icon": "file-text", "color": "#f59e0b", "app": "notes" },
+    { "name": "Agenda", "icon": "calendar", "color": "#ef4444", "app": "agenda" },
+    { "name": "Branches", "icon": "grid", "color": "#8b5cf6", "app": "branches" },
+    { "name": "Mail", "icon": "mail", "color": "#3b82f6", "app": "soon" },
+    { "name": "Messages", "icon": "message", "color": "#22c55e", "app": "soon" },
+    { "name": "Musique", "icon": "music", "color": "#ec4899", "app": "soon" },
+    { "name": "Météo", "icon": "cloud-sun", "color": "#0ea5e9", "app": "weather" },
+    { "name": "Réglages", "icon": "settings", "color": "#64748b", "app": "settings" }
   ],
+  "weather": {
+    "city": "Marseille",
+    "note": "Ville de bascule (août 2026)"
+  },
   "overview": {
     "score": 61,
     "scoreMax": 100,
@@ -36,6 +40,17 @@
       "Risque de « meta-work » : construire de l'infra avant d'avoir des inputs réels"
     ]
   },
+  "notes": [
+    { "title": "Vision", "body": "Holding familial pensé sur 40 ans, 100 % éthique halal. La structure sert la famille avant le profit court terme." },
+    { "title": "Modèle d'amorçage", "body": "Chaque membre ouvre d'abord sa propre structure (SASU / micro-entreprise). La holding parent ne vient qu'après 12–18 mois, une fois des revenus réels prouvés." },
+    { "title": "Règle anti-dispersion", "body": "Maximum 2 priorités opérationnelles actives en même temps. On finit avant d'ouvrir." },
+    { "title": "Risque principal", "body": "Le « meta-work » : éviter de construire de l'infrastructure (outils, branding, dashboards) avant d'avoir de vrais inputs et de vrais clients." }
+  ],
+  "agenda": [
+    { "date": "T3 2026", "label": "Ouverture de la première structure (SASU / micro-entreprise)", "tag": "Holding" },
+    { "date": "Août 2026", "label": "Bascule en exécution réelle — retour à Marseille", "tag": "Holding" },
+    { "date": "+12–18 mois", "label": "Création de la holding parent une fois les revenus prouvés", "tag": "Holding" }
+  ],
   "branches": [
     {
       "id": "sport",
@@ -45,6 +60,8 @@
       "tagline": "MKW — More Than Kings Win",
       "summary": "Agence de représentation de joueurs.",
       "status": "Branche la plus crédible",
+      "maturity": 70,
+      "next": "Finaliser une première shortlist de joueurs sous-évalués (Bruges / Genk).",
       "highlights": [
         "Scouting de joueurs 18–23 ans",
         "Cible : profils sous-évalués",
@@ -58,6 +75,8 @@
       "icon": "ticket",
       "summary": "Branche événementiel.",
       "status": "À activer",
+      "maturity": 25,
+      "next": "Reprendre contact avec l'institutionnel à Marseille.",
       "highlights": [
         "Contact institutionnel à Marseille"
       ]
@@ -69,6 +88,8 @@
       "icon": "truck",
       "summary": "Branche transport.",
       "status": "Lead identifié",
+      "maturity": 35,
+      "next": "Cadrer le projet avec le père (permis PL).",
       "highlights": [
         "Lead potentiel : le père (permis PL)"
       ]
@@ -80,6 +101,8 @@
       "icon": "sparkles",
       "summary": "Branche esthétique.",
       "status": "Lead identifié",
+      "maturity": 35,
+      "next": "Définir l'offre avec la sœur (salon indépendant).",
       "highlights": [
         "Lead potentielle : la sœur (salon indépendant)"
       ]
@@ -91,6 +114,8 @@
       "icon": "gem",
       "summary": "Branche finance / investissement, 100 % halal.",
       "status": "100 % halal",
+      "maturity": 30,
+      "next": "Choisir le 1er instrument halal à structurer (Mourabaha).",
       "highlights": [
         "Zéro riba (aucun intérêt)",
         "Mourabaha",
@@ -105,6 +130,8 @@
       "icon": "compass",
       "summary": "Branche développement.",
       "status": "Branche développement",
+      "maturity": 15,
+      "next": "Préciser le périmètre exact de la branche développement.",
       "highlights": []
     }
   ]

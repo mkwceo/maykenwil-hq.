@@ -197,7 +197,7 @@
           <div class="slo">« More Than Kings Win »</div>
           <p>Agence d'agents FIFA. Cible : joueurs 18-23 ans sous-évalués (Afrique, Amérique du Sud, Asie, réserves européennes). Examen FFF — mai 2027.</p>
           <div class="hero-btns">
-            <button class="btn btn-w"><svg class="ic ic-sm" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg> Ouvrir la branche</button>
+            <button class="btn btn-w" onclick="openBranch('sport')"><svg class="ic ic-sm" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg> Ouvrir la branche</button>
             <button class="btn btn-o"><svg class="ic ic-sm" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><line x1="8" y1="9" x2="16" y2="9"/><line x1="8" y1="13" x2="16" y2="13"/></svg> Plan d'action</button>
             <button class="btn-r"><svg class="ic ic-sm" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.5" class="play"/><circle cx="12" cy="12" r="1.5" class="play"/><circle cx="19" cy="12" r="1.5" class="play"/></svg></button>
           </div>
@@ -207,15 +207,78 @@
         <div class="might">
           <div class="might-h"><b>Les branches</b><span class="see">Voir tout</span></div>
           <div class="grid4">
-            <div class="br" style="background:linear-gradient(160deg,#7a4a1a,#FF9B4D)"><span class="pct">45%</span><span class="g">Actif</span><div class="mt">Jadeliane Events</div><div class="md">Événementiel PACA · réseau institutionnel.</div><div class="barr"><i style="width:45%"></i></div></div>
-            <div class="br" style="background:linear-gradient(160deg,#4a3a6b,#A78BFA)"><span class="pct">18%</span><span class="g">Planif</span><div class="mt">North Vision Dev</div><div class="md">Impact social · développement terrain.</div><div class="barr"><i style="width:18%"></i></div></div>
-            <div class="br" style="background:linear-gradient(160deg,#5a6b1a,#9fc40f)"><span class="pct">12%</span><span class="g">Halal</span><div class="mt">Capital</div><div class="md">Finance 100% halal · zéro riba.</div><div class="barr"><i style="width:12%"></i></div></div>
-            <div class="br" style="background:linear-gradient(160deg,#7a2a48,#FF4D88)"><span class="pct">0%</span><span class="g">Phase 2</span><div class="mt">Beauté</div><div class="md">Franchise esthétique · à initier.</div><div class="barr"><i style="width:3%"></i></div></div>
+            <div class="br" onclick="openBranch('events')" style="background:linear-gradient(160deg,#7a4a1a,#FF9B4D)"><span class="pct">45%</span><span class="g">Actif</span><div class="mt">Jadeliane Events</div><div class="md">Événementiel PACA · réseau institutionnel.</div><div class="barr"><i style="width:45%"></i></div></div>
+            <div class="br" onclick="openBranch('northvision')" style="background:linear-gradient(160deg,#4a3a6b,#A78BFA)"><span class="pct">18%</span><span class="g">Planif</span><div class="mt">North Vision Dev</div><div class="md">Impact social · développement terrain.</div><div class="barr"><i style="width:18%"></i></div></div>
+            <div class="br" onclick="openBranch('capital')" style="background:linear-gradient(160deg,#5a6b1a,#9fc40f)"><span class="pct">12%</span><span class="g">Halal</span><div class="mt">Capital</div><div class="md">Finance 100% halal · zéro riba.</div><div class="barr"><i style="width:12%"></i></div></div>
+            <div class="br" onclick="openBranch('beaute')" style="background:linear-gradient(160deg,#7a2a48,#FF4D88)"><span class="pct">0%</span><span class="g">Phase 2</span><div class="mt">Beauté</div><div class="md">Franchise esthétique · à initier.</div><div class="barr"><i style="width:3%"></i></div></div>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<style>
+  .ov{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(40,30,20,.4);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);}
+  .ov.open{display:flex;animation:ovin .25s ease;}
+  @keyframes ovin{from{opacity:0}to{opacity:1}}
+  .ovc{width:min(560px,100%);max-height:86vh;overflow-y:auto;position:relative;border-radius:24px;padding:0;
+    background:rgba(248,244,238,.9);backdrop-filter:blur(46px) saturate(1.5);-webkit-backdrop-filter:blur(46px) saturate(1.5);
+    border:1px solid var(--glass-line);box-shadow:var(--shadow);animation:ovup .35s cubic-bezier(.22,1,.36,1);}
+  @keyframes ovup{from{transform:translateY(20px)}to{transform:none}}
+  .ovh{height:120px;border-radius:24px 24px 0 0;position:relative;display:flex;align-items:flex-end;padding:18px 22px;color:#fff;}
+  .ovh::after{content:"";position:absolute;inset:0;border-radius:24px 24px 0 0;background:linear-gradient(180deg,transparent,rgba(0,0,0,.35));}
+  .ovh .ph{position:relative;z-index:2;font-size:11px;font-weight:600;background:rgba(0,0,0,.3);padding:4px 11px;border-radius:999px;}
+  .ovx{position:absolute;top:14px;right:14px;z-index:3;width:32px;height:32px;border-radius:50%;border:0;background:rgba(255,255,255,.25);color:#fff;backdrop-filter:blur(6px);font-size:15px;cursor:pointer;}
+  .ovb{padding:20px 24px 26px;}
+  .ovb h2{font-size:24px;font-weight:700;letter-spacing:-.4px;}
+  .ovb .ag{font-size:12.5px;color:var(--ink-faint);margin-top:2px;}
+  .ovb .slo{font-style:italic;font-size:13px;margin-top:10px;}
+  .ovrail{height:7px;border-radius:4px;background:rgba(0,0,0,.08);overflow:hidden;margin:18px 0 6px;}
+  .ovrail i{display:block;height:100%;border-radius:4px;}
+  .ovpct{display:flex;justify-content:space-between;font-size:11px;color:var(--ink-faint);font-weight:600;}
+  .ovkv{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0;}
+  .ovkv .c{grid-column:1/-1;}
+  .ovcell{background:rgba(255,255,255,.5);border:1px solid var(--glass-line);border-radius:13px;padding:11px 13px;}
+  .ovcell .k{font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);}
+  .ovcell .v{font-size:13px;margin-top:4px;}
+  .ovnotes{font-size:13.5px;color:var(--ink-soft);line-height:1.6;}
+</style>
+<div class="ov" id="ov" onclick="if(event.target===this)closeBranch()">
+  <div class="ovc" id="ovc"></div>
+</div>
+<script>
+  const BRANCHES = {
+    sport:{name:"MKW Sport — North Vision 15",agency:"North Vision 15 (NV15) · Agence FIFA",phase:"Phase 1 — Scouting",status:"Active",progress:28,color:"#16a87f",lead:"Samy Zertit (fondateur silencieux)",milestone:"Examen FFF — Mai 2027",slogan:"« More Than Kings Win »",notes:"Agents sous contrat permanent, joueurs contractés à Maykenwil Sport (jamais à un agent individuel). Cible : 18-23 ans sans agent — Afrique, Amérique du Sud, Asie, réserves clubs européens (Bruges, Midtjylland, Braga, Genk)."},
+    events:{name:"Jadeliane Events",agency:"Événementiel · PACA",phase:"Actif",status:"Active",progress:45,color:"#FF9B4D",lead:"Collaboration — ami avec connexions institutionnelles",milestone:"Premier événement institutionnel à Marseille",slogan:"",notes:"Connexions événementielles institutionnelles via une collaboration de confiance."},
+    northvision:{name:"North Vision Development",agency:"NV15 (terrain)",phase:"Phase 0 — Préparation terrain",status:"Planification",progress:18,color:"#A78BFA",lead:"Samy Zertit",milestone:"Travail terrain NV15",slogan:"",notes:"Développement immobilier / infrastructure sportive à long terme, lié à la trajectoire Sport (agent → DS → acquisition OM)."},
+    capital:{name:"Capital",agency:"Finance 100 % halal",phase:"Phase 0 — Conception",status:"Planification",progress:12,color:"#9fc40f",lead:"Samy Zertit",milestone:"Structure Mourabaha / Musharaka / Sukuk",slogan:"« Halal-only financing »",notes:"Zéro riba. Financement islamique des autres branches une fois opérationnelles. Structure SASU / micro-entreprise individuelle avant la holding parent (12-18 mois de décalage)."},
+    beaute:{name:"Beauté",agency:"Franchise esthétique",phase:"Phase 0 — Non initiée",status:"Dormant",progress:0,color:"#FF4D88",lead:"À assigner — membre de la famille",milestone:"Structuration initiale",slogan:"",notes:"Branche en attente de Phase 1. Aucune activité réelle pour l'instant."}
+  };
+  function openBranch(id){
+    const b = BRANCHES[id]; if(!b) return;
+    document.getElementById("ovc").innerHTML =
+      '<div class="ovh" style="background:linear-gradient(135deg,'+b.color+'88,'+b.color+')">'+
+        '<button class="ovx" onclick="closeBranch()">✕</button>'+
+        '<span class="ph">'+b.phase+'</span></div>'+
+      '<div class="ovb">'+
+        '<h2>'+b.name+'</h2><div class="ag">'+b.agency+'</div>'+
+        (b.slogan?'<div class="slo" style="color:'+b.color+'">'+b.slogan+'</div>':'')+
+        '<div class="ovrail"><i style="width:'+b.progress+'%;background:'+b.color+'"></i></div>'+
+        '<div class="ovpct"><span>AVANCEMENT</span><span>'+b.progress+'%</span></div>'+
+        '<div class="ovkv">'+
+          '<div class="ovcell"><div class="k">Statut</div><div class="v">'+b.status+'</div></div>'+
+          '<div class="ovcell"><div class="k">Avancement</div><div class="v">'+b.progress+'%</div></div>'+
+          '<div class="ovcell c"><div class="k">Responsable</div><div class="v">'+b.lead+'</div></div>'+
+          '<div class="ovcell c"><div class="k">Jalon clé</div><div class="v">'+b.milestone+'</div></div>'+
+        '</div>'+
+        '<p class="ovnotes">'+b.notes+'</p>'+
+      '</div>';
+    document.getElementById("ov").classList.add("open");
+    document.body.style.overflow="hidden";
+  }
+  function closeBranch(){ document.getElementById("ov").classList.remove("open"); document.body.style.overflow=""; }
+  document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeBranch(); });
+</script>
 </body>
 </html>

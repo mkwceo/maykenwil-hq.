@@ -3,104 +3,113 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>MAYKENWIL OS — Command Deck</title>
+<title>MAYKENWIL OS — Globe</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
 <link rel="manifest" href="manifest.webmanifest">
-<meta name="theme-color" content="#04060a">
+<meta name="theme-color" content="#070B10">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Maykenwil OS">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="icon" type="image/png" href="icon-192.png">
+<style>
+  :root{
+    --void:#070b10; --bone:#e8ece6; --gold:#c2a24e; --jade:#2e9e78;
+    --dim:rgba(232,236,230,.52); --faint:rgba(232,236,230,.3); --line:rgba(232,236,230,.1);
+    --mono:"Space Mono",monospace; --disp:"Space Grotesk",sans-serif;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html,body{height:100%;overflow:hidden;background:var(--void);color:var(--bone);font-family:var(--disp);}
+  #scene{position:fixed;inset:0;z-index:0;touch-action:none;}
+  .vignette{position:fixed;inset:0;z-index:1;pointer-events:none;
+    background:radial-gradient(120% 90% at 50% 42%,transparent 40%,rgba(3,5,8,.85) 100%);}
+
+  /* HUD */
+  .hud{position:fixed;inset:0;z-index:2;pointer-events:none;}
+  .hud > *{pointer-events:auto;}
+  .topbar{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;
+    gap:14px;flex-wrap:wrap;padding:16px clamp(14px,3vw,28px);}
+  .brand{display:flex;align-items:center;gap:12px;}
+  .mk{width:34px;height:34px;display:grid;place-items:center;font-family:var(--mono);font-weight:700;font-size:11px;
+    color:#070b10;background:linear-gradient(135deg,var(--gold),#7d6422);
+    clip-path:polygon(0 0,100% 0,100% 68%,68% 100%,0 100%);}
+  .brand b{font-size:13px;letter-spacing:.18em;font-weight:700;display:block;}
+  .brand span{font-size:10px;color:var(--faint);font-family:var(--mono);letter-spacing:.12em;}
+  .sys{display:flex;gap:16px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:.05em;}
+  .sys .v{color:var(--gold);font-weight:700;}
+  .sys .led{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--jade);box-shadow:0 0 8px var(--jade);margin-right:5px;animation:blink 2.4s infinite;}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
+
+  .title{position:absolute;left:50%;top:clamp(70px,12vh,110px);transform:translateX(-50%);text-align:center;}
+  .title h1{font-size:clamp(13px,2vw,16px);letter-spacing:.4em;font-weight:600;color:var(--dim);text-transform:uppercase;}
+  .title p{font-family:var(--mono);font-size:10px;color:var(--faint);letter-spacing:.2em;margin-top:6px;}
+
+  .hint{position:absolute;left:50%;bottom:20px;transform:translateX(-50%);font-family:var(--mono);
+    font-size:10px;color:var(--faint);letter-spacing:.12em;text-align:center;}
+  .pause{position:absolute;bottom:18px;right:18px;width:34px;height:34px;border:1px solid var(--line);
+    background:rgba(255,255,255,.03);color:var(--dim);cursor:pointer;font-size:12px;}
+  .pause:hover{color:var(--bone);border-color:var(--gold);}
+
+  /* labels projetés */
+  #labels{position:fixed;inset:0;z-index:2;pointer-events:none;}
+  .lbl{position:absolute;transform:translate(-50%,-160%);font-family:var(--mono);font-size:10px;
+    letter-spacing:.08em;white-space:nowrap;color:var(--bone);text-shadow:0 0 8px rgba(0,0,0,.9);transition:opacity .3s;}
+  .lbl i{display:inline-block;width:5px;height:5px;border-radius:50%;margin-right:6px;vertical-align:middle;}
+  .lbl small{color:var(--faint);}
+
+  /* panneau drill-down */
+  .panel{position:absolute;top:0;right:0;height:100%;width:min(380px,86vw);
+    background:linear-gradient(200deg,rgba(10,14,20,.96),rgba(7,11,16,.92));
+    border-left:1px solid var(--c,var(--line));backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    padding:74px 26px 26px;transform:translateX(102%);transition:transform .5s cubic-bezier(.22,1,.36,1);
+    box-shadow:-30px 0 80px rgba(0,0,0,.5);overflow-y:auto;}
+  .panel.open{transform:none;}
+  .panel .x{position:absolute;top:20px;right:20px;width:30px;height:30px;border:1px solid var(--line);
+    background:transparent;color:var(--dim);cursor:pointer;font-size:14px;}
+  .panel .x:hover{color:var(--bone);border-color:var(--c);}
+  .p-tag{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--c);}
+  .p-name{font-size:26px;font-weight:700;margin:6px 0 2px;}
+  .p-agency{font-family:var(--mono);font-size:11px;color:var(--dim);}
+  .p-slogan{font-style:italic;color:color-mix(in srgb,var(--c) 75%,white);font-size:13px;margin-top:12px;}
+  .p-rail{height:6px;background:rgba(255,255,255,.08);margin:18px 0 6px;overflow:hidden;}
+  .p-rail i{display:block;height:100%;background:linear-gradient(90deg,color-mix(in srgb,var(--c) 50%,transparent),var(--c));box-shadow:0 0 12px var(--c);width:0;transition:width 1s ease .2s;}
+  .p-prog{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;color:var(--faint);}
+  .p-prog b{color:var(--bone);font-weight:400;}
+  .p-kv{margin:18px 0;display:flex;flex-direction:column;gap:12px;}
+  .p-kv div{display:flex;flex-direction:column;gap:4px;border-bottom:1px dashed var(--line);padding-bottom:11px;}
+  .p-kv .k{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);}
+  .p-kv .val{font-size:13px;}
+  .p-notes{font-size:13px;color:var(--dim);line-height:1.65;}
+
+  @media(max-width:560px){ .sys{display:none;} .title{top:64px;} }
+</style>
 </head>
 <body>
-<div class="bg"></div><div class="bg-grid"></div><div class="bg-scan"></div>
+<canvas id="scene"></canvas>
+<div class="vignette"></div>
+<div id="labels"></div>
 
-<div class="deck">
-
-  <!-- STATUS BAR -->
-  <header class="statusbar boot">
+<div class="hud">
+  <header class="topbar">
     <div class="brand">
-      <div class="brand-mark">MKW</div>
-      <div>
-        <b data-decrypt id="os-name">MAYKENWIL OS</b>
-        <span id="founder">— · —</span>
-      </div>
+      <div class="mk">MKW</div>
+      <div><b>MAYKENWIL&nbsp;OS</b><span id="founder">—</span></div>
     </div>
-    <div class="sysline" id="sysline"></div>
-    <div class="clock"><span id="clock">--:--:--</span><small id="date">—</small></div>
+    <div class="sys" id="sys"></div>
   </header>
 
-  <div class="grid">
-
-    <!-- LEFT -->
-    <div class="col">
-      <section class="hud mission boot">
-        <div class="hud-label">Compte à rebours · Lancement</div>
-        <div class="cd" id="countdown">
-          <div class="cd-unit"><div class="cd-num" id="cd-d">--</div><div class="cd-lab">Jours</div></div>
-          <div class="cd-unit"><div class="cd-num" id="cd-h">--</div><div class="cd-lab">Heures</div></div>
-          <div class="cd-unit"><div class="cd-num" id="cd-m">--</div><div class="cd-lab">Min</div></div>
-          <div class="cd-unit"><div class="cd-num" id="cd-s">--</div><div class="cd-lab">Sec</div></div>
-        </div>
-        <div class="target" id="launch-target">—</div>
-      </section>
-
-      <section class="hud boot">
-        <div class="hud-label">Décision · GO / NO-GO</div>
-        <div class="gauge-wrap">
-          <div class="gauge">
-            <svg width="108" height="108" viewBox="0 0 108 108">
-              <circle class="trk" cx="54" cy="54" r="48"></circle>
-              <circle class="fil" cx="54" cy="54" r="48" id="gfill"></circle>
-            </svg>
-            <div class="gauge-c"><b id="gscore">0</b><span>/ 100</span></div>
-          </div>
-          <div class="verdict" id="verdict">—<small id="verdict-note"></small></div>
-        </div>
-      </section>
-
-      <section class="hud boot">
-        <div class="hud-label">Système</div>
-        <div class="kv" id="kv"></div>
-      </section>
-    </div>
-
-    <!-- CENTER -->
-    <div class="col col-center">
-      <section class="hud boot">
-        <div class="hud-label">Branches · <span id="bcount">0</span> unités</div>
-        <div class="branches" id="branches"></div>
-      </section>
-    </div>
-
-    <!-- RIGHT -->
-    <div class="col">
-      <section class="hud brain boot">
-        <div class="hud-label">Second cerveau</div>
-        <div class="cmd">
-          <span class="led"></span>
-          <input id="cmd" type="text" placeholder="Commande tes agents…">
-          <button id="cmd-send" title="Ouvrir Claude" aria-label="Envoyer">➤</button>
-        </div>
-        <div class="hint">↵ ENTRÉE → ouvre Claude · ton cerveau opérationnel</div>
-      </section>
-
-      <section class="hud boot">
-        <div class="hud-label">Stack · Apps</div>
-        <div class="apps" id="apps"></div>
-      </section>
-    </div>
+  <div class="title">
+    <h1>Réseau des 6 branches</h1>
+    <p id="subtitle">INITIALISATION…</p>
   </div>
+
+  <div class="hint">Clique un nœud · glisse pour faire tourner</div>
+  <button class="pause" id="pause" title="Pause rotation">⏸</button>
+
+  <aside class="panel" id="panel"></aside>
 </div>
 
-<!-- OVERLAY DÉTAIL BRANCHE -->
-<div class="ov" id="ov"><div class="ov-box" id="ov-box"></div></div>
-
-<script src="app.js" defer></script>
+<script type="module" src="globe.js"></script>
+<script>if("serviceWorker" in navigator){addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));}</script>
 </body>
 </html>

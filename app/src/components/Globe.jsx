@@ -78,19 +78,24 @@ function Scene({ branches, selected, onSelect, paused }) {
           const dim = selected && selected !== b.id
           return (
             <group key={b.id} position={[p.x,p.y,p.z]}>
+              {/* zone de clic invisible (large, facile à viser) */}
               <mesh
                 onClick={(e)=>{ e.stopPropagation(); onSelect(b.id) }}
                 onPointerOver={()=>document.body.style.cursor='pointer'}
                 onPointerOut={()=>document.body.style.cursor='default'}>
+                <sphereGeometry args={[Math.max(size*2.6, 0.17),14,14]} />
+                <meshBasicMaterial transparent opacity={0} depthWrite={false} />
+              </mesh>
+              <mesh raycast={()=>null}>
                 <sphereGeometry args={[size,18,18]} />
                 <meshBasicMaterial color={dormant ? new THREE.Color(b.color).multiplyScalar(0.5) : b.color} />
               </mesh>
-              <sprite scale={[hs,hs,1]}>
+              <sprite scale={[hs,hs,1]} raycast={()=>null}>
                 <spriteMaterial map={glow} color={b.color} transparent depthWrite={false}
                   blending={THREE.AdditiveBlending} opacity={dormant?0.25:(dim?0.4:0.85)} />
               </sprite>
-              <Html center distanceFactor={8} zIndexRange={[10,0]}>
-                <div className="lbl" style={{ opacity: dim ? 0.3 : 1 }}>
+              <Html center distanceFactor={8} zIndexRange={[10,0]} style={{ pointerEvents: 'none' }}>
+                <div className="lbl" style={{ opacity: dim ? 0.3 : 1, pointerEvents: 'none' }}>
                   <i style={{ background:b.color, boxShadow:`0 0 8px ${b.color}` }} />{b.name} <small>{b.progress}%</small>
                 </div>
               </Html>

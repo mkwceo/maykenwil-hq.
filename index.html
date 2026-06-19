@@ -335,6 +335,42 @@
     });
   }
 </script>
+<style>
+/* === Polish — méthode UI Designer (hiérarchie, micro-interactions, a11y) + Whimsy (délice) === */
+@media (prefers-reduced-motion: no-preference){
+  @keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+  .card,.hero,.br,.might-h{animation:up .6s cubic-bezier(.22,1,.36,1) both}
+  .hero{animation-delay:.04s}
+  .col-left .card:nth-child(1){animation-delay:.12s}.col-left .card:nth-child(2){animation-delay:.2s}
+  .might .br:nth-child(1){animation-delay:.14s}.might .br:nth-child(2){animation-delay:.2s}
+  .might .br:nth-child(3){animation-delay:.26s}.might .br:nth-child(4){animation-delay:.32s}
+}
+.br,.trailer{transition:transform .28s cubic-bezier(.22,1,.36,1),box-shadow .28s}
+.br:hover{transform:translateY(-5px);box-shadow:0 20px 44px rgba(40,30,20,.30)}
+.trailer:hover{transform:translateY(-2px)}
+.tab,.see,.rdot,.lockb,.bell,.profile{transition:transform .15s ease,background .22s ease,color .22s ease,border-color .22s ease}
+.tab:hover:not(.active){background:rgba(255,255,255,.34);color:var(--ink)}
+.see:hover{background:rgba(255,255,255,.72)}
+.rdot:hover{transform:translateX(2px)}
+.profile:hover{background:rgba(255,255,255,.62)}
+.btn,.btn-r,.tplay,.mplay,.cw-play{transition:transform .16s ease,box-shadow .2s ease,filter .2s ease}
+.btn:hover{transform:translateY(-1px)}
+.btn:active,.btn-r:active,.lockb:active{transform:scale(.95)}
+.btn-r:hover{background:rgba(255,255,255,.26)}
+.tplay:hover,.cw-play:hover{transform:scale(1.14)}
+.br:hover .mplay{transform:scale(1.14)}
+.cw-row{transition:background .2s ease;border-radius:11px;padding-left:6px;padding-right:6px;margin:0 -6px}
+.cw-row:hover{background:rgba(255,255,255,.4)}
+.br .barr i{transition:width 1.1s cubic-bezier(.22,1,.36,1)}
+/* whimsy : pastille « live » qui respire + halo branche phare */
+.bell::after{animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(70,196,106,.5)}50%{box-shadow:0 0 0 5px rgba(70,196,106,0)}}
+.hero{position:relative}
+.badge{animation:up .7s .15s both}
+/* accessibilité : focus visible cohérent */
+a:focus-visible,button:focus-visible,.tab:focus-visible,.rdot:focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:10px}
+@media (prefers-reduced-motion: reduce){*{animation:none!important}}
+</style>
 <script>
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('sw.js');

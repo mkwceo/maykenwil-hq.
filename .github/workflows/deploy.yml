@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - claude/behance-project-review-dfnm4k
   workflow_dispatch:
 
 permissions:

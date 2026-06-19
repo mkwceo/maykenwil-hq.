@@ -153,6 +153,7 @@
         <span class="tab">Plus</span>
       </div>
       <span class="spacer"></span>
+      <button class="lockb" id="lockbtn" onclick="toggleLock()" title="Mode privé">🔒</button>
       <span class="bell"><svg class="ic" viewBox="0 0 24 24"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 01-3.4 0"/></svg></span>
       <div class="profile"><span class="avatar">SZ</span><span><span class="nm">Samy Zertit</span><span class="at">@maykenwil · Fondateur</span></span>
         <svg class="ic ic-sm" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
@@ -255,6 +256,9 @@
   .agrow .pin{width:11px;height:11px;border-radius:50%;flex-shrink:0;margin-top:3px;border:2px solid rgba(255,255,255,.7);box-shadow:0 0 0 3px rgba(255,255,255,.4);}
   .agrow .ttl{font-size:13.5px;color:var(--ink);line-height:1.35;}
   .agnote{padding:0 24px 22px;font-size:11px;color:var(--ink-faint);}
+  .lockb{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.4);border:1px solid var(--glass-line);font-size:15px;cursor:pointer;}
+  body.priv .lockb{background:rgba(46,158,120,.28);border-color:rgba(46,158,120,.55);}
+  body.priv .app{box-shadow:var(--shadow),0 0 0 1.5px rgba(46,158,120,.4);}
 </style>
 <div class="ov" id="ov" onclick="if(event.target===this)closeBranch()">
   <div class="ovc" id="ovc"></div>
@@ -293,27 +297,42 @@
   document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeBranch(); });
 
   const AG_COLORS = { prayer:"#2E9E78", work:"#4DA6FF", learn:"#9fc40f", meal:"#FF9B4D", health:"#FF4D88", rest:"#A78BFA" };
+  const X = '<button class="ovx" style="position:static;background:rgba(0,0,0,.06);color:var(--ink-soft)" onclick="closeBranch()">✕</button>';
+  let __priv = false;
+  function updateLock(){ document.body.classList.toggle("priv",__priv); var b=document.getElementById("lockbtn"); if(b) b.textContent=__priv?"🔓":"🔒"; }
+  function toggleLock(){
+    if(__priv){ __priv=false; updateLock(); return; }
+    var pin=localStorage.getItem("mkwPin");
+    if(!pin){ var np=prompt("Crée ton code privé (4+ caractères) — il restera sur cet appareil :"); if(!np||np.length<4) return; localStorage.setItem("mkwPin",np); __priv=true; alert("Mode privé activé. Tes données privées restent sur cet appareil uniquement, jamais publiées."); }
+    else { var t=prompt("Code privé :"); if(t!==pin){ alert("Code incorrect."); return; } __priv=true; }
+    updateLock();
+  }
+  function importAgenda(){
+    var s=prompt("Colle le JSON de ton agenda (fourni par Claude) :"); if(!s) return;
+    try{ JSON.parse(s); localStorage.setItem("mkwCal",s); alert("Agenda importé — privé, sur cet appareil."); openAgenda(); }
+    catch(e){ alert("JSON invalide."); }
+  }
+  function renderAgenda(d){
+    var rows=(d.events||[]).map(function(e){return '<div class="agrow"><span class="tm">'+e.t+'</span><span class="pin" style="background:'+(AG_COLORS[e.type]||"#5c6b79")+'"></span><span class="ttl">'+e.title+'</span></div>';}).join("");
+    document.getElementById("ovc").innerHTML =
+      '<div class="agh"><div><h2>Agenda — '+(d.day||"Aujourd’hui")+'</h2><div class="sub">Privé · sur cet appareil</div></div>'+X+'</div>'+
+      '<div class="agl">'+rows+'</div>'+
+      '<div class="agnote">🔒 Données privées, stockées sur ton appareil uniquement — jamais publiées.</div>';
+  }
   function openAgenda(){
-    const ovc = document.getElementById("ovc");
-    ovc.innerHTML = '<div class="agh"><div><h2>Agenda · chargement…</h2></div><button class="ovx" style="position:static;background:rgba(0,0,0,.06);color:var(--ink-soft)" onclick="closeBranch()">✕</button></div>';
     document.getElementById("ov").classList.add("open"); document.body.style.overflow="hidden";
-    fetch("data/calendar.json",{cache:"no-store"})
-      .then(r=>{ if(!r.ok) throw 0; return r.json(); })
-      .then(d=>{
-        const rows = (d.events||[]).map(e=>
-          '<div class="agrow"><span class="tm">'+e.t+'</span><span class="pin" style="background:'+(AG_COLORS[e.type]||"#5c6b79")+'"></span><span class="ttl">'+e.title+'</span></div>').join("");
-        ovc.innerHTML =
-          '<div class="agh"><div><h2>Agenda — '+(d.day||"Aujourd'hui")+'</h2><div class="sub">Google Agenda · synchronisé en privé</div></div>'+
-          '<button class="ovx" style="position:static;background:rgba(0,0,0,.06);color:var(--ink-soft)" onclick="closeBranch()">✕</button></div>'+
-          '<div class="agl">'+rows+'</div>'+
-          '<div class="agnote">🔒 Agenda chargé localement (privé). Non publié sur le site public.</div>';
-      })
-      .catch(()=>{
-        ovc.innerHTML =
-          '<div class="agh"><div><h2>Agenda non connecté</h2><div class="sub">Données privées</div></div>'+
-          '<button class="ovx" style="position:static;background:rgba(0,0,0,.06);color:var(--ink-soft)" onclick="closeBranch()">✕</button></div>'+
-          '<div class="agnote">Ton agenda reste privé : non publié sur le site public. Pour l’afficher en ligne, on bascule le repo en privé.</div>';
-      });
+    var ovc=document.getElementById("ovc");
+    if(!__priv){
+      ovc.innerHTML='<div class="agh"><div><h2>🔒 Agenda privé</h2><div class="sub">Mode privé requis</div></div>'+X+'</div>'+
+        '<div class="agnote">Active le <b>Mode privé</b> (cadenas en haut à droite) pour afficher ton agenda. Tes données restent sur ton appareil, jamais sur le site public.</div>';
+      return;
+    }
+    var local=localStorage.getItem("mkwCal");
+    if(local){ try{ renderAgenda(JSON.parse(local)); return; }catch(e){} }
+    fetch("data/calendar.json",{cache:"no-store"}).then(function(r){ if(!r.ok) throw 0; return r.json(); }).then(renderAgenda).catch(function(){
+      document.getElementById("ovc").innerHTML='<div class="agh"><div><h2>Agenda — vide</h2><div class="sub">Aucune donnée importée</div></div>'+X+'</div>'+
+        '<div class="agnote">Importe ton agenda (reste privé sur cet appareil) : <button onclick="importAgenda()" style="border:0;background:#2E9E78;color:#fff;padding:7px 13px;border-radius:9px;cursor:pointer;font-weight:600">Importer mon agenda</button></div>';
+    });
   }
 </script>
 </body>

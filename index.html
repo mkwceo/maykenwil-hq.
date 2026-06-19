@@ -1,44 +1,242 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Maykenwil HQ</title>
-  <meta name="description" content="Dashboard de pilotage — Maykenwil Holding" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Maykenwil OS — Agence IA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#06060b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Maykenwil OS">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  :root{
+    --bg:#06060b; --text:rgba(255,255,255,.92); --soft:rgba(255,255,255,.5); --faint:rgba(255,255,255,.28);
+    --glass:rgba(255,255,255,.045); --border:rgba(255,255,255,.09);
+    --gold:#c9a84c; --c:#c9a84c;
+    --ease:cubic-bezier(.22,1,.36,1); --spring:cubic-bezier(.34,1.56,.64,1);
+  }
+  html,body{min-height:100%;}
+  body{
+    background:var(--bg); color:var(--text); font-family:"Space Grotesk",sans-serif;
+    -webkit-font-smoothing:antialiased; min-height:100vh; overflow-x:hidden; position:relative;
+  }
+  /* ambient glow that follows the selected agent color */
+  .ambient{position:fixed;inset:0;z-index:-1;pointer-events:none;transition:background .8s var(--ease);
+    background:
+      radial-gradient(60% 50% at 50% 18%, color-mix(in srgb,var(--c) 16%,transparent), transparent 70%),
+      radial-gradient(50% 40% at 50% 95%, color-mix(in srgb,var(--c) 10%,transparent), transparent 70%);}
+  .grid-bg{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.5;
+    background-image:radial-gradient(rgba(255,255,255,.06) 1px,transparent 1.4px);background-size:26px 26px;
+    -webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 45%,#000 20%,transparent 80%);
+            mask-image:radial-gradient(ellipse 70% 60% at 50% 45%,#000 20%,transparent 80%);}
+
+  .wrap{max-width:1100px;margin:0 auto;padding:clamp(16px,3vw,26px) clamp(14px,4vw,30px) 130px;
+    display:flex;flex-direction:column;min-height:100vh;}
+
+  /* topbar */
+  .top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+  .brand{display:flex;align-items:center;gap:11px;}
+  .brand-mark{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font-weight:700;
+    font-family:"Space Mono",monospace;font-size:12px;color:#06060b;background:linear-gradient(135deg,#e3c45f,#8b6914);}
+  .brand b{font-size:15px;font-weight:700;letter-spacing:.02em;display:block;}
+  .brand span{font-size:11px;color:var(--faint);font-family:"Space Mono",monospace;letter-spacing:.04em;}
+  .top-links{display:flex;gap:8px;flex-wrap:wrap;}
+  .top-links a{font-size:12px;color:var(--soft);text-decoration:none;padding:7px 13px;border-radius:999px;
+    border:1px solid var(--border);background:var(--glass);transition:.2s var(--ease);white-space:nowrap;}
+  .top-links a:hover{color:#fff;border-color:color-mix(in srgb,var(--c) 50%,transparent);}
+
+  /* agents strip */
+  .strip-cap{margin:30px 0 4px;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);
+    font-family:"Space Mono",monospace;text-align:center;}
+  .strip{display:flex;align-items:center;justify-content:flex-start;gap:clamp(14px,3vw,30px);overflow-x:auto;
+    padding:18px 6px;scrollbar-width:none;scroll-snap-type:x mandatory;
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);
+            mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);}
+  .strip::-webkit-scrollbar{display:none;}
+  .agent{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:9px;cursor:pointer;
+    scroll-snap-align:center;opacity:.5;transition:opacity .35s var(--ease),transform .45s var(--spring);}
+  .agent:hover{opacity:.85;}
+  .agent.active{opacity:1;}
+  .orb{position:relative;width:62px;height:62px;border-radius:50%;overflow:hidden;
+    background:radial-gradient(circle at 33% 28%,rgba(255,255,255,.22),transparent 40%),
+              radial-gradient(circle at 72% 78%,color-mix(in srgb,var(--ac) 75%,transparent),transparent 58%),
+              #0b0b13;
+    border:1px solid color-mix(in srgb,var(--ac) 38%,transparent);
+    box-shadow:inset 0 0 22px rgba(0,0,0,.85), 0 0 26px color-mix(in srgb,var(--ac) 30%,transparent);
+    transition:.45s var(--spring);}
+  .orb::after{content:"";position:absolute;inset:-30%;background:conic-gradient(from 0deg,transparent,color-mix(in srgb,var(--ac) 55%,transparent),transparent 55%);
+    animation:spin 6s linear infinite;opacity:.5;mix-blend-mode:screen;}
+  .agent.active .orb{width:78px;height:78px;box-shadow:inset 0 0 26px rgba(0,0,0,.8),0 0 46px color-mix(in srgb,var(--ac) 55%,transparent);}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .agent .a-name{font-size:11px;font-weight:700;letter-spacing:.06em;}
+  .agent .a-role{font-size:9.5px;color:var(--faint);font-family:"Space Mono",monospace;}
+
+  /* hero */
+  .hero{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+    padding:18px 0 8px;gap:6px;}
+  .hero-orb{position:relative;width:clamp(150px,30vw,210px);height:clamp(150px,30vw,210px);border-radius:50%;
+    margin-bottom:18px;overflow:hidden;
+    background:radial-gradient(circle at 34% 26%,rgba(255,255,255,.25),transparent 42%),
+              radial-gradient(circle at 70% 80%,color-mix(in srgb,var(--c) 70%,transparent),transparent 60%),
+              #08080f;
+    border:1px solid color-mix(in srgb,var(--c) 35%,transparent);
+    box-shadow:inset 0 0 60px rgba(0,0,0,.85), 0 0 90px color-mix(in srgb,var(--c) 45%,transparent);
+    animation:float 7s var(--ease) infinite alternate;transition:box-shadow .8s var(--ease);}
+  .hero-orb::after{content:"";position:absolute;inset:-25%;
+    background:conic-gradient(from 0deg,transparent,color-mix(in srgb,var(--c) 60%,transparent),transparent 60%);
+    animation:spin 9s linear infinite;opacity:.55;mix-blend-mode:screen;}
+  @keyframes float{to{transform:translateY(-12px);}}
+  .hero-pill{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:600;
+    font-family:"Space Mono",monospace;letter-spacing:.06em;color:color-mix(in srgb,var(--c) 75%,white);
+    padding:5px 13px;border-radius:999px;background:color-mix(in srgb,var(--c) 14%,transparent);
+    border:1px solid color-mix(in srgb,var(--c) 35%,transparent);}
+  .hero-pill .led{width:6px;height:6px;border-radius:50%;background:var(--c);box-shadow:0 0 8px var(--c);animation:blink 2s infinite;}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
+  .hero h1{font-size:clamp(30px,7vw,52px);font-weight:700;letter-spacing:-.02em;margin-top:12px;line-height:1;}
+  .hero .h-role{font-size:14px;color:var(--soft);font-weight:500;margin-top:6px;}
+  .hero p{max-width:46ch;font-size:14px;color:var(--soft);line-height:1.6;margin-top:12px;}
+
+  /* suggestion chips */
+  .chips{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;max-width:680px;margin:22px auto 0;}
+  .chip{font-size:12.5px;color:var(--soft);padding:9px 14px;border-radius:999px;cursor:pointer;
+    border:1px solid var(--border);background:var(--glass);transition:.2s var(--ease);}
+  .chip:hover{color:#fff;border-color:color-mix(in srgb,var(--c) 55%,transparent);
+    background:color-mix(in srgb,var(--c) 12%,transparent);transform:translateY(-2px);}
+
+  /* command bar */
+  .cmd{position:fixed;left:50%;bottom:clamp(16px,3vh,28px);transform:translateX(-50%);
+    width:min(680px,calc(100vw - 28px));display:flex;align-items:center;gap:10px;
+    padding:9px 9px 9px 18px;border-radius:18px;background:rgba(16,16,24,.7);
+    backdrop-filter:blur(24px) saturate(1.4);-webkit-backdrop-filter:blur(24px) saturate(1.4);
+    border:1px solid var(--border);box-shadow:0 18px 50px rgba(0,0,0,.55);z-index:20;}
+  .cmd input{flex:1;background:transparent;border:0;outline:0;color:#fff;font-family:inherit;font-size:14px;}
+  .cmd input::placeholder{color:var(--faint);}
+  .cmd .dot{width:8px;height:8px;border-radius:50%;background:var(--c);box-shadow:0 0 10px var(--c);flex-shrink:0;}
+  .cmd button{flex-shrink:0;width:40px;height:40px;border-radius:13px;border:0;cursor:pointer;color:#06060b;
+    background:linear-gradient(135deg,color-mix(in srgb,var(--c) 92%,white),var(--c));
+    display:grid;place-items:center;transition:.2s var(--spring);font-size:16px;}
+  .cmd button:hover{transform:scale(1.08);}
+
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}}
+</style>
 </head>
 <body>
-  <div class="aurora" id="aurora"><span></span><span></span><span></span></div>
+<div class="ambient" id="ambient"></div>
+<div class="grid-bg"></div>
 
-  <main class="wrap">
-    <header class="topbar animate-fade">
-      <div class="brand">
-        <span class="brand-dot"></span>
-        <span class="brand-name" id="brand-name">Maykenwil HQ</span>
-      </div>
-      <div class="topstatus" id="topstatus"></div>
-    </header>
-
-    <section class="hero" id="hero"></section>
-
-    <section class="bento" id="overview"></section>
-
-    <div class="row-cap">
-      <span>Branches</span>
-      <span class="cap-line"></span>
-      <span class="cap-count" id="branch-count"></span>
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <div class="brand-mark">MKW</div>
+      <div><b>Maykenwil OS</b><span>Agence IA · le cerveau de Samy</span></div>
     </div>
-    <section class="bento bento-branches" id="branches"></section>
-  </main>
+    <nav class="top-links">
+      <a href="command-center.html">🌍 Command Center</a>
+      <a href="studio.html">🎧 Studio</a>
+    </nav>
+  </header>
 
-  <nav class="dock" id="dock" aria-label="Applications"></nav>
+  <p class="strip-cap">Tes agents</p>
+  <div class="strip" id="strip"></div>
 
-  <div class="modal-backdrop" id="modal-backdrop"></div>
-  <div class="modal" id="modal" role="dialog" aria-modal="true"></div>
+  <section class="hero">
+    <div class="hero-orb" id="heroOrb"></div>
+    <span class="hero-pill"><span class="led"></span><span id="heroStatus">EN LIGNE</span></span>
+    <h1 id="heroName">NOVA</h1>
+    <div class="h-role" id="heroRole">Le Cerveau · Maykenwil OS</div>
+    <p id="heroDesc"></p>
+    <div class="chips" id="chips"></div>
+  </section>
+</div>
 
-  <script src="app.js" defer></script>
+<div class="cmd">
+  <span class="dot"></span>
+  <input id="cmdInput" type="text" placeholder="Demande ou commande à tes agents…" />
+  <button id="cmdSend" title="Ouvrir Claude" aria-label="Envoyer">➤</button>
+</div>
+
+<script>
+const agents = [
+  { id:'scout',  name:'SCOUT',  role:'Agent Sport',          c:'#4fc3f7', status:'EN MISSION', desc:"Détecte les joueurs 18–23 ans sous-évalués et prépare tes dossiers d'agent FIFA (examen mai 2027)." },
+  { id:'jade',   name:'JADE',   role:'Agent Events',         c:'#ce93d8', status:'ACTIF',      desc:"Orchestre Jadeliane Events : pipeline de projets, contacts institutionnels PACA et planning." },
+  { id:'baraka', name:'BARAKA', role:'Agent Capital',        c:'#c9a84c', status:'VEILLE',     desc:"Garde la finance 100 % halal : zéro riba, Mourabaha, Ijara, Sukuk et réinvestissement interne." },
+  { id:'nova',   name:'NOVA',   role:'Le Cerveau · Maykenwil OS', c:'#e3c45f', status:'EN LIGNE', desc:"Le cœur de l'agence. Coordonne tous tes agents, garde le cap sur la vision 40 ans et fait respecter tes 5 règles non-négociables." },
+  { id:'luma',   name:'LUMA',   role:'Agent Beauté',         c:'#f48fb1', status:'EN DEV',     desc:"Construit la marque MKW Beauté : positionnement, identité visuelle et plan de franchise." },
+  { id:'atlas',  name:'ATLAS',  role:'Agent Logistique',     c:'#80cbc4', status:'EN DEV',     desc:"Structure MKW Logistique autour du père : statut, premiers contrats et montée en charge." },
+  { id:'origin', name:'ORIGIN', role:'Agent North Vision',   c:'#a5d6a7', status:'PLANIF',     desc:"Pilote l'impact social dans les quartiers nord de Marseille et relie les talents au terrain." },
+];
+
+const chips = [
+  "Planifie ma journée",
+  "Prépare l'examen FFF",
+  "Analyse la branche Sport",
+  "Trouve des joueurs sous-évalués",
+  "Calcule mon avancement",
+  "Rappelle-moi mes 5 piliers",
+  "Bilan de la semaine",
+];
+
+const strip = document.getElementById('strip');
+const ambient = document.getElementById('ambient');
+const heroOrb = document.getElementById('heroOrb');
+const heroName = document.getElementById('heroName');
+const heroRole = document.getElementById('heroRole');
+const heroDesc = document.getElementById('heroDesc');
+const heroStatus = document.getElementById('heroStatus');
+const chipsEl = document.getElementById('chips');
+const cmdInput = document.getElementById('cmdInput');
+
+let selected = 'nova';
+
+function renderStrip(){
+  strip.innerHTML = agents.map(a => `
+    <div class="agent ${a.id===selected?'active':''}" data-id="${a.id}">
+      <div class="orb" style="--ac:${a.c}"></div>
+      <span class="a-name">${a.name}</span>
+      <span class="a-role">${a.role.replace('Le Cerveau · ','').replace('Agent ','')}</span>
+    </div>`).join('');
+  strip.querySelectorAll('.agent').forEach(el=>{
+    el.addEventListener('click',()=>{ select(el.dataset.id); el.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'}); });
+  });
+}
+
+function select(id){
+  const a = agents.find(x=>x.id===id); if(!a) return;
+  selected = id;
+  document.documentElement.style.setProperty('--c', a.c);
+  heroName.textContent = a.name;
+  heroRole.textContent = a.role;
+  heroDesc.textContent = a.desc;
+  heroStatus.textContent = a.status;
+  strip.querySelectorAll('.agent').forEach(el=>el.classList.toggle('active', el.dataset.id===id));
+}
+
+chipsEl.innerHTML = chips.map(c=>`<button class="chip">${c}</button>`).join('');
+chipsEl.querySelectorAll('.chip').forEach(b=>{
+  b.addEventListener('click',()=>{ cmdInput.value = b.textContent; cmdInput.focus(); });
+});
+
+function sendCmd(){ window.open('https://claude.ai/new','_blank','noopener'); }
+document.getElementById('cmdSend').addEventListener('click', sendCmd);
+cmdInput.addEventListener('keydown', e=>{ if(e.key==='Enter') sendCmd(); });
+
+renderStrip();
+select('nova');
+
+/* PWA : enregistrement du service worker (mode appli + hors-ligne) */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
 </body>
 </html>

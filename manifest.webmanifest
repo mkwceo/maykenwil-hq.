@@ -1,0 +1,16 @@
+{
+  "name": "Maykenwil OS",
+  "short_name": "Maykenwil",
+  "description": "Agence IA — le cerveau de Maykenwil Holding.",
+  "lang": "fr",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#06060b",
+  "theme_color": "#06060b",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

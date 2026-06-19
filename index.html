@@ -149,6 +149,7 @@
         <span class="tab">Branches</span>
         <span class="tab">Projets</span>
         <span class="tab">Capital</span>
+        <span class="tab" onclick="openAgenda()">Calendrier</span>
         <span class="tab">Plus</span>
       </div>
       <span class="spacer"></span>
@@ -243,6 +244,17 @@
   .ovcell .k{font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);}
   .ovcell .v{font-size:13px;margin-top:4px;}
   .ovnotes{font-size:13.5px;color:var(--ink-soft);line-height:1.6;}
+  /* agenda */
+  .agh{display:flex;align-items:center;justify-content:space-between;padding:20px 24px 8px;}
+  .agh h2{font-size:20px;font-weight:700;}
+  .agh .sub{font-size:11.5px;color:var(--ink-faint);}
+  .agl{padding:6px 24px 24px;position:relative;}
+  .agl::before{content:"";position:absolute;left:78px;top:0;bottom:18px;width:1px;background:rgba(0,0,0,.1);}
+  .agrow{display:flex;align-items:flex-start;gap:14px;padding:7px 0;position:relative;}
+  .agrow .tm{width:46px;flex-shrink:0;font-size:12px;font-weight:700;color:var(--ink-soft);text-align:right;font-variant-numeric:tabular-nums;}
+  .agrow .pin{width:11px;height:11px;border-radius:50%;flex-shrink:0;margin-top:3px;border:2px solid rgba(255,255,255,.7);box-shadow:0 0 0 3px rgba(255,255,255,.4);}
+  .agrow .ttl{font-size:13.5px;color:var(--ink);line-height:1.35;}
+  .agnote{padding:0 24px 22px;font-size:11px;color:var(--ink-faint);}
 </style>
 <div class="ov" id="ov" onclick="if(event.target===this)closeBranch()">
   <div class="ovc" id="ovc"></div>
@@ -279,6 +291,30 @@
   }
   function closeBranch(){ document.getElementById("ov").classList.remove("open"); document.body.style.overflow=""; }
   document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeBranch(); });
+
+  const AG_COLORS = { prayer:"#2E9E78", work:"#4DA6FF", learn:"#9fc40f", meal:"#FF9B4D", health:"#FF4D88", rest:"#A78BFA" };
+  function openAgenda(){
+    const ovc = document.getElementById("ovc");
+    ovc.innerHTML = '<div class="agh"><div><h2>Agenda · chargement…</h2></div><button class="ovx" style="position:static;background:rgba(0,0,0,.06);color:var(--ink-soft)" onclick="closeBranch()">✕</button></div>';
+    document.getElementById("ov").classList.add("open"); document.body.style.overflow="hidden";
+    fetch("data/calendar.json",{cache:"no-store"})
+      .then(r=>{ if(!r.ok) throw 0; return r.json(); })
+      .then(d=>{
+        const rows = (d.events||[]).map(e=>
+          '<div class="agrow"><span class="tm">'+e.t+'</span><span class="pin" style="background:'+(AG_COLORS[e.type]||"#5c6b79")+'"></span><span class="ttl">'+e.title+'</span></div>').join("");
+        ovc.innerHTML =
+          '<div class="agh"><div><h2>Agenda — '+(d.day||"Aujourd'hui")+'</h2><div class="sub">Google Agenda · synchronisé en privé</div></div>'+
+          '<button class="ovx" style="position:static;background:rgba(0,0,0,.06);color:var(--ink-soft)" onclick="closeBranch()">✕</button></div>'+
+          '<div class="agl">'+rows+'</div>'+
+          '<div class="agnote">🔒 Agenda chargé localement (privé). Non publié sur le site public.</div>';
+      })
+      .catch(()=>{
+        ovc.innerHTML =
+          '<div class="agh"><div><h2>Agenda non connecté</h2><div class="sub">Données privées</div></div>'+
+          '<button class="ovx" style="position:static;background:rgba(0,0,0,.06);color:var(--ink-soft)" onclick="closeBranch()">✕</button></div>'+
+          '<div class="agnote">Ton agenda reste privé : non publié sur le site public. Pour l’afficher en ligne, on bascule le repo en privé.</div>';
+      });
+  }
 </script>
 </body>
 </html>

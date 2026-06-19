@@ -6,3 +6,4 @@ app/dist/
 # Données personnelles — JAMAIS publiées (privé)
 app/public/data/health.json
 app/public/data/finance.json
+data/calendar.json

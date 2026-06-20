@@ -124,6 +124,13 @@
     border:1px solid rgba(255,255,255,.22);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
     color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.3);}
   .hl.gold{background:rgba(201,162,75,.2);border-color:rgba(201,162,75,.5);color:#f3e2b8;}
+  /* étiquette flottante des branches 3D */
+  .br3d-lbl{position:absolute;z-index:4;transform:translate(14px,-50%) scale(.9);transform-origin:left center;
+    pointer-events:none;opacity:0;transition:opacity .18s ease,transform .18s ease;white-space:nowrap;
+    font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#fff;
+    background:rgba(0,0,0,.42);border:1px solid rgba(255,255,255,.25);backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);padding:5px 11px;border-radius:999px;}
+  .br3d-lbl.on{opacity:1;transform:translate(14px,-50%) scale(1);}
   .badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;background:rgba(0,0,0,.32);backdrop-filter:blur(6px);padding:5px 11px;border-radius:999px;width:max-content;}
   .chips{display:flex;gap:8px;margin:14px 0 12px;}
   .chip{font-size:11px;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3);padding:4px 11px;border-radius:999px;}
@@ -186,11 +193,10 @@
       <div class="search"><svg class="ic ic-sm" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.6" y2="16.6"/></svg> Rechercher dans Maykenwil</div>
       <div class="tabs">
         <span class="tab active">Vue d'ensemble</span>
-        <span class="tab">Branches</span>
-        <span class="tab">Projets</span>
-        <span class="tab">Capital</span>
+        <span class="tab" onclick="document.querySelector('.might').scrollIntoView({behavior:'smooth'})">Branches</span>
+        <span class="tab" onclick="openAgents()">Agence IA</span>
+        <span class="tab" onclick="openConnectors()">Connecteurs</span>
         <span class="tab" onclick="openAgenda()">Calendrier</span>
-        <span class="tab">Plus</span>
       </div>
       <span class="spacer"></span>
       <button class="lockb" id="lockbtn" onclick="toggleLock()" title="Mode privé">🔒</button>
@@ -228,6 +234,14 @@
           <div class="cw-row"><span class="cw-thumb" style="background:linear-gradient(135deg,#7a4a1a,#FF9B4D)">E</span><span class="info"><b>Jadeliane Events</b><span>Réseau institutionnel</span></span><span class="cw-pct">45%</span></div>
           <div class="cw-row"><span class="cw-thumb" style="background:linear-gradient(135deg,#4a3a6b,#A78BFA)">N</span><span class="info"><b>North Vision Dev</b><span>Préparation terrain</span></span><span class="cw-pct">18%</span></div>
           <div class="cw-row"><span class="cw-thumb" style="background:linear-gradient(135deg,#5a6b1a,#C8FF00)">C</span><span class="info"><b>Capital · Halal</b><span>Conception structure</span></span><span class="cw-pct">12%</span></div>
+        </div>
+
+        <div class="card brain" onclick="openAgents()" style="cursor:pointer">
+          <div class="card-h"><b>🧠 Mon agence IA</b><span class="sort">217 ⌄</span></div>
+          <div style="font-size:12px;color:var(--ink-soft);line-height:1.5;margin-bottom:11px">217 agents spécialisés, 16 départements — ton équipe à la demande.</div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <span class="abadge">🎨 Design</span><span class="abadge">⚙️ Ingénierie</span><span class="abadge">📣 Marketing</span><span class="abadge">💰 Finance</span><span class="abadge">+12</span>
+          </div>
         </div>
       </div>
 
@@ -297,6 +311,47 @@
   .agrow .pin{width:11px;height:11px;border-radius:50%;flex-shrink:0;margin-top:3px;border:2px solid rgba(255,255,255,.7);box-shadow:0 0 0 3px rgba(255,255,255,.4);}
   .agrow .ttl{font-size:13.5px;color:var(--ink);line-height:1.35;}
   .agnote{padding:0 24px 22px;font-size:11px;color:var(--ink-faint);}
+  /* vue large (agence IA / connecteurs) */
+  .ovc.wide{width:min(900px,100%);}
+  .cc-sec{padding:8px 24px 22px;}
+  .cc-t{font-size:12.5px;font-weight:700;letter-spacing:.02em;color:var(--ink);margin:14px 0 12px;display:flex;align-items:center;gap:8px;}
+  .cc-t span{font-weight:500;color:var(--ink-faint);font-size:11px;}
+  .conn-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+  .conn{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink);
+    background:rgba(255,255,255,.5);border:1px solid var(--glass-line);border-radius:14px;padding:12px 14px;
+    box-shadow:var(--el-1);transition:transform .16s ease,box-shadow .2s ease,background .2s ease;}
+  .conn:hover{transform:translateY(-2px);box-shadow:var(--el-2);background:rgba(255,255,255,.7);}
+  .conn .ce{font-size:22px;width:40px;height:40px;display:grid;place-items:center;background:rgba(255,255,255,.6);border-radius:11px;flex-shrink:0;}
+  .conn .ci{display:flex;flex-direction:column;min-width:0;flex:1;}
+  .conn .ci b{font-size:13.5px;}.conn .ci span{font-size:11.5px;color:var(--ink-faint);}
+  .conn .cbadge{font-size:10px;font-weight:700;color:#1d7a4f;background:rgba(46,158,120,.16);border:1px solid rgba(46,158,120,.3);padding:3px 9px;border-radius:999px;white-space:nowrap;}
+  .apps-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;}
+  .appt{display:flex;flex-direction:column;align-items:center;gap:7px;text-decoration:none;color:var(--ink);
+    background:rgba(255,255,255,.42);border:1px solid var(--glass-line);border-radius:14px;padding:14px 8px;font-size:11.5px;font-weight:600;
+    transition:transform .16s ease,background .2s ease;}
+  .appt:hover{transform:translateY(-2px);background:rgba(255,255,255,.7);}
+  .appt .ae{font-size:24px;}
+  /* agents */
+  .agt-search{width:100%;padding:11px 15px;border-radius:12px;border:1px solid var(--glass-line);
+    background:rgba(255,255,255,.6);font-size:13px;color:var(--ink);margin-bottom:14px;font-family:var(--font);}
+  .agt-search:focus{outline:2px solid var(--gold-soft);outline-offset:1px;}
+  .dept-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+  .dept{cursor:pointer;display:flex;flex-direction:column;gap:4px;background:rgba(255,255,255,.46);
+    border:1px solid var(--glass-line);border-radius:14px;padding:14px 13px;box-shadow:var(--el-1);
+    transition:transform .16s ease,box-shadow .2s ease,background .2s ease;}
+  .dept:hover{transform:translateY(-2px);box-shadow:var(--el-2);background:rgba(255,255,255,.7);}
+  .dept-e{font-size:22px;}.dept b{font-size:13px;}.dept-c{font-size:11px;color:var(--ink-faint);}
+  .agt-list{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+  .agt{display:flex;align-items:flex-start;gap:11px;background:rgba(255,255,255,.46);
+    border:1px solid var(--glass-line);border-radius:13px;padding:11px 13px;}
+  .agt-e{font-size:18px;flex-shrink:0;line-height:1.4;}
+  .agt b{font-size:12.5px;display:block;}.agt span{font-size:11px;color:var(--ink-faint);line-height:1.4;}
+  .back{border:0;background:rgba(0,0,0,.05);color:var(--ink-soft);padding:7px 13px;border-radius:9px;cursor:pointer;font-weight:600;font-size:12px;margin-bottom:14px;font-family:var(--font);}
+  .back:hover{background:rgba(0,0,0,.09);}
+  .brain{transition:transform .2s ease,box-shadow .25s ease;}
+  .brain:hover{transform:translateY(-3px);box-shadow:var(--el-3),inset 0 1px 0 rgba(255,255,255,.65);}
+  .abadge{font-size:10px;font-weight:600;color:var(--ink-soft);background:rgba(255,255,255,.55);border:1px solid var(--glass-line);padding:4px 9px;border-radius:999px;}
+  @media(max-width:640px){.conn-grid,.agt-list{grid-template-columns:1fr;}.apps-grid{grid-template-columns:repeat(3,1fr);}.dept-grid{grid-template-columns:repeat(2,1fr);}}
   .lockb{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.4);border:1px solid var(--glass-line);font-size:15px;cursor:pointer;}
   body.priv .lockb{background:rgba(46,158,120,.28);border-color:rgba(46,158,120,.55);}
   body.priv .app{box-shadow:var(--shadow),0 0 0 1.5px rgba(46,158,120,.4);}
@@ -310,7 +365,8 @@
     events:{name:"Jadeliane Events",agency:"Événementiel · PACA",phase:"Actif",status:"Active",progress:45,color:"#FF9B4D",lead:"Collaboration — ami avec connexions institutionnelles",milestone:"Premier événement institutionnel à Marseille",slogan:"",notes:"Connexions événementielles institutionnelles via une collaboration de confiance."},
     northvision:{name:"North Vision Development",agency:"NV15 (terrain)",phase:"Phase 0 — Préparation terrain",status:"Planification",progress:18,color:"#A78BFA",lead:"Samy Zertit",milestone:"Travail terrain NV15",slogan:"",notes:"Développement immobilier / infrastructure sportive à long terme, lié à la trajectoire Sport (agent → DS → acquisition OM)."},
     capital:{name:"Capital",agency:"Finance 100 % halal",phase:"Phase 0 — Conception",status:"Planification",progress:12,color:"#9fc40f",lead:"Samy Zertit",milestone:"Structure Mourabaha / Musharaka / Sukuk",slogan:"« Halal-only financing »",notes:"Zéro riba. Financement islamique des autres branches une fois opérationnelles. Structure SASU / micro-entreprise individuelle avant la holding parent (12-18 mois de décalage)."},
-    beaute:{name:"Beauté",agency:"Franchise esthétique",phase:"Phase 0 — Non initiée",status:"Dormant",progress:0,color:"#FF4D88",lead:"À assigner — membre de la famille",milestone:"Structuration initiale",slogan:"",notes:"Branche en attente de Phase 1. Aucune activité réelle pour l'instant."}
+    beaute:{name:"Beauté",agency:"Franchise esthétique",phase:"Phase 0 — Non initiée",status:"Dormant",progress:0,color:"#FF4D88",lead:"À assigner — membre de la famille",milestone:"Structuration initiale",slogan:"",notes:"Branche en attente de Phase 1. Aucune activité réelle pour l'instant."},
+    logistique:{name:"Logistique",agency:"Transport & supply chain",phase:"Phase 0 — Non initiée",status:"Dormant",progress:0,color:"#4DA6FF",lead:"Le père (permis poids lourd)",milestone:"Structuration initiale",slogan:"",notes:"Branche logistique appuyée sur l'expérience familiale (transport, permis PL). En attente de Phase 1, aucune activité opérationnelle pour l'instant."}
   };
   function openBranch(id){
     const b = BRANCHES[id]; if(!b) return;
@@ -334,7 +390,7 @@
     document.getElementById("ov").classList.add("open");
     document.body.style.overflow="hidden";
   }
-  function closeBranch(){ document.getElementById("ov").classList.remove("open"); document.body.style.overflow=""; }
+  function closeBranch(){ var ov=document.getElementById("ov"),ovc=document.getElementById("ovc"); ov.classList.remove("open"); ovc.classList.remove("wide"); document.body.style.overflow=""; }
   document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeBranch(); });
 
   const AG_COLORS = { prayer:"#2E9E78", work:"#4DA6FF", learn:"#9fc40f", meal:"#FF9B4D", health:"#FF4D88", rest:"#A78BFA" };
@@ -374,6 +430,72 @@
       document.getElementById("ovc").innerHTML='<div class="agh"><div><h2>Agenda — vide</h2><div class="sub">Aucune donnée importée</div></div>'+X+'</div>'+
         '<div class="agnote">Importe ton agenda (reste privé sur cet appareil) : <button onclick="importAgenda()" style="border:0;background:#2E9E78;color:#fff;padding:7px 13px;border-radius:9px;cursor:pointer;font-weight:600">Importer mon agenda</button></div>';
     });
+  }
+
+  /* ===== Centre de contrôle : connecteurs + apps ===== */
+  const CONNECTORS=[
+    {n:"Google Calendar",e:"📅",d:"Agenda & routine",u:"https://calendar.google.com",on:1},
+    {n:"Gmail",e:"✉️",d:"Emails",u:"https://mail.google.com",on:1},
+    {n:"Google Drive",e:"📁",d:"Fichiers & docs",u:"https://drive.google.com",on:1},
+    {n:"Notion",e:"📝",d:"Base de connaissances",u:"https://notion.so",on:1},
+    {n:"Slack",e:"💬",d:"Communication",u:"https://slack.com",on:1},
+    {n:"Granola",e:"🎙️",d:"Notes de réunion",u:"https://granola.ai",on:1},
+    {n:"HubSpot",e:"🧲",d:"CRM",u:"https://app.hubspot.com",on:1},
+    {n:"Canva",e:"🖌️",d:"Design",u:"https://canva.com",on:1},
+    {n:"Gamma",e:"📊",d:"Présentations",u:"https://gamma.app",on:1},
+    {n:"GitHub",e:"🐙",d:"Code & déploiement",u:"https://github.com/mkwceo",on:1}
+  ];
+  const APPS=[
+    {n:"Instagram",e:"📸",u:"https://instagram.com"},{n:"X",e:"𝕏",u:"https://x.com"},
+    {n:"YouTube",e:"▶️",u:"https://youtube.com"},{n:"Netflix",e:"🎬",u:"https://netflix.com"},
+    {n:"WhatsApp",e:"💚",u:"https://web.whatsapp.com"},{n:"LinkedIn",e:"💼",u:"https://linkedin.com"},
+    {n:"ChatGPT",e:"🤖",u:"https://chat.openai.com"},{n:"Claude",e:"✳️",u:"https://claude.ai"},
+    {n:"Spotify",e:"🎧",u:"https://open.spotify.com"},{n:"Maps",e:"🗺️",u:"https://maps.google.com"}
+  ];
+  function openConnectors(){
+    var ov=document.getElementById("ov"),ovc=document.getElementById("ovc");
+    ov.classList.add("open"); ovc.classList.add("wide"); document.body.style.overflow="hidden";
+    var co=CONNECTORS.map(function(c){return '<a class="conn" href="'+c.u+'" target="_blank" rel="noopener"><span class="ce">'+c.e+'</span><span class="ci"><b>'+c.n+'</b><span>'+c.d+'</span></span><span class="cbadge">Connecté</span></a>';}).join("");
+    var ap=APPS.map(function(a){return '<a class="appt" href="'+a.u+'" target="_blank" rel="noopener"><span class="ae">'+a.e+'</span><span>'+a.n+'</span></a>';}).join("");
+    ovc.innerHTML=
+      '<div class="agh"><div><h2>Centre de contrôle</h2><div class="sub">'+CONNECTORS.length+' connecteurs IA · '+APPS.length+' apps</div></div>'+X+'</div>'+
+      '<div class="cc-sec"><div class="cc-t">🔌 Connecteurs IA <span>(liés à ton cerveau Claude)</span></div><div class="conn-grid">'+co+'</div></div>'+
+      '<div class="cc-sec"><div class="cc-t">📱 Mes apps</div><div class="apps-grid">'+ap+'</div></div>';
+  }
+
+  /* ===== Agence IA : 217 agents ===== */
+  function agentCard(a){return '<div class="agt"><span class="agt-e">'+(a.emoji||"•")+'</span><div><b>'+a.name+'</b><span>'+(a.desc||"")+'</span></div></div>';}
+  function renderAgentsHome(){
+    var d=window.__agents; var ovc=document.getElementById("ovc");
+    var grid=d.depts.map(function(x){return '<div class="dept" onclick="renderDept(\''+x.id+'\')"><span class="dept-e">'+x.emoji+'</span><b>'+x.name+'</b><span class="dept-c">'+x.count+' agents</span></div>';}).join("");
+    ovc.innerHTML=
+      '<div class="agh"><div><h2>Mon agence IA</h2><div class="sub">'+d.total+' agents · '+d.depts.length+' départements — ton équipe à la demande</div></div>'+X+'</div>'+
+      '<div class="cc-sec" style="padding-top:0"><input class="agt-search" placeholder="Rechercher un agent… (ex: marketing, sécurité, 3D)" oninput="filterAgents(this.value)"><div id="agt-results"></div>'+
+      '<div class="dept-grid" id="dept-grid">'+grid+'</div></div>';
+  }
+  function renderDept(id){
+    var d=window.__agents,x=d.depts.find(function(p){return p.id===id;}); if(!x)return;
+    var ovc=document.getElementById("ovc");
+    ovc.innerHTML=
+      '<div class="agh"><div><h2>'+x.emoji+' '+x.name+'</h2><div class="sub">'+x.count+' agents</div></div>'+X+'</div>'+
+      '<div class="cc-sec"><button class="back" onclick="renderAgentsHome()">‹ Tous les départements</button><div class="agt-list">'+x.agents.map(agentCard).join("")+'</div></div>';
+  }
+  function norm(s){return (s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");}
+  function filterAgents(q){
+    q=norm((q||"").trim()); var d=window.__agents;
+    var res=document.getElementById("agt-results"),grid=document.getElementById("dept-grid");
+    if(!q){ res.innerHTML=""; grid.style.display=""; return; }
+    grid.style.display="none";
+    var hits=[]; d.depts.forEach(function(x){x.agents.forEach(function(a){if(norm(a.name+" "+a.desc+" "+x.name).indexOf(q)>=0)hits.push(a);});});
+    res.innerHTML='<div class="agt-list">'+(hits.length?hits.slice(0,40).map(agentCard).join(""):'<div class="sub" style="padding:14px 2px">Aucun agent trouvé.</div>')+'</div>';
+  }
+  function openAgents(){
+    var ov=document.getElementById("ov"),ovc=document.getElementById("ovc");
+    ov.classList.add("open"); ovc.classList.add("wide"); document.body.style.overflow="hidden";
+    if(window.__agents){ renderAgentsHome(); return; }
+    ovc.innerHTML='<div class="agh"><div><h2>Mon agence IA</h2><div class="sub">Chargement…</div></div>'+X+'</div>';
+    fetch("agents.json",{cache:"no-store"}).then(function(r){return r.json();}).then(function(d){window.__agents=d;renderAgentsHome();})
+      .catch(function(){ovc.innerHTML='<div class="agh"><div><h2>Mon agence IA</h2><div class="sub">Indisponible</div></div>'+X+'</div><div class="agnote">Impossible de charger les agents.</div>';});
   }
 </script>
 <style>
@@ -420,12 +542,12 @@ import * as THREE from 'three';
   const reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const BR=[
-    {n:'Sport',c:0x4dffb4, r:5.0, sp:0.42, inc:0.20, ph:0.0,  s:0.42},
-    {n:'Events',c:0xff9b4d, r:6.1, sp:0.30, inc:-0.55,ph:1.1,  s:0.36},
-    {n:'North Vision',c:0xa78bfa, r:7.0, sp:0.24, inc:0.62, ph:2.3, s:0.34},
-    {n:'Capital',c:0xc8ff00, r:4.3, sp:0.52, inc:0.95, ph:3.5, s:0.30},
-    {n:'Beauté',c:0xff4d88, r:7.8, sp:0.19, inc:-0.30,ph:4.6, s:0.30},
-    {n:'Logistique',c:0x4da6ff, r:6.6, sp:0.27, inc:0.10, ph:5.7, s:0.32}
+    {id:'sport',n:'Sport',c:0x4dffb4, r:5.0, sp:0.42, inc:0.20, ph:0.0,  s:0.42},
+    {id:'events',n:'Events',c:0xff9b4d, r:6.1, sp:0.30, inc:-0.55,ph:1.1,  s:0.36},
+    {id:'northvision',n:'North Vision',c:0xa78bfa, r:7.0, sp:0.24, inc:0.62, ph:2.3, s:0.34},
+    {id:'capital',n:'Capital',c:0xc8ff00, r:4.3, sp:0.52, inc:0.95, ph:3.5, s:0.30},
+    {id:'beaute',n:'Beauté',c:0xff4d88, r:7.8, sp:0.19, inc:-0.30,ph:4.6, s:0.30},
+    {id:'logistique',n:'Logistique',c:0x4da6ff, r:6.6, sp:0.27, inc:0.10, ph:5.7, s:0.32}
   ];
 
   const renderer=new THREE.WebGLRenderer({canvas:cv, alpha:true, antialias:true});
@@ -478,8 +600,10 @@ import * as THREE from 'three';
     const node=new THREE.Group(); pivot.add(node);
     const ball=new THREE.Mesh(new THREE.SphereGeometry(b.s,24,24),
       new THREE.MeshStandardMaterial({color:b.c,emissive:b.c,emissiveIntensity:.7,metalness:.3,roughness:.4}));
-    node.add(ball); node.add(glow(b.c,b.s*7));
-    nodes.push({pivot,node,b});
+    ball.userData.id=b.id; ball.userData.name=b.n;          // cible cliquable
+    const halo=glow(b.c,b.s*7);
+    node.add(ball); node.add(halo);
+    nodes.push({pivot,node,ball,halo,b,scale:1});
   });
 
   // champ d'étoiles
@@ -491,11 +615,28 @@ import * as THREE from 'three';
     opacity:.85,blending:THREE.AdditiveBlending,depthWrite:false}));
   scene.add(stars);
 
-  // parallaxe souris
+  // parallaxe souris + survol/clic des branches (raycast)
   let mx=0,my=0,tx=0,ty=0;
+  const ray=new THREE.Raycaster(), ndc=new THREE.Vector2(); let hovered=null, pointerIn=false;
+  const balls=nodes.map(o=>o.ball);
+  // étiquette flottante de branche
+  const lbl=document.createElement('div'); lbl.className='br3d-lbl'; cv.parentElement.appendChild(lbl);
+  function setNDC(e){ const r=cv.getBoundingClientRect(); ndc.x=((e.clientX-r.left)/r.width)*2-1; ndc.y=-((e.clientY-r.top)/r.height)*2+1; }
   cv.parentElement.addEventListener('pointermove',e=>{
     const r=cv.getBoundingClientRect(); tx=((e.clientX-r.left)/r.width-0.5)*0.5; ty=((e.clientY-r.top)/r.height-0.5)*0.5;
+    setNDC(e); pointerIn=true; lbl.style.left=(e.clientX-r.left)+'px'; lbl.style.top=(e.clientY-r.top)+'px';
   });
+  cv.parentElement.addEventListener('pointerleave',()=>{ pointerIn=false; });
+  cv.addEventListener('click',()=>{ if(hovered&&hovered.userData.id&&window.openBranch) openBranch(hovered.userData.id); });
+  function pick(){
+    if(!pointerIn){ hovered=null; return; }
+    ray.setFromCamera(ndc,camera);
+    const hit=ray.intersectObjects(balls,false)[0];
+    hovered=hit?hit.object:null;
+    cv.style.cursor=hovered?'pointer':'default';
+    if(hovered){ lbl.textContent=hovered.userData.name; lbl.classList.add('on'); }
+    else lbl.classList.remove('on');
+  }
 
   function resize(){
     const r=cv.getBoundingClientRect(); if(!r.width) return;
@@ -513,9 +654,15 @@ import * as THREE from 'three';
     core.rotation.y+=0.0035; core.rotation.x=Math.sin(t*0.3)*0.12;
     wire.rotation.y-=0.002; wire.rotation.z+=0.0014;
     coreGlow.material.opacity=0.85+Math.sin(t*1.4)*0.15;
+    pick();
     nodes.forEach(o=>{ const a=o.b.ph+t*o.b.sp;
       o.node.position.set(Math.cos(a)*o.b.r,0,Math.sin(a)*o.b.r);
-      o.node.children[0].rotation.y+=0.02; });
+      o.ball.rotation.y+=0.02;
+      // whimsy : la branche survolée grossit + son halo s'intensifie
+      const target=(hovered===o.ball)?1.55:1;
+      o.scale+=(target-o.scale)*0.18; o.node.scale.setScalar(o.scale);
+      o.halo.material.opacity=(hovered===o.ball)?1:0.9;
+      o.ball.material.emissiveIntensity=(hovered===o.ball)?1.4:0.7; });
     stars.rotation.y+=0.0004;
     mx+=(tx-mx)*0.05; my+=(ty-my)*0.05;
     root.rotation.y=mx*0.6; root.rotation.x=my*0.4+0.1;

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Maykenwil OS — Command Center</title>
 <link rel="manifest" href="manifest.webmanifest">
-<meta name="theme-color" content="#cdbfa6">
+<meta name="theme-color" content="#0a1a16">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Maykenwil OS">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -16,673 +16,568 @@
 <style>
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
   :root{
-    /* type scale (fluide) */
-    --step--1:0.78rem; --step-0:0.875rem; --step-1:1rem; --step-2:1.25rem;
-    --step-3:clamp(1.5rem,1.2rem+1.2vw,1.9rem); --step-4:clamp(2rem,1.4rem+2vw,2.6rem);
-    /* espacement 4pt */
-    --s-1:4px; --s-2:8px; --s-3:12px; --s-4:16px; --s-5:20px; --s-6:24px;
-    --s-8:32px; --s-10:40px; --s-12:48px;
-    /* encre + or chauds */
     --ink:#231f1a; --ink-soft:#5a5248; --ink-faint:#8a8175;
-    --gold:#9a7b32; --gold-soft:#c9a24b; --hairline:rgba(60,45,30,.08);
-    --glass:rgba(255,255,255,.5); --glass-line:rgba(255,255,255,.6);
-    /* élévation */
+    --gold:#9a7b32; --gold-soft:#c9a24b; --hairline:rgba(60,45,30,.1);
+    --glass:rgba(255,255,255,.5); --glass-line:rgba(255,255,255,.62);
     --el-1:0 1px 2px rgba(40,30,20,.06),0 2px 8px rgba(40,30,20,.05);
     --el-2:0 4px 14px rgba(40,30,20,.1);
     --el-3:0 12px 32px rgba(40,30,20,.16);
-    --el-4:0 24px 70px rgba(40,30,20,.22);
-    --el-hero:0 30px 70px rgba(10,40,30,.28);
-    --shadow:var(--el-4);
-    /* rayons */
+    --el-hero:0 30px 70px rgba(10,40,30,.3);
     --r-xl:26px; --r-lg:18px; --r-md:14px; --r-sm:11px; --r-pill:999px;
-    --r:var(--r-xl); --r-card:var(--r-lg);
     --font:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
     --serif:"Newsreader",Georgia,"Times New Roman",serif;
+    --sport:#16a87f; --events:#FF9B4D; --northvision:#A78BFA; --capital:#9fc40f; --beaute:#FF4D88; --logistique:#4DA6FF;
   }
   html,body{height:100%;}
-  body{
-    font-family:var(--font); color:var(--ink); min-height:100vh;
-    display:flex; align-items:center; justify-content:center; padding:26px;
+  body{font-family:var(--font);color:var(--ink);min-height:100vh;
     background:
-      radial-gradient(40% 50% at 18% 24%, #efe7da, transparent 70%),
-      radial-gradient(45% 55% at 84% 30%, #e6dccb, transparent 70%),
-      radial-gradient(60% 60% at 70% 90%, #c7b8a0, transparent 70%),
+      radial-gradient(40% 50% at 16% 20%, #efe7da, transparent 70%),
+      radial-gradient(45% 55% at 86% 26%, #e6dccb, transparent 70%),
+      radial-gradient(60% 60% at 72% 92%, #c7b8a0, transparent 70%),
       linear-gradient(125deg,#e7ddcd 0%, #cdbfa6 60%, #b6a78e 100%);
-    background-attachment:fixed;
-  }
-  .stage{width:100%;max-width:1180px;}
-  /* grain + vignette (texture premium) */
-  body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:9999;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    opacity:.04;mix-blend-mode:multiply;}
+    background-attachment:fixed;-webkit-font-smoothing:antialiased;}
+  body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.04;mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
   svg{display:block;}
-  .ic{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;}
-  .ic-sm{width:14px;height:14px;}
-  .play{fill:currentColor;stroke:none;}
+  .ic{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;}
+  .ic-sm{width:15px;height:15px;}
+  a{color:inherit;text-decoration:none;}
+  ::-webkit-scrollbar{width:8px;height:8px;}::-webkit-scrollbar-thumb{background:rgba(90,75,55,.25);border-radius:5px;}
 
-  /* chrome */
-  .chrome{display:flex;align-items:center;gap:10px;justify-content:center;margin-bottom:16px;}
-  .chrome .grp{display:flex;align-items:center;gap:8px;background:var(--glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--glass-line);border-radius:999px;padding:7px 10px;box-shadow:0 8px 22px rgba(40,30,20,.12);}
-  .cbtn{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;color:var(--ink-soft);background:rgba(255,255,255,.35);}
-  .addr{flex:1;max-width:430px;display:flex;align-items:center;justify-content:center;gap:8px;background:var(--glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--glass-line);border-radius:999px;padding:9px 18px;color:var(--ink-soft);font-size:13px;box-shadow:0 8px 22px rgba(40,30,20,.12);}
-  .addr .dom{color:var(--ink);font-weight:500;}
+  /* shell */
+  .os{display:grid;grid-template-columns:230px 1fr;min-height:100vh;}
+  .side{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:6px;padding:20px 16px;
+    background:rgba(247,243,237,.55);backdrop-filter:blur(30px) saturate(1.3);-webkit-backdrop-filter:blur(30px) saturate(1.3);
+    border-right:1px solid var(--hairline);}
+  .brand{display:flex;align-items:center;gap:11px;padding:6px 8px 18px;}
+  .logo{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font-weight:800;font-size:14px;color:#06120f;
+    background:linear-gradient(135deg,#e3c45f,#9a7b32);box-shadow:var(--el-2);}
+  .brand b{font-size:14px;font-weight:700;letter-spacing:.01em;display:block;line-height:1.1;}
+  .brand span{font-size:10.5px;color:var(--ink-faint);}
+  .nav{display:flex;align-items:center;gap:12px;padding:11px 13px;border-radius:13px;color:var(--ink-soft);
+    font-size:13.5px;font-weight:500;cursor:pointer;transition:background .2s,color .2s,transform .12s;}
+  .nav:hover{background:rgba(255,255,255,.45);color:var(--ink);}
+  .nav.active{background:rgba(255,255,255,.75);color:var(--ink);box-shadow:var(--el-1);font-weight:600;}
+  .nav .ic{flex-shrink:0;}
+  .nav .cnt{margin-left:auto;font-size:10.5px;font-weight:700;color:var(--ink-faint);background:rgba(0,0,0,.05);padding:2px 8px;border-radius:999px;}
+  .side .sp{flex:1;}
+  .lockrow{display:flex;align-items:center;gap:10px;padding:11px 13px;border-radius:13px;cursor:pointer;font-size:12.5px;color:var(--ink-soft);border:1px solid var(--hairline);}
+  body.priv .lockrow{background:rgba(46,158,120,.16);border-color:rgba(46,158,120,.4);color:#1d7a4f;}
 
-  /* app */
-  .app{background:rgba(247,243,237,.46);backdrop-filter:blur(40px) saturate(1.4);-webkit-backdrop-filter:blur(40px) saturate(1.4);border:1px solid var(--glass-line);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden;}
-  .appbar{display:flex;align-items:center;gap:16px;padding:16px 22px;border-bottom:1px solid rgba(255,255,255,.35);}
-  .search{display:flex;align-items:center;gap:9px;background:rgba(255,255,255,.4);border:1px solid var(--glass-line);border-radius:999px;padding:9px 15px;width:240px;color:var(--ink-faint);font-size:13px;}
-  .tabs{display:flex;align-items:center;gap:4px;}
-  .tab{padding:8px 15px;border-radius:999px;font-size:13.5px;color:var(--ink-soft);font-weight:500;cursor:pointer;white-space:nowrap;}
-  .tab.active{background:rgba(255,255,255,.62);color:var(--ink);box-shadow:0 3px 10px rgba(40,30,20,.1);}
-  .spacer{flex:1;}
-  .bell{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.4);border:1px solid var(--glass-line);color:var(--ink-soft);position:relative;}
-  .bell::after{content:"";position:absolute;top:9px;right:10px;width:7px;height:7px;border-radius:50%;background:#46c46a;border:2px solid #efe9df;}
-  .profile{display:flex;align-items:center;gap:9px;background:rgba(255,255,255,.5);border:1px solid var(--glass-line);border-radius:999px;padding:5px 12px 5px 5px;}
-  .avatar{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:700;color:#3a2f12;background:linear-gradient(135deg,#e3c45f,#b6902f);}
+  /* main */
+  .main{padding:26px 30px 60px;max-width:1240px;width:100%;}
+  .topbar{display:flex;align-items:center;gap:16px;margin-bottom:24px;}
+  .search{flex:1;max-width:380px;display:flex;align-items:center;gap:9px;background:var(--glass);border:1px solid var(--glass-line);
+    border-radius:999px;padding:10px 16px;color:var(--ink-faint);font-size:13px;backdrop-filter:blur(20px);}
+  .sp2{flex:1;}
+  .bell{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--glass);border:1px solid var(--glass-line);color:var(--ink-soft);position:relative;}
+  .bell::after{content:"";position:absolute;top:9px;right:10px;width:7px;height:7px;border-radius:50%;background:#46c46a;border:2px solid #efe9df;animation:pulse 2.4s infinite;}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(70,196,106,.5)}50%{box-shadow:0 0 0 5px rgba(70,196,106,0)}}
+  .profile{display:flex;align-items:center;gap:9px;background:var(--glass);border:1px solid var(--glass-line);border-radius:999px;padding:5px 13px 5px 5px;}
+  .avatar{width:31px;height:31px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:800;color:#3a2f12;background:linear-gradient(135deg,#e3c45f,#b6902f);}
   .profile .nm{font-size:12.5px;font-weight:600;line-height:1.1;}
   .profile .at{font-size:10.5px;color:var(--ink-faint);}
 
-  .body{display:grid;grid-template-columns:44px 248px 1fr;gap:18px;padding:18px;}
-  .rail{display:flex;flex-direction:column;align-items:center;gap:12px;padding-top:6px;}
-  .rdot{width:40px;height:40px;border-radius:13px;display:grid;place-items:center;color:var(--ink-soft);background:rgba(255,255,255,.32);border:1px solid rgba(255,255,255,.5);}
-  .rdot.active{background:rgba(255,255,255,.7);color:var(--ink);}
+  .view{display:none;animation:fade .4s ease;}
+  .view.active{display:block;}
+  @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .h-title{font-family:var(--serif);font-size:clamp(1.7rem,1.3rem+1.4vw,2.2rem);font-weight:500;letter-spacing:-.5px;}
+  .h-sub{font-size:13px;color:var(--ink-soft);margin-top:3px;}
 
-  .col{display:flex;flex-direction:column;gap:16px;}
-  /* verre relevé : arête lumineuse interne + glaçure diagonale */
-  .card{position:relative;background:rgba(255,255,255,.42);border:1px solid var(--glass-line);border-radius:var(--r-card);padding:16px;
+  /* cards */
+  .card{position:relative;background:rgba(255,255,255,.44);border:1px solid var(--glass-line);border-radius:var(--r-lg);padding:18px;
     backdrop-filter:blur(24px) saturate(1.3);-webkit-backdrop-filter:blur(24px) saturate(1.3);
     box-shadow:var(--el-2),inset 0 1px 0 rgba(255,255,255,.65);overflow:hidden;}
-  .card::before{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
-    background:linear-gradient(135deg,rgba(255,255,255,.35),transparent 42%);}
+  .card::before{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;background:linear-gradient(135deg,rgba(255,255,255,.35),transparent 42%);}
   .card>*{position:relative;}
-  .card-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
-  .card-h b{font-size:var(--step-1);font-weight:600;display:flex;align-items:center;gap:7px;}
-  .card-h .sort{font-size:11px;color:var(--ink-faint);}
+  .card-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:13px;}
+  .card-h b{font-size:14.5px;display:flex;align-items:center;gap:8px;}
+  .card-h .mut{font-size:11px;color:var(--ink-faint);}
 
-  .trailer{position:relative;border-radius:14px;overflow:hidden;height:96px;margin-bottom:10px;display:flex;align-items:flex-end;padding:11px;color:#fff;}
-  .trailer:last-child{margin-bottom:0;}
-  .trailer .tg{position:absolute;top:10px;left:11px;z-index:2;font-size:10px;font-weight:600;background:rgba(0,0,0,.32);padding:3px 8px;border-radius:999px;}
-  .trailer .t{font-size:12.5px;font-weight:600;line-height:1.25;max-width:74%;text-shadow:0 1px 6px rgba(0,0,0,.5);position:relative;z-index:2;}
-  .trailer::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 25%,rgba(0,0,0,.6));z-index:1;}
-  .tplay{position:absolute;right:11px;bottom:11px;z-index:3;width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.85);display:grid;place-items:center;color:#111;}
+  /* accueil */
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:18px 0;}
+  .kpi{background:rgba(255,255,255,.4);border:1px solid var(--glass-line);border-radius:var(--r-md);padding:14px 16px;box-shadow:var(--el-1);}
+  .kpi .v{font-family:var(--serif);font-size:26px;font-weight:500;letter-spacing:-.5px;}
+  .kpi .k{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin-top:2px;}
+  .kpi .v small{font-size:13px;color:var(--ink-faint);}
+  .grid-main{display:grid;grid-template-columns:1.55fr 1fr;gap:16px;align-items:start;}
 
-  .cw-row{display:flex;align-items:center;gap:11px;padding:7px 0;}
-  .cw-thumb{width:42px;height:42px;border-radius:11px;flex-shrink:0;display:grid;place-items:center;color:#fff;font-weight:700;font-size:13px;}
-  .cw-row .info{flex:1;min-width:0;}
-  .cw-row .info b{font-size:12.5px;font-weight:600;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .cw-row .info span{font-size:11px;color:var(--ink-faint);}
-  .cw-pct{font-size:12px;font-weight:700;color:var(--ink-soft);flex-shrink:0;}
-
-  .hero{position:relative;border-radius:var(--r-xl);overflow:hidden;min-height:392px;display:flex;flex-direction:column;justify-content:flex-end;padding:34px;color:#fff;
-    background:radial-gradient(90% 120% at 78% 12%,#13352b 0%,#0a1a16 38%,#05100d 70%),linear-gradient(120deg,#06120f,#0a1a16);box-shadow:var(--el-hero);}
+  .hero{position:relative;border-radius:var(--r-xl);overflow:hidden;min-height:420px;display:flex;flex-direction:column;justify-content:flex-end;
+    padding:34px;color:#fff;background:radial-gradient(90% 120% at 78% 12%,#13352b 0%,#0a1a16 38%,#05100d 70%);box-shadow:var(--el-hero);}
   .hero canvas.galaxy{position:absolute;inset:0;width:100%;height:100%;z-index:0;}
   .hero::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
-    background:radial-gradient(110% 120% at 80% 6%,rgba(201,162,75,.22),transparent 46%),linear-gradient(0deg,rgba(3,9,7,.88) 2%,transparent 52%),linear-gradient(90deg,rgba(3,9,7,.78),transparent 60%);}
+    background:radial-gradient(110% 120% at 80% 6%,rgba(201,162,75,.2),transparent 46%),linear-gradient(0deg,rgba(3,9,7,.9) 2%,transparent 54%),linear-gradient(90deg,rgba(3,9,7,.8),transparent 60%);}
   .hero>*{position:relative;z-index:2;}
-  /* mots-clés en verre (réf. samanastudios) */
-  .hl{display:inline-block;padding:.02em .34em;border-radius:8px;background:rgba(255,255,255,.1);
-    border:1px solid rgba(255,255,255,.22);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
-    color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.3);}
+  .kick{font-size:11px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-soft);margin-bottom:14px;}
+  .chips{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+  .chip{font-size:11px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);padding:4px 11px;border-radius:999px;color:#fff;backdrop-filter:blur(6px);}
+  .hero h1{font-family:var(--serif);font-size:clamp(2.2rem,1.4rem+2.6vw,3.2rem);font-weight:500;line-height:1;letter-spacing:-1px;max-width:15ch;text-shadow:0 2px 30px rgba(0,0,0,.5);}
+  .hl{display:inline-block;padding:.02em .32em;border-radius:8px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);backdrop-filter:blur(6px);box-shadow:inset 0 1px 0 rgba(255,255,255,.3);}
   .hl.gold{background:rgba(201,162,75,.2);border-color:rgba(201,162,75,.5);color:#f3e2b8;}
-  /* étiquette flottante des branches 3D */
-  .br3d-lbl{position:absolute;z-index:4;transform:translate(14px,-50%) scale(.9);transform-origin:left center;
-    pointer-events:none;opacity:0;transition:opacity .18s ease,transform .18s ease;white-space:nowrap;
-    font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#fff;
-    background:rgba(0,0,0,.42);border:1px solid rgba(255,255,255,.25);backdrop-filter:blur(8px);
-    -webkit-backdrop-filter:blur(8px);padding:5px 11px;border-radius:999px;}
-  .br3d-lbl.on{opacity:1;transform:translate(14px,-50%) scale(1);}
-  .badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;background:rgba(0,0,0,.32);backdrop-filter:blur(6px);padding:5px 11px;border-radius:999px;width:max-content;}
-  .chips{display:flex;gap:8px;margin:14px 0 12px;}
-  .chip{font-size:11px;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3);padding:4px 11px;border-radius:999px;}
-  .hero .kick{font-size:11px;font-weight:700;letter-spacing:.32em;text-transform:uppercase;color:var(--gold-soft);margin-bottom:14px;}
-  .hero h1{font-family:var(--serif);font-size:clamp(2.4rem,1.4rem+3.4vw,3.7rem);font-weight:500;line-height:.98;letter-spacing:-1px;max-width:15ch;text-shadow:0 2px 30px rgba(0,0,0,.5);}
-  .hero .slo{font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-soft);margin-top:14px;}
-  .hero p{font-size:13px;color:rgba(255,255,255,.82);max-width:52%;margin-top:10px;line-height:1.5;}
-  .hero-btns{display:flex;align-items:center;gap:11px;margin-top:22px;}
-  .btn{display:inline-flex;align-items:center;gap:9px;font-size:13.5px;font-weight:600;padding:12px 20px;border-radius:999px;cursor:pointer;border:0;}
+  .hero .slo{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-soft);margin-top:13px;}
+  .hero p{font-size:13px;color:rgba(255,255,255,.84);max-width:54%;margin-top:11px;line-height:1.5;}
+  .hbtns{display:flex;gap:11px;margin-top:22px;flex-wrap:wrap;}
+  .btn{display:inline-flex;align-items:center;gap:9px;font-size:13px;font-weight:600;padding:12px 19px;border-radius:999px;cursor:pointer;border:0;transition:transform .15s,box-shadow .2s;}
+  .btn:hover{transform:translateY(-1px);}
   .btn-w{background:#fff;color:#13201b;}
-  .btn-o{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.35);color:#fff;backdrop-filter:blur(6px);}
-  .btn-r{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.35);color:#fff;display:grid;place-items:center;}
-  .hero-meta{position:absolute;right:26px;bottom:26px;z-index:3;text-align:right;}
-  .hero-meta .pct{font-size:30px;font-weight:800;letter-spacing:-1px;}
+  .btn-o{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.32);color:#fff;backdrop-filter:blur(6px);}
+  .hero-meta{position:absolute;right:30px;bottom:30px;z-index:2;text-align:right;}
+  .hero-meta .pct{font-family:var(--serif);font-size:32px;font-weight:500;}
   .hero-meta .lab{font-size:10px;letter-spacing:.12em;text-transform:uppercase;opacity:.75;}
 
-  .might{margin-top:20px;}
-  .might-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
-  .might-h b{font-family:var(--serif);font-size:var(--step-3);font-weight:500;letter-spacing:-.3px;}
-  .see{font-size:11.5px;color:var(--ink-soft);background:rgba(255,255,255,.5);border:1px solid var(--glass-line);padding:6px 13px;border-radius:999px;}
-  .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
-  .br{position:relative;border-radius:var(--r-lg);overflow:hidden;height:240px;display:flex;flex-direction:column;justify-content:flex-end;padding:16px;color:#fff;cursor:pointer;box-shadow:var(--el-2);}
-  .br::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 34%,rgba(0,0,0,.74));z-index:1;}
-  .br > *{position:relative;z-index:2;}
+  .side-col{display:flex;flex-direction:column;gap:16px;}
+  .prio{display:flex;align-items:flex-start;gap:11px;padding:9px 0;border-bottom:1px solid var(--hairline);}
+  .prio:last-child{border-bottom:0;}
+  .prio .dt{font-size:10px;font-weight:700;color:#fff;padding:3px 8px;border-radius:7px;flex-shrink:0;white-space:nowrap;}
+  .prio .tx{font-size:12.5px;line-height:1.35;}
+  .crow{display:flex;align-items:center;gap:11px;padding:8px 0;}
+  .cthumb{width:38px;height:38px;border-radius:11px;flex-shrink:0;display:grid;place-items:center;color:#fff;font-weight:800;font-size:13px;}
+  .crow .inf{flex:1;min-width:0;}
+  .crow .inf b{font-size:12.5px;display:block;}
+  .crow .inf span{font-size:11px;color:var(--ink-faint);}
+  .crow .pc{font-size:12px;font-weight:700;color:var(--ink-soft);}
+  .brain{cursor:pointer;}
+  .brain .badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;}
+  .abadge{font-size:10px;font-weight:600;color:var(--ink-soft);background:rgba(255,255,255,.55);border:1px solid var(--glass-line);padding:4px 9px;border-radius:999px;}
+
+  /* branches grid */
+  .br-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px;}
+  .br{position:relative;border-radius:var(--r-lg);overflow:hidden;height:230px;display:flex;flex-direction:column;justify-content:flex-end;
+    padding:16px;color:#fff;cursor:pointer;box-shadow:var(--el-2);transition:transform .25s,box-shadow .25s;}
+  .br:hover{transform:translateY(-5px);box-shadow:var(--el-3);}
+  .br::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 32%,rgba(0,0,0,.76));z-index:1;}
+  .br>*{position:relative;z-index:2;}
   .br .g{font-size:10.5px;background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.3);padding:3px 9px;border-radius:999px;width:max-content;}
-  .br .mt{font-size:14.5px;font-weight:700;margin-top:auto;padding-top:10px;}
-  .br .md{font-size:10.5px;color:rgba(255,255,255,.75);margin-top:4px;line-height:1.4;}
-  .br .barr{margin-top:9px;height:4px;border-radius:3px;background:rgba(255,255,255,.25);overflow:hidden;}
+  .br .mt{font-family:var(--serif);font-size:18px;font-weight:500;margin-top:auto;padding-top:10px;}
+  .br .md{font-size:11px;color:rgba(255,255,255,.8);margin-top:4px;line-height:1.4;}
+  .br .barr{margin-top:10px;height:4px;border-radius:3px;background:rgba(255,255,255,.25);overflow:hidden;}
   .br .barr i{display:block;height:100%;background:linear-gradient(90deg,var(--gold-soft),#e9d29a);border-radius:3px;box-shadow:0 0 8px rgba(201,162,75,.5);}
-  .br .pct{position:absolute;top:12px;right:13px;z-index:3;font-size:12px;font-weight:700;}
+  .br .pc{position:absolute;top:13px;right:14px;z-index:2;font-size:13px;font-weight:700;}
 
-  @media(max-width:1000px){ .body{grid-template-columns:44px 1fr;} .col-left{display:none;} .grid4{grid-template-columns:repeat(2,1fr);} .hero h1,.hero p{max-width:100%;} }
-  @media(max-width:640px){ body{padding:10px;} .tabs,.search{display:none;} .body{grid-template-columns:1fr;} .rail{display:none;} .grid4{grid-template-columns:1fr 1fr;} .hero{min-height:280px;padding:20px;} .hero h1{font-size:24px;} .hero-meta{display:none;} }
-</style>
-</head>
-<body>
-<div class="stage">
+  /* connectors + agents */
+  .sec-t{font-size:13px;font-weight:700;margin:22px 0 13px;display:flex;align-items:center;gap:8px;}
+  .sec-t span{font-weight:500;color:var(--ink-faint);font-size:11px;}
+  .conn-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+  .conn{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.46);border:1px solid var(--glass-line);border-radius:14px;padding:13px 15px;box-shadow:var(--el-1);transition:transform .16s,box-shadow .2s,background .2s;}
+  .conn:hover{transform:translateY(-2px);box-shadow:var(--el-2);background:rgba(255,255,255,.7);}
+  .conn .ce{font-size:22px;width:42px;height:42px;display:grid;place-items:center;background:rgba(255,255,255,.6);border-radius:11px;flex-shrink:0;}
+  .conn .ci{flex:1;min-width:0;}
+  .conn .ci b{font-size:13.5px;display:block;}.conn .ci span{font-size:11.5px;color:var(--ink-faint);}
+  .conn .cbadge{font-size:10px;font-weight:700;color:#1d7a4f;background:rgba(46,158,120,.16);border:1px solid rgba(46,158,120,.3);padding:3px 9px;border-radius:999px;white-space:nowrap;}
+  .apps-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;}
+  .appt{display:flex;flex-direction:column;align-items:center;gap:8px;background:rgba(255,255,255,.42);border:1px solid var(--glass-line);border-radius:14px;padding:15px 8px;font-size:11.5px;font-weight:600;transition:transform .16s,background .2s;}
+  .appt:hover{transform:translateY(-2px);background:rgba(255,255,255,.7);}
+  .appt .ae{font-size:25px;}
 
-  <div class="chrome">
-    <div class="grp">
-      <span class="cbtn"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><line x1="9" y1="5" x2="9" y2="19"/></svg></span>
-      <span class="cbtn"><svg class="ic" viewBox="0 0 24 24"><polyline points="15 6 9 12 15 18"/></svg></span>
-      <span class="cbtn"><svg class="ic" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></span>
-    </div>
-    <div class="addr">
-      <svg class="ic ic-sm" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg>
-      <span><span class="dom">maykenwil.com</span></span>
-      <svg class="ic ic-sm" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.5 15a9 9 0 11-2.1-9.4L23 10"/></svg>
-    </div>
-    <div class="grp">
-      <span class="cbtn"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3v12"/><polyline points="7 10 12 15 17 10"/><path d="M5 21h14"/></svg></span>
-      <span class="cbtn"><svg class="ic" viewBox="0 0 24 24"><path d="M12 16V4"/><polyline points="7 9 12 4 17 9"/><path d="M5 20h14"/></svg></span>
-      <span class="cbtn"><svg class="ic" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
-      <span class="cbtn"><svg class="ic" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/></svg></span>
-    </div>
-  </div>
+  .agt-search{width:100%;padding:12px 16px;border-radius:13px;border:1px solid var(--glass-line);background:rgba(255,255,255,.6);font-size:13px;color:var(--ink);margin:6px 0 16px;font-family:var(--font);}
+  .agt-search:focus{outline:2px solid var(--gold-soft);outline-offset:1px;}
+  .dept-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+  .dept{cursor:pointer;display:flex;flex-direction:column;gap:4px;background:rgba(255,255,255,.46);border:1px solid var(--glass-line);border-radius:14px;padding:15px 14px;box-shadow:var(--el-1);transition:transform .16s,box-shadow .2s,background .2s;}
+  .dept:hover{transform:translateY(-2px);box-shadow:var(--el-2);background:rgba(255,255,255,.7);}
+  .dept-e{font-size:23px;}.dept b{font-size:13px;}.dept-c{font-size:11px;color:var(--ink-faint);}
+  .agt-list{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+  .agt{display:flex;align-items:flex-start;gap:11px;background:rgba(255,255,255,.46);border:1px solid var(--glass-line);border-radius:13px;padding:12px 14px;}
+  .agt-e{font-size:18px;flex-shrink:0;line-height:1.4;}
+  .agt b{font-size:12.5px;display:block;}.agt span{font-size:11px;color:var(--ink-faint);line-height:1.4;}
+  .back{border:0;background:rgba(0,0,0,.05);color:var(--ink-soft);padding:8px 14px;border-radius:9px;cursor:pointer;font-weight:600;font-size:12px;margin-bottom:16px;font-family:var(--font);}
+  .back:hover{background:rgba(0,0,0,.09);}
 
-  <div class="app">
-    <div class="appbar">
-      <div class="search"><svg class="ic ic-sm" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.6" y2="16.6"/></svg> Rechercher dans Maykenwil</div>
-      <div class="tabs">
-        <span class="tab active">Vue d'ensemble</span>
-        <span class="tab" onclick="document.querySelector('.might').scrollIntoView({behavior:'smooth'})">Branches</span>
-        <span class="tab" onclick="openAgents()">Agence IA</span>
-        <span class="tab" onclick="openConnectors()">Connecteurs</span>
-        <span class="tab" onclick="openAgenda()">Calendrier</span>
-      </div>
-      <span class="spacer"></span>
-      <button class="lockb" id="lockbtn" onclick="toggleLock()" title="Mode privé">🔒</button>
-      <span class="bell"><svg class="ic" viewBox="0 0 24 24"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 01-3.4 0"/></svg></span>
-      <div class="profile"><span class="avatar">SZ</span><span><span class="nm">Samy Zertit</span><span class="at">@maykenwil · Fondateur</span></span>
-        <svg class="ic ic-sm" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
-    </div>
+  /* agenda */
+  .agl{position:relative;padding-left:8px;}
+  .agl::before{content:"";position:absolute;left:70px;top:6px;bottom:6px;width:1px;background:var(--hairline);}
+  .agrow{display:flex;align-items:flex-start;gap:14px;padding:9px 0;}
+  .agrow .tm{width:50px;flex-shrink:0;font-size:12px;font-weight:700;color:var(--ink-soft);text-align:right;font-variant-numeric:tabular-nums;}
+  .agrow .pin{width:11px;height:11px;border-radius:50%;flex-shrink:0;margin-top:3px;border:2px solid rgba(255,255,255,.8);box-shadow:0 0 0 3px rgba(255,255,255,.4);}
+  .agrow .ttl{font-size:13.5px;line-height:1.35;}
+  .note{font-size:11.5px;color:var(--ink-faint);margin-top:14px;}
+  .pbtn{border:0;background:var(--sport);color:#fff;padding:9px 16px;border-radius:10px;cursor:pointer;font-weight:600;font-size:13px;}
 
-    <div class="body">
-      <div class="rail">
-        <span class="rdot active"><svg class="ic" viewBox="0 0 24 24"><path d="M3 10l9-7 9 7v9a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg></span>
-        <span class="rdot"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg></span>
-        <span class="rdot"><svg class="ic" viewBox="0 0 24 24"><path d="M3 17l5-5 4 3 8-8"/><path d="M16 7h5v5"/></svg></span>
-        <span class="rdot"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/></svg></span>
-        <span class="rdot"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 00-.1-1l2-1.5-2-3.4-2.3 1a7 7 0 00-1.7-1l-.3-2.5H10l-.3 2.5a7 7 0 00-1.7 1l-2.3-1-2 3.4L5.7 11a7 7 0 000 2l-2 1.5 2 3.4 2.3-1a7 7 0 001.7 1l.3 2.5h4l.3-2.5a7 7 0 001.7-1l2.3 1 2-3.4-2-1.5a7 7 0 00.1-1z"/></svg></span>
-      </div>
-
-      <div class="col col-left">
-        <div class="card">
-          <div class="card-h"><b>🎯 Priorités actives</b><span class="sort">Phase 0 ⌄</span></div>
-          <div class="trailer" style="background:linear-gradient(135deg,#1f3a6b,#4a7fc4)">
-            <span class="tg">Nov 2026</span><span class="t">Examen Agent FFF — épreuve générale</span><span class="tplay"><svg class="ic ic-sm play" viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20"/></svg></span>
-          </div>
-          <div class="trailer" style="background:linear-gradient(135deg,#7a4a2a,#d08a3a)">
-            <span class="tg">Août 2026</span><span class="t">Emploi retail télécom à Marseille</span><span class="tplay"><svg class="ic ic-sm play" viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20"/></svg></span>
-          </div>
-          <div class="trailer" style="background:linear-gradient(135deg,#2f5a3a,#6fae6b);height:52px">
-            <span class="t">Collaboration Events — dès l'arrivée</span>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-h"><b>⚡ En cours</b></div>
-          <div class="cw-row"><span class="cw-thumb" style="background:linear-gradient(135deg,#0f6a52,#5fe0b4)">S</span><span class="info"><b>Sport · NV15</b><span>Scouting + prép. FFF</span></span><span class="cw-pct">28%</span></div>
-          <div class="cw-row"><span class="cw-thumb" style="background:linear-gradient(135deg,#7a4a1a,#FF9B4D)">E</span><span class="info"><b>Jadeliane Events</b><span>Réseau institutionnel</span></span><span class="cw-pct">45%</span></div>
-          <div class="cw-row"><span class="cw-thumb" style="background:linear-gradient(135deg,#4a3a6b,#A78BFA)">N</span><span class="info"><b>North Vision Dev</b><span>Préparation terrain</span></span><span class="cw-pct">18%</span></div>
-          <div class="cw-row"><span class="cw-thumb" style="background:linear-gradient(135deg,#5a6b1a,#C8FF00)">C</span><span class="info"><b>Capital · Halal</b><span>Conception structure</span></span><span class="cw-pct">12%</span></div>
-        </div>
-
-        <div class="card brain" onclick="openAgents()" style="cursor:pointer">
-          <div class="card-h"><b>🧠 Mon agence IA</b><span class="sort">217 ⌄</span></div>
-          <div style="font-size:12px;color:var(--ink-soft);line-height:1.5;margin-bottom:11px">217 agents spécialisés, 16 départements — ton équipe à la demande.</div>
-          <div style="display:flex;gap:6px;flex-wrap:wrap">
-            <span class="abadge">🎨 Design</span><span class="abadge">⚙️ Ingénierie</span><span class="abadge">📣 Marketing</span><span class="abadge">💰 Finance</span><span class="abadge">+12</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="col">
-        <div class="hero">
-          <canvas class="galaxy" id="galaxy"></canvas>
-          <div class="kick">Maykenwil Holding · Branche phare</div>
-          <div class="chips"><span class="chip">Phase 1</span><span class="chip">Active</span><span class="chip">North Vision 15</span></div>
-          <h1>Révéler les <span class="hl gold">talents</span><br>que personne<br>ne voit <span class="hl">encore</span>.</h1>
-          <div class="slo">MKW Sport · « More Than Kings Win »</div>
-          <p>Agence d'agents FIFA. Cible : joueurs 18-23 ans sous-évalués (Afrique, Amérique du Sud, Asie, réserves européennes). Examen FFF — mai 2027.</p>
-          <div class="hero-btns">
-            <button class="btn btn-w" onclick="openBranch('sport')"><svg class="ic ic-sm" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg> Ouvrir la branche</button>
-            <button class="btn btn-o"><svg class="ic ic-sm" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><line x1="8" y1="9" x2="16" y2="9"/><line x1="8" y1="13" x2="16" y2="13"/></svg> Plan d'action</button>
-            <button class="btn-r"><svg class="ic ic-sm" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.5" class="play"/><circle cx="12" cy="12" r="1.5" class="play"/><circle cx="19" cy="12" r="1.5" class="play"/></svg></button>
-          </div>
-          <div class="hero-meta"><div class="pct">28%</div><div class="lab">Avancement</div></div>
-        </div>
-
-        <div class="might">
-          <div class="might-h"><b>Les branches</b><span class="see">Voir tout</span></div>
-          <div class="grid4">
-            <div class="br" onclick="openBranch('events')" style="background:linear-gradient(160deg,#7a4a1a,#FF9B4D)"><span class="pct">45%</span><span class="g">Actif</span><div class="mt">Jadeliane Events</div><div class="md">Événementiel PACA · réseau institutionnel.</div><div class="barr"><i style="width:45%"></i></div></div>
-            <div class="br" onclick="openBranch('northvision')" style="background:linear-gradient(160deg,#4a3a6b,#A78BFA)"><span class="pct">18%</span><span class="g">Planif</span><div class="mt">North Vision Dev</div><div class="md">Impact social · développement terrain.</div><div class="barr"><i style="width:18%"></i></div></div>
-            <div class="br" onclick="openBranch('capital')" style="background:linear-gradient(160deg,#5a6b1a,#9fc40f)"><span class="pct">12%</span><span class="g">Halal</span><div class="mt">Capital</div><div class="md">Finance 100% halal · zéro riba.</div><div class="barr"><i style="width:12%"></i></div></div>
-            <div class="br" onclick="openBranch('beaute')" style="background:linear-gradient(160deg,#7a2a48,#FF4D88)"><span class="pct">0%</span><span class="g">Phase 2</span><div class="mt">Beauté</div><div class="md">Franchise esthétique · à initier.</div><div class="barr"><i style="width:3%"></i></div></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<style>
-  .ov{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(40,30,20,.4);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);}
-  .ov.open{display:flex;animation:ovin .25s ease;}
-  @keyframes ovin{from{opacity:0}to{opacity:1}}
-  .ovc{width:min(560px,100%);max-height:86vh;overflow-y:auto;position:relative;border-radius:24px;padding:0;
-    background:rgba(248,244,238,.9);backdrop-filter:blur(46px) saturate(1.5);-webkit-backdrop-filter:blur(46px) saturate(1.5);
-    border:1px solid var(--glass-line);box-shadow:var(--shadow);animation:ovup .35s cubic-bezier(.22,1,.36,1);}
-  @keyframes ovup{from{transform:translateY(20px)}to{transform:none}}
-  .ovh{height:120px;border-radius:24px 24px 0 0;position:relative;display:flex;align-items:flex-end;padding:18px 22px;color:#fff;}
-  .ovh::after{content:"";position:absolute;inset:0;border-radius:24px 24px 0 0;background:linear-gradient(180deg,transparent,rgba(0,0,0,.35));}
-  .ovh .ph{position:relative;z-index:2;font-size:11px;font-weight:600;background:rgba(0,0,0,.3);padding:4px 11px;border-radius:999px;}
-  .ovx{position:absolute;top:14px;right:14px;z-index:3;width:32px;height:32px;border-radius:50%;border:0;background:rgba(255,255,255,.25);color:#fff;backdrop-filter:blur(6px);font-size:15px;cursor:pointer;}
+  /* overlay (détail branche) */
+  .ov{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(20,15,10,.45);backdrop-filter:blur(10px);}
+  .ov.open{display:flex;animation:fade .25s ease;}
+  .ovc{width:min(560px,100%);max-height:88vh;overflow-y:auto;border-radius:24px;position:relative;
+    background:rgba(248,244,238,.92);backdrop-filter:blur(46px) saturate(1.5);border:1px solid var(--glass-line);box-shadow:var(--el-3);}
+  .ovh{height:130px;border-radius:24px 24px 0 0;position:relative;display:flex;align-items:flex-end;padding:18px 22px;color:#fff;}
+  .ovh::after{content:"";position:absolute;inset:0;border-radius:24px 24px 0 0;background:linear-gradient(180deg,transparent,rgba(0,0,0,.4));}
+  .ovh .ph{position:relative;z-index:2;font-size:11px;font-weight:600;background:rgba(0,0,0,.32);padding:4px 11px;border-radius:999px;}
+  .ovx{position:absolute;top:14px;right:14px;z-index:3;width:32px;height:32px;border-radius:50%;border:0;background:rgba(255,255,255,.25);color:#fff;font-size:15px;cursor:pointer;backdrop-filter:blur(6px);}
   .ovb{padding:20px 24px 26px;}
-  .ovb h2{font-size:24px;font-weight:700;letter-spacing:-.4px;}
+  .ovb h2{font-family:var(--serif);font-size:24px;font-weight:500;letter-spacing:-.3px;}
   .ovb .ag{font-size:12.5px;color:var(--ink-faint);margin-top:2px;}
   .ovb .slo{font-style:italic;font-size:13px;margin-top:10px;}
   .ovrail{height:7px;border-radius:4px;background:rgba(0,0,0,.08);overflow:hidden;margin:18px 0 6px;}
   .ovrail i{display:block;height:100%;border-radius:4px;}
   .ovpct{display:flex;justify-content:space-between;font-size:11px;color:var(--ink-faint);font-weight:600;}
   .ovkv{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0;}
-  .ovkv .c{grid-column:1/-1;}
-  .ovcell{background:rgba(255,255,255,.5);border:1px solid var(--glass-line);border-radius:13px;padding:11px 13px;}
+  .ovcell{background:rgba(255,255,255,.55);border:1px solid var(--glass-line);border-radius:13px;padding:11px 13px;}
+  .ovcell.c{grid-column:1/-1;}
   .ovcell .k{font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);}
   .ovcell .v{font-size:13px;margin-top:4px;}
   .ovnotes{font-size:13.5px;color:var(--ink-soft);line-height:1.6;}
-  /* agenda */
-  .agh{display:flex;align-items:center;justify-content:space-between;padding:20px 24px 8px;}
-  .agh h2{font-size:20px;font-weight:700;}
-  .agh .sub{font-size:11.5px;color:var(--ink-faint);}
-  .agl{padding:6px 24px 24px;position:relative;}
-  .agl::before{content:"";position:absolute;left:78px;top:0;bottom:18px;width:1px;background:rgba(0,0,0,.1);}
-  .agrow{display:flex;align-items:flex-start;gap:14px;padding:7px 0;position:relative;}
-  .agrow .tm{width:46px;flex-shrink:0;font-size:12px;font-weight:700;color:var(--ink-soft);text-align:right;font-variant-numeric:tabular-nums;}
-  .agrow .pin{width:11px;height:11px;border-radius:50%;flex-shrink:0;margin-top:3px;border:2px solid rgba(255,255,255,.7);box-shadow:0 0 0 3px rgba(255,255,255,.4);}
-  .agrow .ttl{font-size:13.5px;color:var(--ink);line-height:1.35;}
-  .agnote{padding:0 24px 22px;font-size:11px;color:var(--ink-faint);}
-  /* vue large (agence IA / connecteurs) */
-  .ovc.wide{width:min(900px,100%);}
-  .cc-sec{padding:8px 24px 22px;}
-  .cc-t{font-size:12.5px;font-weight:700;letter-spacing:.02em;color:var(--ink);margin:14px 0 12px;display:flex;align-items:center;gap:8px;}
-  .cc-t span{font-weight:500;color:var(--ink-faint);font-size:11px;}
-  .conn-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
-  .conn{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink);
-    background:rgba(255,255,255,.5);border:1px solid var(--glass-line);border-radius:14px;padding:12px 14px;
-    box-shadow:var(--el-1);transition:transform .16s ease,box-shadow .2s ease,background .2s ease;}
-  .conn:hover{transform:translateY(-2px);box-shadow:var(--el-2);background:rgba(255,255,255,.7);}
-  .conn .ce{font-size:22px;width:40px;height:40px;display:grid;place-items:center;background:rgba(255,255,255,.6);border-radius:11px;flex-shrink:0;}
-  .conn .ci{display:flex;flex-direction:column;min-width:0;flex:1;}
-  .conn .ci b{font-size:13.5px;}.conn .ci span{font-size:11.5px;color:var(--ink-faint);}
-  .conn .cbadge{font-size:10px;font-weight:700;color:#1d7a4f;background:rgba(46,158,120,.16);border:1px solid rgba(46,158,120,.3);padding:3px 9px;border-radius:999px;white-space:nowrap;}
-  .apps-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;}
-  .appt{display:flex;flex-direction:column;align-items:center;gap:7px;text-decoration:none;color:var(--ink);
-    background:rgba(255,255,255,.42);border:1px solid var(--glass-line);border-radius:14px;padding:14px 8px;font-size:11.5px;font-weight:600;
-    transition:transform .16s ease,background .2s ease;}
-  .appt:hover{transform:translateY(-2px);background:rgba(255,255,255,.7);}
-  .appt .ae{font-size:24px;}
-  /* agents */
-  .agt-search{width:100%;padding:11px 15px;border-radius:12px;border:1px solid var(--glass-line);
-    background:rgba(255,255,255,.6);font-size:13px;color:var(--ink);margin-bottom:14px;font-family:var(--font);}
-  .agt-search:focus{outline:2px solid var(--gold-soft);outline-offset:1px;}
-  .dept-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
-  .dept{cursor:pointer;display:flex;flex-direction:column;gap:4px;background:rgba(255,255,255,.46);
-    border:1px solid var(--glass-line);border-radius:14px;padding:14px 13px;box-shadow:var(--el-1);
-    transition:transform .16s ease,box-shadow .2s ease,background .2s ease;}
-  .dept:hover{transform:translateY(-2px);box-shadow:var(--el-2);background:rgba(255,255,255,.7);}
-  .dept-e{font-size:22px;}.dept b{font-size:13px;}.dept-c{font-size:11px;color:var(--ink-faint);}
-  .agt-list{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
-  .agt{display:flex;align-items:flex-start;gap:11px;background:rgba(255,255,255,.46);
-    border:1px solid var(--glass-line);border-radius:13px;padding:11px 13px;}
-  .agt-e{font-size:18px;flex-shrink:0;line-height:1.4;}
-  .agt b{font-size:12.5px;display:block;}.agt span{font-size:11px;color:var(--ink-faint);line-height:1.4;}
-  .back{border:0;background:rgba(0,0,0,.05);color:var(--ink-soft);padding:7px 13px;border-radius:9px;cursor:pointer;font-weight:600;font-size:12px;margin-bottom:14px;font-family:var(--font);}
-  .back:hover{background:rgba(0,0,0,.09);}
-  .brain{transition:transform .2s ease,box-shadow .25s ease;}
-  .brain:hover{transform:translateY(-3px);box-shadow:var(--el-3),inset 0 1px 0 rgba(255,255,255,.65);}
-  .abadge{font-size:10px;font-weight:600;color:var(--ink-soft);background:rgba(255,255,255,.55);border:1px solid var(--glass-line);padding:4px 9px;border-radius:999px;}
-  @media(max-width:640px){.conn-grid,.agt-list{grid-template-columns:1fr;}.apps-grid{grid-template-columns:repeat(3,1fr);}.dept-grid{grid-template-columns:repeat(2,1fr);}}
-  .lockb{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.4);border:1px solid var(--glass-line);font-size:15px;cursor:pointer;}
-  body.priv .lockb{background:rgba(46,158,120,.28);border-color:rgba(46,158,120,.55);}
-  body.priv .app{box-shadow:var(--shadow),0 0 0 1.5px rgba(46,158,120,.4);}
+  .br3d-lbl{position:absolute;z-index:4;transform:translate(14px,-50%) scale(.9);transform-origin:left center;pointer-events:none;opacity:0;
+    transition:opacity .18s,transform .18s;white-space:nowrap;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#fff;
+    background:rgba(0,0,0,.42);border:1px solid rgba(255,255,255,.25);backdrop-filter:blur(8px);padding:5px 11px;border-radius:999px;}
+  .br3d-lbl.on{opacity:1;transform:translate(14px,-50%) scale(1);}
+
+  @media(max-width:980px){
+    .os{grid-template-columns:1fr;}
+    .side{position:fixed;bottom:0;top:auto;left:0;right:0;height:auto;flex-direction:row;z-index:100;padding:8px;gap:2px;
+      border-right:0;border-top:1px solid var(--hairline);overflow-x:auto;}
+    .brand,.side .sp,.lockrow span,.nav .cnt{display:none;}
+    .nav{flex-direction:column;gap:4px;font-size:10px;padding:7px 10px;text-align:center;}
+    .lockrow{padding:7px 12px;}
+    .main{padding:18px 16px 90px;}
+    .grid-main{grid-template-columns:1fr;}
+    .kpis{grid-template-columns:repeat(2,1fr);}
+    .br-grid,.conn-grid,.agt-list,.dept-grid{grid-template-columns:1fr 1fr;}
+    .apps-grid{grid-template-columns:repeat(4,1fr);}
+    .hero p{max-width:100%;}
+  }
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;}}
 </style>
-<div class="ov" id="ov" onclick="if(event.target===this)closeBranch()">
-  <div class="ovc" id="ovc"></div>
+</head>
+<body>
+<div class="os">
+  <!-- SIDEBAR -->
+  <aside class="side">
+    <div class="brand"><div class="logo">M</div><div><b>Maykenwil OS</b><span>Command Center</span></div></div>
+    <div class="nav active" data-v="accueil"><svg class="ic" viewBox="0 0 24 24"><path d="M3 10l9-7 9 7v9a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg> Accueil</div>
+    <div class="nav" data-v="branches"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg> Branches</div>
+    <div class="nav" data-v="agents"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0112 0v1"/><circle cx="19" cy="9" r="2.5"/></svg> Agence IA <span class="cnt" id="agcount">217</span></div>
+    <div class="nav" data-v="connecteurs"><svg class="ic" viewBox="0 0 24 24"><path d="M6 3v6a6 6 0 0012 0V3"/><line x1="6" y1="21" x2="6" y2="15"/><line x1="18" y1="21" x2="18" y2="15"/></svg> Connecteurs</div>
+    <div class="nav" data-v="calendrier"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/></svg> Calendrier</div>
+    <div class="sp"></div>
+    <div class="lockrow" id="lockrow" onclick="toggleLock()"><svg class="ic" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg> <span id="lockt">Mode privé</span></div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="topbar">
+      <div class="search"><svg class="ic ic-sm" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.6" y2="16.6"/></svg> Rechercher dans Maykenwil…</div>
+      <span class="sp2"></span>
+      <span class="bell"><svg class="ic" viewBox="0 0 24 24"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 01-3.4 0"/></svg></span>
+      <div class="profile"><span class="avatar">SZ</span><span><span class="nm">Samy Zertit</span><br><span class="at">Fondateur · Maykenwil Holding</span></span></div>
+    </div>
+
+    <!-- ACCUEIL -->
+    <section class="view active" id="v-accueil">
+      <div class="kpis">
+        <div class="kpi"><div class="v">61<small>/100</small></div><div class="k">Go / No-Go</div></div>
+        <div class="kpi"><div class="v">Phase 0</div><div class="k">Préparation</div></div>
+        <div class="kpi"><div class="v">Août 2026</div><div class="k">Lancement · Marseille</div></div>
+        <div class="kpi"><div class="v">6</div><div class="k">Branches</div></div>
+      </div>
+      <div class="grid-main">
+        <div class="hero">
+          <canvas class="galaxy" id="galaxy"></canvas>
+          <div class="kick">Maykenwil Holding · Branche phare</div>
+          <div class="chips"><span class="chip">Phase 1</span><span class="chip">Active</span><span class="chip">North Vision 15</span></div>
+          <h1>Révéler les <span class="hl gold">talents</span><br>que personne<br>ne voit <span class="hl">encore</span>.</h1>
+          <div class="slo">MKW Sport · « More Than Kings Win »</div>
+          <p>Agence d'agents FIFA. Cible : joueurs 18-23 ans sous-évalués. Examen FFF — mai 2027.</p>
+          <div class="hbtns">
+            <button class="btn btn-w" onclick="openBranch('sport')"><svg class="ic ic-sm" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg> Ouvrir la branche</button>
+            <button class="btn btn-o" onclick="go('agents')">🧠 Mon agence IA</button>
+          </div>
+          <div class="hero-meta"><div class="pct">28%</div><div class="lab">Avancement</div></div>
+        </div>
+        <div class="side-col">
+          <div class="card">
+            <div class="card-h"><b>🎯 Priorités actives</b><span class="mut">Phase 0</span></div>
+            <div class="prio"><span class="dt" style="background:#1f3a6b">Nov 2026</span><span class="tx">Examen Agent FFF — épreuve générale</span></div>
+            <div class="prio"><span class="dt" style="background:#7a4a2a">Août 2026</span><span class="tx">Emploi retail télécom à Marseille</span></div>
+            <div class="prio"><span class="dt" style="background:#2f5a3a">Dès l'arrivée</span><span class="tx">Collaboration Jadeliane Events</span></div>
+          </div>
+          <div class="card">
+            <div class="card-h"><b>⚡ En cours</b></div>
+            <div class="crow"><span class="cthumb" style="background:linear-gradient(135deg,#0f6a52,#5fe0b4)">S</span><span class="inf"><b>Sport · NV15</b><span>Scouting + prép. FFF</span></span><span class="pc">28%</span></div>
+            <div class="crow"><span class="cthumb" style="background:linear-gradient(135deg,#7a4a1a,#FF9B4D)">E</span><span class="inf"><b>Jadeliane Events</b><span>Réseau institutionnel</span></span><span class="pc">45%</span></div>
+            <div class="crow"><span class="cthumb" style="background:linear-gradient(135deg,#4a3a6b,#A78BFA)">N</span><span class="inf"><b>North Vision Dev</b><span>Préparation terrain</span></span><span class="pc">18%</span></div>
+            <div class="crow"><span class="cthumb" style="background:linear-gradient(135deg,#5a6b1a,#C8FF00)">C</span><span class="inf"><b>Capital · Halal</b><span>Conception structure</span></span><span class="pc">12%</span></div>
+          </div>
+          <div class="card brain" onclick="go('agents')">
+            <div class="card-h"><b>🧠 Mon agence IA</b><span class="mut">217 ⌄</span></div>
+            <div style="font-size:12px;color:var(--ink-soft);line-height:1.5">217 agents spécialisés, 16 départements — ton équipe à la demande.</div>
+            <div class="badges"><span class="abadge">🎨 Design</span><span class="abadge">⚙️ Ingénierie</span><span class="abadge">📣 Marketing</span><span class="abadge">+13</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BRANCHES -->
+    <section class="view" id="v-branches">
+      <div class="h-title">Les 6 branches</div>
+      <div class="h-sub">L'écosystème Maykenwil — clique une branche pour le détail.</div>
+      <div class="br-grid" id="brgrid"></div>
+    </section>
+
+    <!-- AGENCE IA -->
+    <section class="view" id="v-agents">
+      <div class="h-title">Mon agence IA</div>
+      <div class="h-sub" id="agsub">Ton équipe d'agents à la demande.</div>
+      <input class="agt-search" placeholder="Rechercher un agent… (ex: marketing, sécurité, 3D)" oninput="filterAgents(this.value)">
+      <div id="agt-results"></div>
+      <div class="dept-grid" id="dept-grid"></div>
+    </section>
+
+    <!-- CONNECTEURS -->
+    <section class="view" id="v-connecteurs">
+      <div class="h-title">Centre de contrôle</div>
+      <div class="h-sub">Tes connecteurs IA et tes apps, au même endroit.</div>
+      <div class="sec-t">🔌 Connecteurs IA <span>(liés à ton cerveau Claude)</span></div>
+      <div class="conn-grid" id="conngrid"></div>
+      <div class="sec-t">📱 Mes apps</div>
+      <div class="apps-grid" id="appsgrid"></div>
+    </section>
+
+    <!-- CALENDRIER -->
+    <section class="view" id="v-calendrier">
+      <div class="h-title">Calendrier</div>
+      <div class="h-sub">Ton agenda — privé, sur ton appareil uniquement.</div>
+      <div class="card" id="calcard" style="margin-top:18px"></div>
+    </section>
+  </main>
 </div>
+
+<div class="ov" id="ov" onclick="if(event.target===this)closeOv()"><div class="ovc" id="ovc"></div></div>
+
 <script>
-  const BRANCHES = {
-    sport:{name:"MKW Sport — North Vision 15",agency:"North Vision 15 (NV15) · Agence FIFA",phase:"Phase 1 — Scouting",status:"Active",progress:28,color:"#16a87f",lead:"Samy Zertit (fondateur silencieux)",milestone:"Examen FFF — Mai 2027",slogan:"« More Than Kings Win »",notes:"Agents sous contrat permanent, joueurs contractés à Maykenwil Sport (jamais à un agent individuel). Cible : 18-23 ans sans agent — Afrique, Amérique du Sud, Asie, réserves clubs européens (Bruges, Midtjylland, Braga, Genk)."},
-    events:{name:"Jadeliane Events",agency:"Événementiel · PACA",phase:"Actif",status:"Active",progress:45,color:"#FF9B4D",lead:"Collaboration — ami avec connexions institutionnelles",milestone:"Premier événement institutionnel à Marseille",slogan:"",notes:"Connexions événementielles institutionnelles via une collaboration de confiance."},
-    northvision:{name:"North Vision Development",agency:"NV15 (terrain)",phase:"Phase 0 — Préparation terrain",status:"Planification",progress:18,color:"#A78BFA",lead:"Samy Zertit",milestone:"Travail terrain NV15",slogan:"",notes:"Développement immobilier / infrastructure sportive à long terme, lié à la trajectoire Sport (agent → DS → acquisition OM)."},
-    capital:{name:"Capital",agency:"Finance 100 % halal",phase:"Phase 0 — Conception",status:"Planification",progress:12,color:"#9fc40f",lead:"Samy Zertit",milestone:"Structure Mourabaha / Musharaka / Sukuk",slogan:"« Halal-only financing »",notes:"Zéro riba. Financement islamique des autres branches une fois opérationnelles. Structure SASU / micro-entreprise individuelle avant la holding parent (12-18 mois de décalage)."},
-    beaute:{name:"Beauté",agency:"Franchise esthétique",phase:"Phase 0 — Non initiée",status:"Dormant",progress:0,color:"#FF4D88",lead:"À assigner — membre de la famille",milestone:"Structuration initiale",slogan:"",notes:"Branche en attente de Phase 1. Aucune activité réelle pour l'instant."},
-    logistique:{name:"Logistique",agency:"Transport & supply chain",phase:"Phase 0 — Non initiée",status:"Dormant",progress:0,color:"#4DA6FF",lead:"Le père (permis poids lourd)",milestone:"Structuration initiale",slogan:"",notes:"Branche logistique appuyée sur l'expérience familiale (transport, permis PL). En attente de Phase 1, aucune activité opérationnelle pour l'instant."}
+  /* ===== données ===== */
+  const BRANCHES={
+    sport:{name:"MKW Sport — North Vision 15",agency:"North Vision 15 (NV15) · Agence FIFA",phase:"Phase 1 — Scouting",status:"Active",progress:28,color:"#16a87f",lead:"Samy Zertit (fondateur silencieux)",milestone:"Examen FFF — Mai 2027",slogan:"« More Than Kings Win »",tag:"Phase 1",sub:"Agence d'agents FIFA · talents sous-évalués.",notes:"Agents sous contrat permanent, joueurs contractés à Maykenwil Sport (jamais à un agent individuel). Cible : 18-23 ans sans agent — Afrique, Amérique du Sud, Asie, réserves clubs européens (Bruges, Midtjylland, Braga, Genk)."},
+    events:{name:"Jadeliane Events",agency:"Événementiel · PACA",phase:"Actif",status:"Active",progress:45,color:"#FF9B4D",lead:"Collaboration — connexions institutionnelles",milestone:"Premier événement institutionnel à Marseille",slogan:"",tag:"Actif",sub:"Événementiel PACA · réseau institutionnel.",notes:"Connexions événementielles institutionnelles via une collaboration de confiance."},
+    northvision:{name:"North Vision Development",agency:"NV15 (terrain)",phase:"Phase 0 — Préparation terrain",status:"Planification",progress:18,color:"#A78BFA",lead:"Samy Zertit",milestone:"Travail terrain NV15",slogan:"",tag:"Planif",sub:"Impact social · développement terrain.",notes:"Développement immobilier / infrastructure sportive à long terme, lié à la trajectoire Sport (agent → DS → acquisition OM)."},
+    capital:{name:"Capital",agency:"Finance 100 % halal",phase:"Phase 0 — Conception",status:"Planification",progress:12,color:"#9fc40f",lead:"Samy Zertit",milestone:"Structure Mourabaha / Musharaka / Sukuk",slogan:"« Halal-only financing »",tag:"Halal",sub:"Finance 100% halal · zéro riba.",notes:"Zéro riba. Financement islamique des autres branches une fois opérationnelles. Structure SASU / micro-entreprise individuelle avant la holding parent (12-18 mois de décalage)."},
+    beaute:{name:"Beauté",agency:"Franchise esthétique",phase:"Phase 0 — Non initiée",status:"Dormant",progress:0,color:"#FF4D88",lead:"À assigner — membre de la famille",milestone:"Structuration initiale",slogan:"",tag:"Phase 2",sub:"Franchise esthétique · à initier.",notes:"Branche en attente de Phase 1. Aucune activité réelle pour l'instant."},
+    logistique:{name:"Logistique",agency:"Transport & supply chain",phase:"Phase 0 — Non initiée",status:"Dormant",progress:0,color:"#4DA6FF",lead:"Le père (permis poids lourd)",milestone:"Structuration initiale",slogan:"",tag:"Phase 2",sub:"Transport · appui familial (permis PL).",notes:"Branche logistique appuyée sur l'expérience familiale (transport, permis PL). En attente de Phase 1."}
   };
-  function openBranch(id){
-    const b = BRANCHES[id]; if(!b) return;
-    document.getElementById("ovc").innerHTML =
-      '<div class="ovh" style="background:linear-gradient(135deg,'+b.color+'88,'+b.color+')">'+
-        '<button class="ovx" onclick="closeBranch()">✕</button>'+
-        '<span class="ph">'+b.phase+'</span></div>'+
-      '<div class="ovb">'+
-        '<h2>'+b.name+'</h2><div class="ag">'+b.agency+'</div>'+
-        (b.slogan?'<div class="slo" style="color:'+b.color+'">'+b.slogan+'</div>':'')+
-        '<div class="ovrail"><i style="width:'+b.progress+'%;background:'+b.color+'"></i></div>'+
-        '<div class="ovpct"><span>AVANCEMENT</span><span>'+b.progress+'%</span></div>'+
-        '<div class="ovkv">'+
-          '<div class="ovcell"><div class="k">Statut</div><div class="v">'+b.status+'</div></div>'+
-          '<div class="ovcell"><div class="k">Avancement</div><div class="v">'+b.progress+'%</div></div>'+
-          '<div class="ovcell c"><div class="k">Responsable</div><div class="v">'+b.lead+'</div></div>'+
-          '<div class="ovcell c"><div class="k">Jalon clé</div><div class="v">'+b.milestone+'</div></div>'+
-        '</div>'+
-        '<p class="ovnotes">'+b.notes+'</p>'+
-      '</div>';
-    document.getElementById("ov").classList.add("open");
-    document.body.style.overflow="hidden";
-  }
-  function closeBranch(){ var ov=document.getElementById("ov"),ovc=document.getElementById("ovc"); ov.classList.remove("open"); ovc.classList.remove("wide"); document.body.style.overflow=""; }
-  document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeBranch(); });
-
-  const AG_COLORS = { prayer:"#2E9E78", work:"#4DA6FF", learn:"#9fc40f", meal:"#FF9B4D", health:"#FF4D88", rest:"#A78BFA" };
-  const X = '<button class="ovx" style="position:static;background:rgba(0,0,0,.06);color:var(--ink-soft)" onclick="closeBranch()">✕</button>';
-  let __priv = false;
-  function updateLock(){ document.body.classList.toggle("priv",__priv); var b=document.getElementById("lockbtn"); if(b) b.textContent=__priv?"🔓":"🔒"; }
-  function toggleLock(){
-    if(__priv){ __priv=false; updateLock(); return; }
-    var pin=localStorage.getItem("mkwPin");
-    if(!pin){ var np=prompt("Crée ton code privé (4+ caractères) — il restera sur cet appareil :"); if(!np||np.length<4) return; localStorage.setItem("mkwPin",np); __priv=true; alert("Mode privé activé. Tes données privées restent sur cet appareil uniquement, jamais publiées."); }
-    else { var t=prompt("Code privé :"); if(t!==pin){ alert("Code incorrect."); return; } __priv=true; }
-    updateLock();
-  }
-  function importAgenda(){
-    var s=prompt("Colle le JSON de ton agenda (fourni par Claude) :"); if(!s) return;
-    try{ JSON.parse(s); localStorage.setItem("mkwCal",s); alert("Agenda importé — privé, sur cet appareil."); openAgenda(); }
-    catch(e){ alert("JSON invalide."); }
-  }
-  function renderAgenda(d){
-    var rows=(d.events||[]).map(function(e){return '<div class="agrow"><span class="tm">'+e.t+'</span><span class="pin" style="background:'+(AG_COLORS[e.type]||"#5c6b79")+'"></span><span class="ttl">'+e.title+'</span></div>';}).join("");
-    document.getElementById("ovc").innerHTML =
-      '<div class="agh"><div><h2>Agenda — '+(d.day||"Aujourd’hui")+'</h2><div class="sub">Privé · sur cet appareil</div></div>'+X+'</div>'+
-      '<div class="agl">'+rows+'</div>'+
-      '<div class="agnote">🔒 Données privées, stockées sur ton appareil uniquement — jamais publiées.</div>';
-  }
-  function openAgenda(){
-    document.getElementById("ov").classList.add("open"); document.body.style.overflow="hidden";
-    var ovc=document.getElementById("ovc");
-    if(!__priv){
-      ovc.innerHTML='<div class="agh"><div><h2>🔒 Agenda privé</h2><div class="sub">Mode privé requis</div></div>'+X+'</div>'+
-        '<div class="agnote">Active le <b>Mode privé</b> (cadenas en haut à droite) pour afficher ton agenda. Tes données restent sur ton appareil, jamais sur le site public.</div>';
-      return;
-    }
-    var local=localStorage.getItem("mkwCal");
-    if(local){ try{ renderAgenda(JSON.parse(local)); return; }catch(e){} }
-    fetch("data/calendar.json",{cache:"no-store"}).then(function(r){ if(!r.ok) throw 0; return r.json(); }).then(renderAgenda).catch(function(){
-      document.getElementById("ovc").innerHTML='<div class="agh"><div><h2>Agenda — vide</h2><div class="sub">Aucune donnée importée</div></div>'+X+'</div>'+
-        '<div class="agnote">Importe ton agenda (reste privé sur cet appareil) : <button onclick="importAgenda()" style="border:0;background:#2E9E78;color:#fff;padding:7px 13px;border-radius:9px;cursor:pointer;font-weight:600">Importer mon agenda</button></div>';
-    });
-  }
-
-  /* ===== Centre de contrôle : connecteurs + apps ===== */
+  const BR_IMG={
+    sport:"linear-gradient(160deg,#07382d,#16a87f)",events:"linear-gradient(160deg,#7a4a1a,#FF9B4D)",
+    northvision:"linear-gradient(160deg,#4a3a6b,#A78BFA)",capital:"linear-gradient(160deg,#5a6b1a,#9fc40f)",
+    beaute:"linear-gradient(160deg,#7a2a48,#FF4D88)",logistique:"linear-gradient(160deg,#1f3a6b,#4DA6FF)"
+  };
   const CONNECTORS=[
-    {n:"Google Calendar",e:"📅",d:"Agenda & routine",u:"https://calendar.google.com",on:1},
-    {n:"Gmail",e:"✉️",d:"Emails",u:"https://mail.google.com",on:1},
-    {n:"Google Drive",e:"📁",d:"Fichiers & docs",u:"https://drive.google.com",on:1},
-    {n:"Notion",e:"📝",d:"Base de connaissances",u:"https://notion.so",on:1},
-    {n:"Slack",e:"💬",d:"Communication",u:"https://slack.com",on:1},
-    {n:"Granola",e:"🎙️",d:"Notes de réunion",u:"https://granola.ai",on:1},
-    {n:"HubSpot",e:"🧲",d:"CRM",u:"https://app.hubspot.com",on:1},
-    {n:"Canva",e:"🖌️",d:"Design",u:"https://canva.com",on:1},
-    {n:"Gamma",e:"📊",d:"Présentations",u:"https://gamma.app",on:1},
-    {n:"GitHub",e:"🐙",d:"Code & déploiement",u:"https://github.com/mkwceo",on:1}
+    {n:"Google Calendar",e:"📅",d:"Agenda & routine",u:"https://calendar.google.com"},
+    {n:"Gmail",e:"✉️",d:"Emails",u:"https://mail.google.com"},
+    {n:"Google Drive",e:"📁",d:"Fichiers & docs",u:"https://drive.google.com"},
+    {n:"Notion",e:"📝",d:"Base de connaissances",u:"https://notion.so"},
+    {n:"Slack",e:"💬",d:"Communication",u:"https://slack.com"},
+    {n:"Granola",e:"🎙️",d:"Notes de réunion",u:"https://granola.ai"},
+    {n:"HubSpot",e:"🧲",d:"CRM",u:"https://app.hubspot.com"},
+    {n:"Canva",e:"🖌️",d:"Design",u:"https://canva.com"},
+    {n:"Gamma",e:"📊",d:"Présentations",u:"https://gamma.app"},
+    {n:"GitHub",e:"🐙",d:"Code & déploiement",u:"https://github.com/mkwceo"}
   ];
   const APPS=[
     {n:"Instagram",e:"📸",u:"https://instagram.com"},{n:"X",e:"𝕏",u:"https://x.com"},
     {n:"YouTube",e:"▶️",u:"https://youtube.com"},{n:"Netflix",e:"🎬",u:"https://netflix.com"},
     {n:"WhatsApp",e:"💚",u:"https://web.whatsapp.com"},{n:"LinkedIn",e:"💼",u:"https://linkedin.com"},
     {n:"ChatGPT",e:"🤖",u:"https://chat.openai.com"},{n:"Claude",e:"✳️",u:"https://claude.ai"},
-    {n:"Spotify",e:"🎧",u:"https://open.spotify.com"},{n:"Maps",e:"🗺️",u:"https://maps.google.com"}
+    {n:"Spotify",e:"🎧",u:"https://open.spotify.com"},{n:"Maps",e:"🗺️",u:"https://maps.google.com"},
+    {n:"Drive",e:"📁",u:"https://drive.google.com"},{n:"Gmail",e:"✉️",u:"https://mail.google.com"}
   ];
-  function openConnectors(){
-    var ov=document.getElementById("ov"),ovc=document.getElementById("ovc");
-    ov.classList.add("open"); ovc.classList.add("wide"); document.body.style.overflow="hidden";
-    var co=CONNECTORS.map(function(c){return '<a class="conn" href="'+c.u+'" target="_blank" rel="noopener"><span class="ce">'+c.e+'</span><span class="ci"><b>'+c.n+'</b><span>'+c.d+'</span></span><span class="cbadge">Connecté</span></a>';}).join("");
-    var ap=APPS.map(function(a){return '<a class="appt" href="'+a.u+'" target="_blank" rel="noopener"><span class="ae">'+a.e+'</span><span>'+a.n+'</span></a>';}).join("");
-    ovc.innerHTML=
-      '<div class="agh"><div><h2>Centre de contrôle</h2><div class="sub">'+CONNECTORS.length+' connecteurs IA · '+APPS.length+' apps</div></div>'+X+'</div>'+
-      '<div class="cc-sec"><div class="cc-t">🔌 Connecteurs IA <span>(liés à ton cerveau Claude)</span></div><div class="conn-grid">'+co+'</div></div>'+
-      '<div class="cc-sec"><div class="cc-t">📱 Mes apps</div><div class="apps-grid">'+ap+'</div></div>';
+  const AG_COLORS={prayer:"#2E9E78",work:"#4DA6FF",learn:"#9fc40f",meal:"#FF9B4D",health:"#FF4D88",rest:"#A78BFA"};
+
+  /* ===== navigation ===== */
+  function go(v){
+    document.querySelectorAll(".view").forEach(s=>s.classList.toggle("active",s.id==="v-"+v));
+    document.querySelectorAll(".nav").forEach(n=>n.classList.toggle("active",n.dataset.v===v));
+    if(window.galaxySet) galaxySet(v==="accueil");
+    if(v==="agents"&&!window.__agents) loadAgents();
+    if(v==="calendrier") openAgenda();
+    try{location.hash=v;}catch(e){}
+    document.querySelector(".main").scrollTo({top:0,behavior:"smooth"});
+  }
+  document.querySelectorAll(".nav").forEach(n=>n.addEventListener("click",()=>go(n.dataset.v)));
+
+  /* ===== branches ===== */
+  function renderBranches(){
+    document.getElementById("brgrid").innerHTML=Object.keys(BRANCHES).map(function(id){
+      var b=BRANCHES[id];
+      return '<div class="br" onclick="openBranch(\''+id+'\')" style="background:'+BR_IMG[id]+'">'+
+        '<span class="pc">'+b.progress+'%</span><span class="g">'+b.tag+'</span>'+
+        '<div class="mt">'+b.name.replace(" — North Vision 15","")+'</div>'+
+        '<div class="md">'+b.sub+'</div>'+
+        '<div class="barr"><i style="width:'+Math.max(b.progress,3)+'%"></i></div></div>';
+    }).join("");
+  }
+  function openBranch(id){
+    var b=BRANCHES[id]; if(!b) return;
+    document.getElementById("ovc").innerHTML=
+      '<div class="ovh" style="background:linear-gradient(135deg,'+b.color+'99,'+b.color+')"><button class="ovx" onclick="closeOv()">✕</button><span class="ph">'+b.phase+'</span></div>'+
+      '<div class="ovb"><h2>'+b.name+'</h2><div class="ag">'+b.agency+'</div>'+
+      (b.slogan?'<div class="slo" style="color:'+b.color+'">'+b.slogan+'</div>':'')+
+      '<div class="ovrail"><i style="width:'+Math.max(b.progress,2)+'%;background:'+b.color+'"></i></div>'+
+      '<div class="ovpct"><span>AVANCEMENT</span><span>'+b.progress+'%</span></div>'+
+      '<div class="ovkv"><div class="ovcell"><div class="k">Statut</div><div class="v">'+b.status+'</div></div>'+
+      '<div class="ovcell"><div class="k">Avancement</div><div class="v">'+b.progress+'%</div></div>'+
+      '<div class="ovcell c"><div class="k">Responsable</div><div class="v">'+b.lead+'</div></div>'+
+      '<div class="ovcell c"><div class="k">Jalon clé</div><div class="v">'+b.milestone+'</div></div></div>'+
+      '<p class="ovnotes">'+b.notes+'</p></div>';
+    document.getElementById("ov").classList.add("open");
+  }
+  function closeOv(){document.getElementById("ov").classList.remove("open");}
+  document.addEventListener("keydown",e=>{if(e.key==="Escape")closeOv();});
+
+  /* ===== connecteurs ===== */
+  function renderConnectors(){
+    document.getElementById("conngrid").innerHTML=CONNECTORS.map(function(c){
+      return '<a class="conn" href="'+c.u+'" target="_blank" rel="noopener"><span class="ce">'+c.e+'</span><span class="ci"><b>'+c.n+'</b><span>'+c.d+'</span></span><span class="cbadge">Connecté</span></a>';
+    }).join("");
+    document.getElementById("appsgrid").innerHTML=APPS.map(function(a){
+      return '<a class="appt" href="'+a.u+'" target="_blank" rel="noopener"><span class="ae">'+a.e+'</span><span>'+a.n+'</span></a>';
+    }).join("");
   }
 
-  /* ===== Agence IA : 217 agents ===== */
+  /* ===== agence IA ===== */
+  function norm(s){return (s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");}
   function agentCard(a){return '<div class="agt"><span class="agt-e">'+(a.emoji||"•")+'</span><div><b>'+a.name+'</b><span>'+(a.desc||"")+'</span></div></div>';}
-  function renderAgentsHome(){
-    var d=window.__agents; var ovc=document.getElementById("ovc");
-    var grid=d.depts.map(function(x){return '<div class="dept" onclick="renderDept(\''+x.id+'\')"><span class="dept-e">'+x.emoji+'</span><b>'+x.name+'</b><span class="dept-c">'+x.count+' agents</span></div>';}).join("");
-    ovc.innerHTML=
-      '<div class="agh"><div><h2>Mon agence IA</h2><div class="sub">'+d.total+' agents · '+d.depts.length+' départements — ton équipe à la demande</div></div>'+X+'</div>'+
-      '<div class="cc-sec" style="padding-top:0"><input class="agt-search" placeholder="Rechercher un agent… (ex: marketing, sécurité, 3D)" oninput="filterAgents(this.value)"><div id="agt-results"></div>'+
-      '<div class="dept-grid" id="dept-grid">'+grid+'</div></div>';
+  function renderDeptHome(){
+    var d=window.__agents;
+    document.getElementById("agsub").textContent=d.total+' agents · '+d.depts.length+' départements — ton équipe à la demande.';
+    document.getElementById("agcount").textContent=d.total;
+    document.getElementById("dept-grid").innerHTML=d.depts.map(function(x){
+      return '<div class="dept" onclick="renderDept(\''+x.id+'\')"><span class="dept-e">'+x.emoji+'</span><b>'+x.name+'</b><span class="dept-c">'+x.count+' agents</span></div>';
+    }).join("");
+    document.getElementById("agt-results").innerHTML="";
   }
   function renderDept(id){
     var d=window.__agents,x=d.depts.find(function(p){return p.id===id;}); if(!x)return;
-    var ovc=document.getElementById("ovc");
-    ovc.innerHTML=
-      '<div class="agh"><div><h2>'+x.emoji+' '+x.name+'</h2><div class="sub">'+x.count+' agents</div></div>'+X+'</div>'+
-      '<div class="cc-sec"><button class="back" onclick="renderAgentsHome()">‹ Tous les départements</button><div class="agt-list">'+x.agents.map(agentCard).join("")+'</div></div>';
+    document.getElementById("dept-grid").style.display="none";
+    document.getElementById("agt-results").innerHTML='<button class="back" onclick="backToDepts()">‹ Tous les départements</button><div class="agt-list">'+x.agents.map(agentCard).join("")+'</div>';
   }
-  function norm(s){return (s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");}
+  function backToDepts(){document.getElementById("agt-results").innerHTML="";document.getElementById("dept-grid").style.display="";}
   function filterAgents(q){
-    q=norm((q||"").trim()); var d=window.__agents;
+    q=norm((q||"").trim());var d=window.__agents;if(!d)return;
     var res=document.getElementById("agt-results"),grid=document.getElementById("dept-grid");
-    if(!q){ res.innerHTML=""; grid.style.display=""; return; }
+    if(!q){res.innerHTML="";grid.style.display="";return;}
     grid.style.display="none";
-    var hits=[]; d.depts.forEach(function(x){x.agents.forEach(function(a){if(norm(a.name+" "+a.desc+" "+x.name).indexOf(q)>=0)hits.push(a);});});
-    res.innerHTML='<div class="agt-list">'+(hits.length?hits.slice(0,40).map(agentCard).join(""):'<div class="sub" style="padding:14px 2px">Aucun agent trouvé.</div>')+'</div>';
+    var hits=[];d.depts.forEach(function(x){x.agents.forEach(function(a){if(norm(a.name+" "+a.desc+" "+x.name).indexOf(q)>=0)hits.push(a);});});
+    res.innerHTML='<div class="agt-list">'+(hits.length?hits.slice(0,48).map(agentCard).join(""):'<div class="h-sub">Aucun agent trouvé.</div>')+'</div>';
   }
-  function openAgents(){
-    var ov=document.getElementById("ov"),ovc=document.getElementById("ovc");
-    ov.classList.add("open"); ovc.classList.add("wide"); document.body.style.overflow="hidden";
-    if(window.__agents){ renderAgentsHome(); return; }
-    ovc.innerHTML='<div class="agh"><div><h2>Mon agence IA</h2><div class="sub">Chargement…</div></div>'+X+'</div>';
-    fetch("agents.json",{cache:"no-store"}).then(function(r){return r.json();}).then(function(d){window.__agents=d;renderAgentsHome();})
-      .catch(function(){ovc.innerHTML='<div class="agh"><div><h2>Mon agence IA</h2><div class="sub">Indisponible</div></div>'+X+'</div><div class="agnote">Impossible de charger les agents.</div>';});
+  function loadAgents(){
+    fetch("agents.json",{cache:"no-store"}).then(function(r){return r.json();}).then(function(d){window.__agents=d;renderDeptHome();})
+      .catch(function(){document.getElementById("agsub").textContent="Agents indisponibles.";});
   }
+
+  /* ===== mode privé + agenda ===== */
+  var __priv=false;
+  function updateLock(){document.body.classList.toggle("priv",__priv);var t=document.getElementById("lockt");if(t)t.textContent=__priv?"Mode privé activé":"Mode privé";}
+  function toggleLock(){
+    if(__priv){__priv=false;updateLock();if(document.getElementById("v-calendrier").classList.contains("active"))openAgenda();return;}
+    var pin=localStorage.getItem("mkwPin");
+    if(!pin){var np=prompt("Crée ton code privé (4+ caractères) — il reste sur cet appareil :");if(!np||np.length<4)return;localStorage.setItem("mkwPin",np);__priv=true;alert("Mode privé activé. Tes données privées restent sur cet appareil, jamais publiées.");}
+    else{var t=prompt("Code privé :");if(t!==pin){alert("Code incorrect.");return;}__priv=true;}
+    updateLock();if(document.getElementById("v-calendrier").classList.contains("active"))openAgenda();
+  }
+  function importAgenda(){var s=prompt("Colle le JSON de ton agenda :");if(!s)return;try{JSON.parse(s);localStorage.setItem("mkwCal",s);alert("Agenda importé — privé, sur cet appareil.");openAgenda();}catch(e){alert("JSON invalide.");}}
+  function renderAgenda(d){
+    var rows=(d.events||[]).map(function(e){return '<div class="agrow"><span class="tm">'+e.t+'</span><span class="pin" style="background:'+(AG_COLORS[e.type]||"#5c6b79")+'"></span><span class="ttl">'+e.title+'</span></div>';}).join("");
+    document.getElementById("calcard").innerHTML='<div class="card-h"><b>📅 Agenda — '+(d.day||"Aujourd’hui")+'</b><span class="mut">Privé · sur cet appareil</span></div><div class="agl">'+rows+'</div><div class="note">🔒 Données privées, stockées sur ton appareil uniquement — jamais publiées.</div>';
+  }
+  function openAgenda(){
+    var card=document.getElementById("calcard");
+    if(!__priv){card.innerHTML='<div class="card-h"><b>🔒 Agenda privé</b></div><div class="note">Active le <b>Mode privé</b> (en bas à gauche) pour afficher ton agenda. Tes données restent sur ton appareil, jamais sur le site public.</div>';return;}
+    var local=localStorage.getItem("mkwCal");
+    if(local){try{renderAgenda(JSON.parse(local));return;}catch(e){}}
+    fetch("data/calendar.json",{cache:"no-store"}).then(function(r){if(!r.ok)throw 0;return r.json();}).then(renderAgenda).catch(function(){
+      card.innerHTML='<div class="card-h"><b>Agenda — vide</b></div><div class="note">Importe ton agenda (reste privé sur cet appareil) :</div><div style="margin-top:12px"><button class="pbtn" onclick="importAgenda()">Importer mon agenda</button></div>';
+    });
+  }
+
+  /* init */
+  renderBranches();renderConnectors();
+  var h=(location.hash||"").replace("#","");
+  if(h&&document.getElementById("v-"+h))go(h);
 </script>
-<style>
-/* === Polish — méthode UI Designer (hiérarchie, micro-interactions, a11y) + Whimsy (délice) === */
-@media (prefers-reduced-motion: no-preference){
-  @keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
-  .card,.hero,.br,.might-h{animation:up .6s cubic-bezier(.22,1,.36,1) both}
-  .hero{animation-delay:.04s}
-  .col-left .card:nth-child(1){animation-delay:.12s}.col-left .card:nth-child(2){animation-delay:.2s}
-  .might .br:nth-child(1){animation-delay:.14s}.might .br:nth-child(2){animation-delay:.2s}
-  .might .br:nth-child(3){animation-delay:.26s}.might .br:nth-child(4){animation-delay:.32s}
-}
-.br,.trailer{transition:transform .28s cubic-bezier(.22,1,.36,1),box-shadow .28s}
-.br:hover{transform:translateY(-5px);box-shadow:0 20px 44px rgba(40,30,20,.30)}
-.trailer:hover{transform:translateY(-2px)}
-.tab,.see,.rdot,.lockb,.bell,.profile{transition:transform .15s ease,background .22s ease,color .22s ease,border-color .22s ease}
-.tab:hover:not(.active){background:rgba(255,255,255,.34);color:var(--ink)}
-.see:hover{background:rgba(255,255,255,.72)}
-.rdot:hover{transform:translateX(2px)}
-.profile:hover{background:rgba(255,255,255,.62)}
-.btn,.btn-r,.tplay,.mplay,.cw-play{transition:transform .16s ease,box-shadow .2s ease,filter .2s ease}
-.btn:hover{transform:translateY(-1px)}
-.btn:active,.btn-r:active,.lockb:active{transform:scale(.95)}
-.btn-r:hover{background:rgba(255,255,255,.26)}
-.tplay:hover,.cw-play:hover{transform:scale(1.14)}
-.br:hover .mplay{transform:scale(1.14)}
-.cw-row{transition:background .2s ease;border-radius:11px;padding-left:6px;padding-right:6px;margin:0 -6px}
-.cw-row:hover{background:rgba(255,255,255,.4)}
-.br .barr i{transition:width 1.1s cubic-bezier(.22,1,.36,1)}
-/* whimsy : pastille « live » qui respire + halo branche phare */
-.bell::after{animation:pulse 2.4s ease-in-out infinite}
-@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(70,196,106,.5)}50%{box-shadow:0 0 0 5px rgba(70,196,106,0)}}
-.hero{position:relative}
-.badge{animation:up .7s .15s both}
-/* accessibilité : focus visible cohérent */
-a:focus-visible,button:focus-visible,.tab:focus-visible,.rdot:focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:10px}
-@media (prefers-reduced-motion: reduce){*{animation:none!important}}
-</style>
+
 <script type="module">
-/* === Hero 3D WebGL — coeur Maykenwil + 6 branches en orbite (Three.js) === */
+/* ===== Hero 3D — coeur Maykenwil + 6 branches en orbite ===== */
 import * as THREE from 'three';
 (function(){
   const cv=document.getElementById('galaxy'); if(!cv) return;
   const reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
-
   const BR=[
-    {id:'sport',n:'Sport',c:0x4dffb4, r:5.0, sp:0.42, inc:0.20, ph:0.0,  s:0.42},
-    {id:'events',n:'Events',c:0xff9b4d, r:6.1, sp:0.30, inc:-0.55,ph:1.1,  s:0.36},
-    {id:'northvision',n:'North Vision',c:0xa78bfa, r:7.0, sp:0.24, inc:0.62, ph:2.3, s:0.34},
-    {id:'capital',n:'Capital',c:0xc8ff00, r:4.3, sp:0.52, inc:0.95, ph:3.5, s:0.30},
-    {id:'beaute',n:'Beauté',c:0xff4d88, r:7.8, sp:0.19, inc:-0.30,ph:4.6, s:0.30},
-    {id:'logistique',n:'Logistique',c:0x4da6ff, r:6.6, sp:0.27, inc:0.10, ph:5.7, s:0.32}
+    {id:'sport',n:'Sport',c:0x4dffb4,r:5.0,sp:0.42,inc:0.2,ph:0.0,s:0.42},
+    {id:'events',n:'Events',c:0xff9b4d,r:6.1,sp:0.30,inc:-0.55,ph:1.1,s:0.36},
+    {id:'northvision',n:'North Vision',c:0xa78bfa,r:7.0,sp:0.24,inc:0.62,ph:2.3,s:0.34},
+    {id:'capital',n:'Capital',c:0xc8ff00,r:4.3,sp:0.52,inc:0.95,ph:3.5,s:0.30},
+    {id:'beaute',n:'Beauté',c:0xff4d88,r:7.8,sp:0.19,inc:-0.3,ph:4.6,s:0.30},
+    {id:'logistique',n:'Logistique',c:0x4da6ff,r:6.6,sp:0.27,inc:0.1,ph:5.7,s:0.32}
   ];
-
-  const renderer=new THREE.WebGLRenderer({canvas:cv, alpha:true, antialias:true});
+  const renderer=new THREE.WebGLRenderer({canvas:cv,alpha:true,antialias:true});
   renderer.setClearColor(0x000000,0);
   const scene=new THREE.Scene();
-  const camera=new THREE.PerspectiveCamera(50,1,0.1,100);
-  camera.position.set(0,0,16);
-
-  const root=new THREE.Group(); root.position.set(4.2,0.9,0); scene.add(root);
-
-  // lumières
+  const camera=new THREE.PerspectiveCamera(50,1,0.1,100); camera.position.set(0,0,16);
+  const root=new THREE.Group(); root.position.set(4.2,0.6,0); scene.add(root);
   scene.add(new THREE.AmbientLight(0x88aa99,0.6));
   const key=new THREE.PointLight(0xffe6a8,2.4,80); key.position.set(8,9,10); scene.add(key);
   const rim=new THREE.PointLight(0x4dffb4,1.4,80); rim.position.set(-9,-4,6); scene.add(rim);
-
-  // texture glow radiale (sprite additif)
-  function glowTex(){
-    const c=document.createElement('canvas'); c.width=c.height=128;
-    const g=c.getContext('2d'); const gr=g.createRadialGradient(64,64,0,64,64,64);
-    gr.addColorStop(0,'rgba(255,255,255,1)'); gr.addColorStop(0.25,'rgba(255,255,255,.65)');
-    gr.addColorStop(1,'rgba(255,255,255,0)'); g.fillStyle=gr; g.fillRect(0,0,128,128);
-    const t=new THREE.CanvasTexture(c); return t;
-  }
+  function glowTex(){const c=document.createElement('canvas');c.width=c.height=128;const g=c.getContext('2d');
+    const gr=g.createRadialGradient(64,64,0,64,64,64);gr.addColorStop(0,'rgba(255,255,255,1)');gr.addColorStop(.25,'rgba(255,255,255,.65)');gr.addColorStop(1,'rgba(255,255,255,0)');
+    g.fillStyle=gr;g.fillRect(0,0,128,128);return new THREE.CanvasTexture(c);}
   const GLOW=glowTex();
-  function glow(color,size){
-    const m=new THREE.Sprite(new THREE.SpriteMaterial({map:GLOW,color:color,transparent:true,
-      blending:THREE.AdditiveBlending,depthWrite:false}));
-    m.scale.set(size,size,1); return m;
-  }
-
-  // coeur Maykenwil
+  function glow(color,size){const m=new THREE.Sprite(new THREE.SpriteMaterial({map:GLOW,color,transparent:true,blending:THREE.AdditiveBlending,depthWrite:false}));m.scale.set(size,size,1);return m;}
   const core=new THREE.Group(); root.add(core);
-  const solid=new THREE.Mesh(new THREE.IcosahedronGeometry(2.3,1),
-    new THREE.MeshStandardMaterial({color:0x0c3a2e,metalness:.7,roughness:.28,emissive:0x07261d,flatShading:true}));
-  core.add(solid);
-  const wire=new THREE.Mesh(new THREE.IcosahedronGeometry(2.62,1),
-    new THREE.MeshBasicMaterial({color:0x6fe9c0,wireframe:true,transparent:true,opacity:.35}));
-  core.add(wire);
+  const solid=new THREE.Mesh(new THREE.IcosahedronGeometry(2.3,1),new THREE.MeshStandardMaterial({color:0x0c3a2e,metalness:.7,roughness:.28,emissive:0x07261d,flatShading:true})); core.add(solid);
+  const wire=new THREE.Mesh(new THREE.IcosahedronGeometry(2.62,1),new THREE.MeshBasicMaterial({color:0x6fe9c0,wireframe:true,transparent:true,opacity:.35})); core.add(wire);
   const coreGlow=glow(0xc9a24b,11); core.add(coreGlow);
-
-  // anneaux + noeuds branches
   const nodes=[];
   BR.forEach(b=>{
-    const pivot=new THREE.Group(); pivot.rotation.x=b.inc; root.add(pivot);
-    // anneau orbital
-    const ring=new THREE.Mesh(new THREE.TorusGeometry(b.r,0.015,8,96),
-      new THREE.MeshBasicMaterial({color:b.c,transparent:true,opacity:.18}));
-    ring.rotation.x=Math.PI/2; pivot.add(ring);
-    // noeud
-    const node=new THREE.Group(); pivot.add(node);
-    const ball=new THREE.Mesh(new THREE.SphereGeometry(b.s,24,24),
-      new THREE.MeshStandardMaterial({color:b.c,emissive:b.c,emissiveIntensity:.7,metalness:.3,roughness:.4}));
-    ball.userData.id=b.id; ball.userData.name=b.n;          // cible cliquable
-    const halo=glow(b.c,b.s*7);
-    node.add(ball); node.add(halo);
+    const pivot=new THREE.Group();pivot.rotation.x=b.inc;root.add(pivot);
+    const ring=new THREE.Mesh(new THREE.TorusGeometry(b.r,0.015,8,96),new THREE.MeshBasicMaterial({color:b.c,transparent:true,opacity:.18}));ring.rotation.x=Math.PI/2;pivot.add(ring);
+    const node=new THREE.Group();pivot.add(node);
+    const ball=new THREE.Mesh(new THREE.SphereGeometry(b.s,24,24),new THREE.MeshStandardMaterial({color:b.c,emissive:b.c,emissiveIntensity:.7,metalness:.3,roughness:.4}));
+    ball.userData.id=b.id;ball.userData.name=b.n;
+    const halo=glow(b.c,b.s*7);node.add(ball);node.add(halo);
     nodes.push({pivot,node,ball,halo,b,scale:1});
   });
-
-  // champ d'étoiles
-  const SN=reduce?260:900, sp=new Float32Array(SN*3);
-  for(let i=0;i<SN;i++){ const r=22+Math.random()*26, th=Math.random()*6.283, ph=Math.acos(2*Math.random()-1);
-    sp[i*3]=r*Math.sin(ph)*Math.cos(th); sp[i*3+1]=r*Math.sin(ph)*Math.sin(th); sp[i*3+2]=r*Math.cos(ph); }
-  const sg=new THREE.BufferGeometry(); sg.setAttribute('position',new THREE.BufferAttribute(sp,3));
-  const stars=new THREE.Points(sg,new THREE.PointsMaterial({color:0xe9d29a,size:0.12,transparent:true,
-    opacity:.85,blending:THREE.AdditiveBlending,depthWrite:false}));
-  scene.add(stars);
-
-  // parallaxe souris + survol/clic des branches (raycast)
+  const SN=reduce?260:900,sp=new Float32Array(SN*3);
+  for(let i=0;i<SN;i++){const r=22+Math.random()*26,th=Math.random()*6.283,ph=Math.acos(2*Math.random()-1);sp[i*3]=r*Math.sin(ph)*Math.cos(th);sp[i*3+1]=r*Math.sin(ph)*Math.sin(th);sp[i*3+2]=r*Math.cos(ph);}
+  const sg=new THREE.BufferGeometry();sg.setAttribute('position',new THREE.BufferAttribute(sp,3));
+  const stars=new THREE.Points(sg,new THREE.PointsMaterial({color:0xe9d29a,size:0.12,transparent:true,opacity:.85,blending:THREE.AdditiveBlending,depthWrite:false}));scene.add(stars);
   let mx=0,my=0,tx=0,ty=0;
-  const ray=new THREE.Raycaster(), ndc=new THREE.Vector2(); let hovered=null, pointerIn=false;
+  const ray=new THREE.Raycaster(),ndc=new THREE.Vector2();let hovered=null,pointerIn=false;
   const balls=nodes.map(o=>o.ball);
-  // étiquette flottante de branche
-  const lbl=document.createElement('div'); lbl.className='br3d-lbl'; cv.parentElement.appendChild(lbl);
-  function setNDC(e){ const r=cv.getBoundingClientRect(); ndc.x=((e.clientX-r.left)/r.width)*2-1; ndc.y=-((e.clientY-r.top)/r.height)*2+1; }
+  const lbl=document.createElement('div');lbl.className='br3d-lbl';cv.parentElement.appendChild(lbl);
   cv.parentElement.addEventListener('pointermove',e=>{
-    const r=cv.getBoundingClientRect(); tx=((e.clientX-r.left)/r.width-0.5)*0.5; ty=((e.clientY-r.top)/r.height-0.5)*0.5;
-    setNDC(e); pointerIn=true; lbl.style.left=(e.clientX-r.left)+'px'; lbl.style.top=(e.clientY-r.top)+'px';
+    const r=cv.getBoundingClientRect();tx=((e.clientX-r.left)/r.width-0.5)*0.5;ty=((e.clientY-r.top)/r.height-0.5)*0.5;
+    ndc.x=((e.clientX-r.left)/r.width)*2-1;ndc.y=-((e.clientY-r.top)/r.height)*2+1;pointerIn=true;
+    lbl.style.left=(e.clientX-r.left)+'px';lbl.style.top=(e.clientY-r.top)+'px';
   });
-  cv.parentElement.addEventListener('pointerleave',()=>{ pointerIn=false; });
-  cv.addEventListener('click',()=>{ if(hovered&&hovered.userData.id&&window.openBranch) openBranch(hovered.userData.id); });
+  cv.parentElement.addEventListener('pointerleave',()=>{pointerIn=false;});
+  cv.addEventListener('click',()=>{if(hovered&&hovered.userData.id&&window.openBranch)openBranch(hovered.userData.id);});
   function pick(){
-    if(!pointerIn){ hovered=null; return; }
-    ray.setFromCamera(ndc,camera);
-    const hit=ray.intersectObjects(balls,false)[0];
-    hovered=hit?hit.object:null;
+    if(!pointerIn){hovered=null;return;}
+    ray.setFromCamera(ndc,camera);const hit=ray.intersectObjects(balls,false)[0];hovered=hit?hit.object:null;
     cv.style.cursor=hovered?'pointer':'default';
-    if(hovered){ lbl.textContent=hovered.userData.name; lbl.classList.add('on'); }
-    else lbl.classList.remove('on');
+    if(hovered){lbl.textContent=hovered.userData.name;lbl.classList.add('on');}else lbl.classList.remove('on');
   }
-
-  function resize(){
-    const r=cv.getBoundingClientRect(); if(!r.width) return;
-    renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));
-    renderer.setSize(r.width,r.height,false);
-    camera.aspect=r.width/r.height; camera.updateProjectionMatrix();
-  }
-  const ro=window.ResizeObserver?new ResizeObserver(resize):null;
-  if(ro) ro.observe(cv); else addEventListener('resize',resize);
-  resize();
-
-  let raf=0, t=0;
+  function resize(){const r=cv.getBoundingClientRect();if(!r.width)return;renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));renderer.setSize(r.width,r.height,false);camera.aspect=r.width/r.height;camera.updateProjectionMatrix();}
+  const ro=window.ResizeObserver?new ResizeObserver(resize):null;if(ro)ro.observe(cv);else addEventListener('resize',resize);resize();
+  let raf=0,t=0,visible=true;
+  window.galaxySet=function(v){visible=v;if(v&&!raf&&!reduce){raf=requestAnimationFrame(tick);}};
   function tick(){
     t+=0.016;
-    core.rotation.y+=0.0035; core.rotation.x=Math.sin(t*0.3)*0.12;
-    wire.rotation.y-=0.002; wire.rotation.z+=0.0014;
+    core.rotation.y+=0.0035;core.rotation.x=Math.sin(t*0.3)*0.12;wire.rotation.y-=0.002;wire.rotation.z+=0.0014;
     coreGlow.material.opacity=0.85+Math.sin(t*1.4)*0.15;
     pick();
-    nodes.forEach(o=>{ const a=o.b.ph+t*o.b.sp;
-      o.node.position.set(Math.cos(a)*o.b.r,0,Math.sin(a)*o.b.r);
-      o.ball.rotation.y+=0.02;
-      // whimsy : la branche survolée grossit + son halo s'intensifie
-      const target=(hovered===o.ball)?1.55:1;
-      o.scale+=(target-o.scale)*0.18; o.node.scale.setScalar(o.scale);
-      o.halo.material.opacity=(hovered===o.ball)?1:0.9;
-      o.ball.material.emissiveIntensity=(hovered===o.ball)?1.4:0.7; });
-    stars.rotation.y+=0.0004;
-    mx+=(tx-mx)*0.05; my+=(ty-my)*0.05;
-    root.rotation.y=mx*0.6; root.rotation.x=my*0.4+0.1;
+    nodes.forEach(o=>{const a=o.b.ph+t*o.b.sp;o.node.position.set(Math.cos(a)*o.b.r,0,Math.sin(a)*o.b.r);o.ball.rotation.y+=0.02;
+      const target=(hovered===o.ball)?1.55:1;o.scale+=(target-o.scale)*0.18;o.node.scale.setScalar(o.scale);
+      o.halo.material.opacity=(hovered===o.ball)?1:0.9;o.ball.material.emissiveIntensity=(hovered===o.ball)?1.4:0.7;});
+    stars.rotation.y+=0.0004;mx+=(tx-mx)*0.05;my+=(ty-my)*0.05;root.rotation.y=mx*0.6;root.rotation.x=my*0.4+0.1;
     renderer.render(scene,camera);
-    if(!reduce) raf=requestAnimationFrame(tick);
+    if(!reduce&&visible)raf=requestAnimationFrame(tick);else raf=0;
   }
-  if(reduce){ tick(); } else { raf=requestAnimationFrame(tick); }
-  document.addEventListener('visibilitychange',()=>{
-    if(document.hidden){ cancelAnimationFrame(raf); raf=0; }
-    else if(!reduce&&!raf){ raf=requestAnimationFrame(tick); }
-  });
+  if(reduce){tick();}else{raf=requestAnimationFrame(tick);}
+  document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelAnimationFrame(raf);raf=0;}else if(!reduce&&visible&&!raf){raf=requestAnimationFrame(tick);}});
 })();
 </script>
 <script>
-  if ('serviceWorker' in navigator) {
+  if('serviceWorker' in navigator){
     navigator.serviceWorker.register('sw.js');
-    let reloaded = false;
-    navigator.serviceWorker.addEventListener('controllerchange', () => {
-      if (reloaded) return; reloaded = true; location.reload();
-    });
+    let reloaded=false;
+    navigator.serviceWorker.addEventListener('controllerchange',()=>{if(reloaded)return;reloaded=true;location.reload();});
   }
 </script>
 </body>

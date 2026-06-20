@@ -12,6 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Inter:wght@400;500;600;700&display=swap">
+<script type="importmap">{"imports":{"three":"./three.module.min.js"}}</script>
 <style>
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
   :root{
@@ -411,51 +412,120 @@
 a:focus-visible,button:focus-visible,.tab:focus-visible,.rdot:focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:10px}
 @media (prefers-reduced-motion: reduce){*{animation:none!important}}
 </style>
-<script>
-/* === Galaxie cinématique du hero (réf. samanastudios) === */
+<script type="module">
+/* === Hero 3D WebGL — coeur Maykenwil + 6 branches en orbite (Three.js) === */
+import * as THREE from 'three';
 (function(){
-  var cv=document.getElementById('galaxy'); if(!cv) return;
-  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var ctx=cv.getContext('2d'), W=0,H=0,dpr=Math.min(devicePixelRatio||1,2), parts=[], cx=0, cy=0, raf=0, t=0;
-  var COLORS=['#c9a24b','#e9d29a','#5fe0b4','#ffffff','#9a7b32'];
-  function size(){
-    var r=cv.getBoundingClientRect(); W=r.width; H=r.height;
-    cv.width=W*dpr; cv.height=H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
-    cx=W*0.74; cy=H*0.30;                 // centre de la galaxie (haut-droite)
-    build();
+  const cv=document.getElementById('galaxy'); if(!cv) return;
+  const reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const BR=[
+    {n:'Sport',c:0x4dffb4, r:5.0, sp:0.42, inc:0.20, ph:0.0,  s:0.42},
+    {n:'Events',c:0xff9b4d, r:6.1, sp:0.30, inc:-0.55,ph:1.1,  s:0.36},
+    {n:'North Vision',c:0xa78bfa, r:7.0, sp:0.24, inc:0.62, ph:2.3, s:0.34},
+    {n:'Capital',c:0xc8ff00, r:4.3, sp:0.52, inc:0.95, ph:3.5, s:0.30},
+    {n:'Beauté',c:0xff4d88, r:7.8, sp:0.19, inc:-0.30,ph:4.6, s:0.30},
+    {n:'Logistique',c:0x4da6ff, r:6.6, sp:0.27, inc:0.10, ph:5.7, s:0.32}
+  ];
+
+  const renderer=new THREE.WebGLRenderer({canvas:cv, alpha:true, antialias:true});
+  renderer.setClearColor(0x000000,0);
+  const scene=new THREE.Scene();
+  const camera=new THREE.PerspectiveCamera(50,1,0.1,100);
+  camera.position.set(0,0,16);
+
+  const root=new THREE.Group(); root.position.set(4.2,0.9,0); scene.add(root);
+
+  // lumières
+  scene.add(new THREE.AmbientLight(0x88aa99,0.6));
+  const key=new THREE.PointLight(0xffe6a8,2.4,80); key.position.set(8,9,10); scene.add(key);
+  const rim=new THREE.PointLight(0x4dffb4,1.4,80); rim.position.set(-9,-4,6); scene.add(rim);
+
+  // texture glow radiale (sprite additif)
+  function glowTex(){
+    const c=document.createElement('canvas'); c.width=c.height=128;
+    const g=c.getContext('2d'); const gr=g.createRadialGradient(64,64,0,64,64,64);
+    gr.addColorStop(0,'rgba(255,255,255,1)'); gr.addColorStop(0.25,'rgba(255,255,255,.65)');
+    gr.addColorStop(1,'rgba(255,255,255,0)'); g.fillStyle=gr; g.fillRect(0,0,128,128);
+    const t=new THREE.CanvasTexture(c); return t;
   }
-  function build(){
-    parts=[]; var n=Math.min(reduce?70:200, Math.round(W*H/4200));
-    for(var i=0;i<n;i++){
-      var ang=Math.random()*Math.PI*2;
-      var rad=Math.pow(Math.random(),0.6)*Math.max(W,H)*0.42;
-      parts.push({a:ang, r:rad, sp:(0.06+Math.random()*0.14)/(1+rad*0.012),
-        z:0.3+Math.random()*0.9, c:COLORS[(Math.random()*COLORS.length)|0],
-        tw:Math.random()*Math.PI*2});
-    }
+  const GLOW=glowTex();
+  function glow(color,size){
+    const m=new THREE.Sprite(new THREE.SpriteMaterial({map:GLOW,color:color,transparent:true,
+      blending:THREE.AdditiveBlending,depthWrite:false}));
+    m.scale.set(size,size,1); return m;
   }
-  function frame(){
-    t+=0.016; ctx.clearRect(0,0,W,H);
-    // halo nébuleux
-    var g=ctx.createRadialGradient(cx,cy,0,cx,cy,Math.max(W,H)*0.55);
-    g.addColorStop(0,'rgba(233,210,154,0.28)'); g.addColorStop(0.28,'rgba(201,162,75,0.16)'); g.addColorStop(0.6,'rgba(95,224,180,0.06)'); g.addColorStop(1,'rgba(0,0,0,0)');
-    ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
-    ctx.globalCompositeOperation='lighter';
-    for(var i=0;i<parts.length;i++){
-      var p=parts[i]; if(!reduce) p.a+=p.sp*0.012;
-      var x=cx+Math.cos(p.a)*p.r, y=cy+Math.sin(p.a)*p.r*0.62;
-      var tw=0.55+0.45*Math.sin(t*1.6+p.tw);
-      ctx.globalAlpha=tw*p.z; ctx.fillStyle=p.c;
-      ctx.beginPath(); ctx.arc(x,y,p.z*1.8,0,6.283); ctx.fill();
-    }
-    ctx.globalAlpha=1; ctx.globalCompositeOperation='source-over';
-    if(!reduce) raf=requestAnimationFrame(frame);
+
+  // coeur Maykenwil
+  const core=new THREE.Group(); root.add(core);
+  const solid=new THREE.Mesh(new THREE.IcosahedronGeometry(2.3,1),
+    new THREE.MeshStandardMaterial({color:0x0c3a2e,metalness:.7,roughness:.28,emissive:0x07261d,flatShading:true}));
+  core.add(solid);
+  const wire=new THREE.Mesh(new THREE.IcosahedronGeometry(2.62,1),
+    new THREE.MeshBasicMaterial({color:0x6fe9c0,wireframe:true,transparent:true,opacity:.35}));
+  core.add(wire);
+  const coreGlow=glow(0xc9a24b,11); core.add(coreGlow);
+
+  // anneaux + noeuds branches
+  const nodes=[];
+  BR.forEach(b=>{
+    const pivot=new THREE.Group(); pivot.rotation.x=b.inc; root.add(pivot);
+    // anneau orbital
+    const ring=new THREE.Mesh(new THREE.TorusGeometry(b.r,0.015,8,96),
+      new THREE.MeshBasicMaterial({color:b.c,transparent:true,opacity:.18}));
+    ring.rotation.x=Math.PI/2; pivot.add(ring);
+    // noeud
+    const node=new THREE.Group(); pivot.add(node);
+    const ball=new THREE.Mesh(new THREE.SphereGeometry(b.s,24,24),
+      new THREE.MeshStandardMaterial({color:b.c,emissive:b.c,emissiveIntensity:.7,metalness:.3,roughness:.4}));
+    node.add(ball); node.add(glow(b.c,b.s*7));
+    nodes.push({pivot,node,b});
+  });
+
+  // champ d'étoiles
+  const SN=reduce?260:900, sp=new Float32Array(SN*3);
+  for(let i=0;i<SN;i++){ const r=22+Math.random()*26, th=Math.random()*6.283, ph=Math.acos(2*Math.random()-1);
+    sp[i*3]=r*Math.sin(ph)*Math.cos(th); sp[i*3+1]=r*Math.sin(ph)*Math.sin(th); sp[i*3+2]=r*Math.cos(ph); }
+  const sg=new THREE.BufferGeometry(); sg.setAttribute('position',new THREE.BufferAttribute(sp,3));
+  const stars=new THREE.Points(sg,new THREE.PointsMaterial({color:0xe9d29a,size:0.12,transparent:true,
+    opacity:.85,blending:THREE.AdditiveBlending,depthWrite:false}));
+  scene.add(stars);
+
+  // parallaxe souris
+  let mx=0,my=0,tx=0,ty=0;
+  cv.parentElement.addEventListener('pointermove',e=>{
+    const r=cv.getBoundingClientRect(); tx=((e.clientX-r.left)/r.width-0.5)*0.5; ty=((e.clientY-r.top)/r.height-0.5)*0.5;
+  });
+
+  function resize(){
+    const r=cv.getBoundingClientRect(); if(!r.width) return;
+    renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));
+    renderer.setSize(r.width,r.height,false);
+    camera.aspect=r.width/r.height; camera.updateProjectionMatrix();
   }
-  var ro=window.ResizeObserver?new ResizeObserver(size):null;
-  if(ro) ro.observe(cv); else addEventListener('resize',size);
-  size(); if(reduce){ frame(); } else { raf=requestAnimationFrame(frame); }
-  document.addEventListener('visibilitychange',function(){
-    if(document.hidden){ cancelAnimationFrame(raf); } else if(!reduce){ raf=requestAnimationFrame(frame); }
+  const ro=window.ResizeObserver?new ResizeObserver(resize):null;
+  if(ro) ro.observe(cv); else addEventListener('resize',resize);
+  resize();
+
+  let raf=0, t=0;
+  function tick(){
+    t+=0.016;
+    core.rotation.y+=0.0035; core.rotation.x=Math.sin(t*0.3)*0.12;
+    wire.rotation.y-=0.002; wire.rotation.z+=0.0014;
+    coreGlow.material.opacity=0.85+Math.sin(t*1.4)*0.15;
+    nodes.forEach(o=>{ const a=o.b.ph+t*o.b.sp;
+      o.node.position.set(Math.cos(a)*o.b.r,0,Math.sin(a)*o.b.r);
+      o.node.children[0].rotation.y+=0.02; });
+    stars.rotation.y+=0.0004;
+    mx+=(tx-mx)*0.05; my+=(ty-my)*0.05;
+    root.rotation.y=mx*0.6; root.rotation.x=my*0.4+0.1;
+    renderer.render(scene,camera);
+    if(!reduce) raf=requestAnimationFrame(tick);
+  }
+  if(reduce){ tick(); } else { raf=requestAnimationFrame(tick); }
+  document.addEventListener('visibilitychange',()=>{
+    if(document.hidden){ cancelAnimationFrame(raf); raf=0; }
+    else if(!reduce&&!raf){ raf=requestAnimationFrame(tick); }
   });
 })();
 </script>

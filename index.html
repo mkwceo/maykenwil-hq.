@@ -124,6 +124,13 @@
     border:1px solid rgba(255,255,255,.22);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
     color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.3);}
   .hl.gold{background:rgba(201,162,75,.2);border-color:rgba(201,162,75,.5);color:#f3e2b8;}
+  /* étiquette flottante des branches 3D */
+  .br3d-lbl{position:absolute;z-index:4;transform:translate(14px,-50%) scale(.9);transform-origin:left center;
+    pointer-events:none;opacity:0;transition:opacity .18s ease,transform .18s ease;white-space:nowrap;
+    font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#fff;
+    background:rgba(0,0,0,.42);border:1px solid rgba(255,255,255,.25);backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);padding:5px 11px;border-radius:999px;}
+  .br3d-lbl.on{opacity:1;transform:translate(14px,-50%) scale(1);}
   .badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;background:rgba(0,0,0,.32);backdrop-filter:blur(6px);padding:5px 11px;border-radius:999px;width:max-content;}
   .chips{display:flex;gap:8px;margin:14px 0 12px;}
   .chip{font-size:11px;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3);padding:4px 11px;border-radius:999px;}
@@ -310,7 +317,8 @@
     events:{name:"Jadeliane Events",agency:"Événementiel · PACA",phase:"Actif",status:"Active",progress:45,color:"#FF9B4D",lead:"Collaboration — ami avec connexions institutionnelles",milestone:"Premier événement institutionnel à Marseille",slogan:"",notes:"Connexions événementielles institutionnelles via une collaboration de confiance."},
     northvision:{name:"North Vision Development",agency:"NV15 (terrain)",phase:"Phase 0 — Préparation terrain",status:"Planification",progress:18,color:"#A78BFA",lead:"Samy Zertit",milestone:"Travail terrain NV15",slogan:"",notes:"Développement immobilier / infrastructure sportive à long terme, lié à la trajectoire Sport (agent → DS → acquisition OM)."},
     capital:{name:"Capital",agency:"Finance 100 % halal",phase:"Phase 0 — Conception",status:"Planification",progress:12,color:"#9fc40f",lead:"Samy Zertit",milestone:"Structure Mourabaha / Musharaka / Sukuk",slogan:"« Halal-only financing »",notes:"Zéro riba. Financement islamique des autres branches une fois opérationnelles. Structure SASU / micro-entreprise individuelle avant la holding parent (12-18 mois de décalage)."},
-    beaute:{name:"Beauté",agency:"Franchise esthétique",phase:"Phase 0 — Non initiée",status:"Dormant",progress:0,color:"#FF4D88",lead:"À assigner — membre de la famille",milestone:"Structuration initiale",slogan:"",notes:"Branche en attente de Phase 1. Aucune activité réelle pour l'instant."}
+    beaute:{name:"Beauté",agency:"Franchise esthétique",phase:"Phase 0 — Non initiée",status:"Dormant",progress:0,color:"#FF4D88",lead:"À assigner — membre de la famille",milestone:"Structuration initiale",slogan:"",notes:"Branche en attente de Phase 1. Aucune activité réelle pour l'instant."},
+    logistique:{name:"Logistique",agency:"Transport & supply chain",phase:"Phase 0 — Non initiée",status:"Dormant",progress:0,color:"#4DA6FF",lead:"Le père (permis poids lourd)",milestone:"Structuration initiale",slogan:"",notes:"Branche logistique appuyée sur l'expérience familiale (transport, permis PL). En attente de Phase 1, aucune activité opérationnelle pour l'instant."}
   };
   function openBranch(id){
     const b = BRANCHES[id]; if(!b) return;
@@ -420,12 +428,12 @@ import * as THREE from 'three';
   const reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const BR=[
-    {n:'Sport',c:0x4dffb4, r:5.0, sp:0.42, inc:0.20, ph:0.0,  s:0.42},
-    {n:'Events',c:0xff9b4d, r:6.1, sp:0.30, inc:-0.55,ph:1.1,  s:0.36},
-    {n:'North Vision',c:0xa78bfa, r:7.0, sp:0.24, inc:0.62, ph:2.3, s:0.34},
-    {n:'Capital',c:0xc8ff00, r:4.3, sp:0.52, inc:0.95, ph:3.5, s:0.30},
-    {n:'Beauté',c:0xff4d88, r:7.8, sp:0.19, inc:-0.30,ph:4.6, s:0.30},
-    {n:'Logistique',c:0x4da6ff, r:6.6, sp:0.27, inc:0.10, ph:5.7, s:0.32}
+    {id:'sport',n:'Sport',c:0x4dffb4, r:5.0, sp:0.42, inc:0.20, ph:0.0,  s:0.42},
+    {id:'events',n:'Events',c:0xff9b4d, r:6.1, sp:0.30, inc:-0.55,ph:1.1,  s:0.36},
+    {id:'northvision',n:'North Vision',c:0xa78bfa, r:7.0, sp:0.24, inc:0.62, ph:2.3, s:0.34},
+    {id:'capital',n:'Capital',c:0xc8ff00, r:4.3, sp:0.52, inc:0.95, ph:3.5, s:0.30},
+    {id:'beaute',n:'Beauté',c:0xff4d88, r:7.8, sp:0.19, inc:-0.30,ph:4.6, s:0.30},
+    {id:'logistique',n:'Logistique',c:0x4da6ff, r:6.6, sp:0.27, inc:0.10, ph:5.7, s:0.32}
   ];
 
   const renderer=new THREE.WebGLRenderer({canvas:cv, alpha:true, antialias:true});
@@ -478,8 +486,10 @@ import * as THREE from 'three';
     const node=new THREE.Group(); pivot.add(node);
     const ball=new THREE.Mesh(new THREE.SphereGeometry(b.s,24,24),
       new THREE.MeshStandardMaterial({color:b.c,emissive:b.c,emissiveIntensity:.7,metalness:.3,roughness:.4}));
-    node.add(ball); node.add(glow(b.c,b.s*7));
-    nodes.push({pivot,node,b});
+    ball.userData.id=b.id; ball.userData.name=b.n;          // cible cliquable
+    const halo=glow(b.c,b.s*7);
+    node.add(ball); node.add(halo);
+    nodes.push({pivot,node,ball,halo,b,scale:1});
   });
 
   // champ d'étoiles
@@ -491,11 +501,28 @@ import * as THREE from 'three';
     opacity:.85,blending:THREE.AdditiveBlending,depthWrite:false}));
   scene.add(stars);
 
-  // parallaxe souris
+  // parallaxe souris + survol/clic des branches (raycast)
   let mx=0,my=0,tx=0,ty=0;
+  const ray=new THREE.Raycaster(), ndc=new THREE.Vector2(); let hovered=null, pointerIn=false;
+  const balls=nodes.map(o=>o.ball);
+  // étiquette flottante de branche
+  const lbl=document.createElement('div'); lbl.className='br3d-lbl'; cv.parentElement.appendChild(lbl);
+  function setNDC(e){ const r=cv.getBoundingClientRect(); ndc.x=((e.clientX-r.left)/r.width)*2-1; ndc.y=-((e.clientY-r.top)/r.height)*2+1; }
   cv.parentElement.addEventListener('pointermove',e=>{
     const r=cv.getBoundingClientRect(); tx=((e.clientX-r.left)/r.width-0.5)*0.5; ty=((e.clientY-r.top)/r.height-0.5)*0.5;
+    setNDC(e); pointerIn=true; lbl.style.left=(e.clientX-r.left)+'px'; lbl.style.top=(e.clientY-r.top)+'px';
   });
+  cv.parentElement.addEventListener('pointerleave',()=>{ pointerIn=false; });
+  cv.addEventListener('click',()=>{ if(hovered&&hovered.userData.id&&window.openBranch) openBranch(hovered.userData.id); });
+  function pick(){
+    if(!pointerIn){ hovered=null; return; }
+    ray.setFromCamera(ndc,camera);
+    const hit=ray.intersectObjects(balls,false)[0];
+    hovered=hit?hit.object:null;
+    cv.style.cursor=hovered?'pointer':'default';
+    if(hovered){ lbl.textContent=hovered.userData.name; lbl.classList.add('on'); }
+    else lbl.classList.remove('on');
+  }
 
   function resize(){
     const r=cv.getBoundingClientRect(); if(!r.width) return;
@@ -513,9 +540,15 @@ import * as THREE from 'three';
     core.rotation.y+=0.0035; core.rotation.x=Math.sin(t*0.3)*0.12;
     wire.rotation.y-=0.002; wire.rotation.z+=0.0014;
     coreGlow.material.opacity=0.85+Math.sin(t*1.4)*0.15;
+    pick();
     nodes.forEach(o=>{ const a=o.b.ph+t*o.b.sp;
       o.node.position.set(Math.cos(a)*o.b.r,0,Math.sin(a)*o.b.r);
-      o.node.children[0].rotation.y+=0.02; });
+      o.ball.rotation.y+=0.02;
+      // whimsy : la branche survolée grossit + son halo s'intensifie
+      const target=(hovered===o.ball)?1.55:1;
+      o.scale+=(target-o.scale)*0.18; o.node.scale.setScalar(o.scale);
+      o.halo.material.opacity=(hovered===o.ball)?1:0.9;
+      o.ball.material.emissiveIntensity=(hovered===o.ball)?1.4:0.7; });
     stars.rotation.y+=0.0004;
     mx+=(tx-mx)*0.05; my+=(ty-my)*0.05;
     root.rotation.y=mx*0.6; root.rotation.x=my*0.4+0.1;

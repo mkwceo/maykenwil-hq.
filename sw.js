@@ -1,4 +1,4 @@
-const C = 'mkw-2026-06-20-v2';
+const C = 'mkw-2026-06-21-cowork';
 self.addEventListener('install', e => self.skipWaiting());
 self.addEventListener('activate', e => e.waitUntil((async () => {
   const keys = await caches.keys();

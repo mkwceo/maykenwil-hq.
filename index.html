@@ -219,6 +219,30 @@
     background:rgba(0,0,0,.42);border:1px solid rgba(255,255,255,.25);backdrop-filter:blur(8px);padding:5px 11px;border-radius:999px;}
   .br3d-lbl.on{opacity:1;transform:translate(14px,-50%) scale(1);}
 
+  /* cowork */
+  .brief{background:radial-gradient(120% 140% at 85% 0%,#13352b,#0a1a16);color:#fff;border-radius:var(--r-lg);padding:18px 20px;margin:18px 0 14px;box-shadow:var(--el-hero);position:relative;overflow:hidden;}
+  .brief .bt{font-size:11px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-soft);}
+  .brief .bx{font-size:13.5px;color:rgba(255,255,255,.86);margin-top:7px;line-height:1.5;max-width:70ch;}
+  .antidisp{display:flex;gap:10px;flex-wrap:wrap;margin-top:13px;}
+  .pri{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);padding:7px 13px;border-radius:999px;font-size:12px;backdrop-filter:blur(6px);}
+  .pri b{color:var(--gold-soft);font-size:10px;letter-spacing:.1em;}
+  .cw-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
+  .cw{position:relative;background:rgba(255,255,255,.44);border:1px solid var(--glass-line);border-radius:var(--r-md);padding:16px;box-shadow:var(--el-1);display:flex;flex-direction:column;gap:8px;}
+  .cw .cw-top{display:flex;align-items:flex-start;gap:11px;}
+  .cw .cw-e{font-size:24px;width:46px;height:46px;display:grid;place-items:center;background:rgba(255,255,255,.6);border-radius:12px;flex-shrink:0;}
+  .cw .cw-nm{font-size:14px;font-weight:700;}
+  .cw .cw-ag{font-size:11px;color:var(--gold);font-weight:600;}
+  .cw .cw-ms{font-size:12px;color:var(--ink-soft);line-height:1.45;flex:1;}
+  .cw .cw-foot{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:2px;}
+  .cw .src{font-size:10.5px;color:var(--ink-faint);background:rgba(0,0,0,.04);padding:3px 9px;border-radius:999px;}
+  .cw .st{font-size:10px;font-weight:700;padding:3px 9px;border-radius:999px;}
+  .cw .st.on{color:#1d7a4f;background:rgba(46,158,120,.16);border:1px solid rgba(46,158,120,.3);}
+  .cw .st.off{color:#9a6a1a;background:rgba(201,162,75,.16);border:1px solid rgba(201,162,75,.4);}
+  .cw .run{margin-left:auto;border:0;background:var(--ink);color:#fff;font-weight:600;font-size:11.5px;padding:7px 13px;border-radius:9px;cursor:pointer;font-family:var(--font);transition:transform .14s,opacity .2s;}
+  .cw .run:hover{transform:translateY(-1px);opacity:.9;}
+  .cw .guard{position:absolute;top:13px;right:14px;font-size:9px;font-weight:700;letter-spacing:.08em;color:var(--gold);background:rgba(201,162,75,.14);border:1px solid rgba(201,162,75,.35);padding:2px 7px;border-radius:999px;}
+  .toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:12px 20px;border-radius:12px;font-size:13px;font-weight:500;box-shadow:var(--el-3);opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;z-index:300;}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
   @media(max-width:980px){
     .os{grid-template-columns:1fr;}
     .side{position:fixed;bottom:0;top:auto;left:0;right:0;height:auto;flex-direction:row;z-index:100;padding:8px;gap:2px;
@@ -229,7 +253,7 @@
     .main{padding:18px 16px 90px;}
     .grid-main{grid-template-columns:1fr;}
     .kpis{grid-template-columns:repeat(2,1fr);}
-    .br-grid,.conn-grid,.agt-list,.dept-grid{grid-template-columns:1fr 1fr;}
+    .br-grid,.conn-grid,.agt-list,.dept-grid,.cw-grid{grid-template-columns:1fr;}
     .apps-grid{grid-template-columns:repeat(4,1fr);}
     .hero p{max-width:100%;}
   }
@@ -244,6 +268,7 @@
     <div class="nav active" data-v="accueil"><svg class="ic" viewBox="0 0 24 24"><path d="M3 10l9-7 9 7v9a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg> Accueil</div>
     <div class="nav" data-v="branches"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg> Branches</div>
     <div class="nav" data-v="agents"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0112 0v1"/><circle cx="19" cy="9" r="2.5"/></svg> Agence IA <span class="cnt" id="agcount">217</span></div>
+    <div class="nav" data-v="cowork"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg> Cowork <span class="cnt">10</span></div>
     <div class="nav" data-v="connecteurs"><svg class="ic" viewBox="0 0 24 24"><path d="M6 3v6a6 6 0 0012 0V3"/><line x1="6" y1="21" x2="6" y2="15"/><line x1="18" y1="21" x2="18" y2="15"/></svg> Connecteurs</div>
     <div class="nav" data-v="calendrier"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/></svg> Calendrier</div>
     <div class="sp"></div>
@@ -320,6 +345,22 @@
       <div class="dept-grid" id="dept-grid"></div>
     </section>
 
+    <!-- COWORK -->
+    <section class="view" id="v-cowork">
+      <div class="h-title">Cowork — ton équipe du jour</div>
+      <div class="h-sub">10 agents réels choisis dans tes 217, alignés sur ta progression. Règle anti-dispersion : 2 priorités actives max.</div>
+      <div class="brief">
+        <div class="bt">🧠 Daily Brief</div>
+        <div class="bx">Bonjour Samy. Phase 0 — Préparation, retour Marseille Août 2026. GO/NO-GO : 61/100. Rappel constitution : exécuter avant de construire (anti-vide), max 2 priorités. Lance le <b>Chief of Staff</b> chaque matin pour fusionner ta mémoire Claude + ChatGPT en un brief unique.</div>
+        <div class="antidisp">
+          <span class="pri"><b>PRIORITÉ 1</b> Préparation examen FFF (Mai 2027)</span>
+          <span class="pri"><b>PRIORITÉ 2</b> Revenu — emploi à Marseille</span>
+        </div>
+      </div>
+      <div class="cw-grid" id="cwgrid"></div>
+      <div class="note">Astuce : « Lancer » copie l'invocation prête à coller dans Claude Code (ex. « Utilise le sous-agent X de The Agency pour… »). Les sources marquées « À connecter » nécessitent une automation sur ton PC (X/Instagram ne sont pas lisibles par les MCP).</div>
+    </section>
+
     <!-- CONNECTEURS -->
     <section class="view" id="v-connecteurs">
       <div class="h-title">Centre de contrôle</div>
@@ -340,6 +381,7 @@
 </div>
 
 <div class="ov" id="ov" onclick="if(event.target===this)closeOv()"><div class="ovc" id="ovc"></div></div>
+<div class="toast" id="toast"></div>
 
 <script>
   /* ===== données ===== */
@@ -429,6 +471,36 @@
     }).join("");
   }
 
+  /* ===== cowork : top 10 agents réels ===== */
+  const COWORK=[
+    {a:"Chief of Staff",e:"🧭",m:"Fusionne ta mémoire Claude + ChatGPT chaque matin en un seul brief, et filtre le bruit.",src:"Notion + Drive",on:1,guard:1},
+    {a:"Senior Project Manager",e:"🗓️",m:"Plan du jour, tient les blocs Août 2026→Mai 2027 et fait respecter la règle des 2 priorités.",src:"Google Calendar",on:1,guard:1},
+    {a:"Business Strategist",e:"♟️",m:"Board advisor : GO/NO-GO hebdo, premortem sur tes décisions, nudge vers du revenu réel.",src:"skill premortem",on:1,guard:1},
+    {a:"Executive Summary Generator",e:"📊",m:"Rapport de fin de journée + prévision des actions de demain, format C-suite.",src:"Notion + Gmail",on:1,guard:0},
+    {a:"Trend Researcher",e:"📰",m:"Brief actu ciblé : foot/transferts, FFF-FIFA, finance halal, Marseille. Du signal, pas du bruit.",src:"WebSearch",on:1,guard:0},
+    {a:"Investment Researcher",e:"🔭",m:"NV15 scout : valorisation joueurs 17-22, corridor France-Golfe, due diligence.",src:"Notion Sport",on:1,guard:0},
+    {a:"Personal Growth Mentor",e:"🌱",m:"Développement perso : mental, spirituel, harmonie. Réflexion quotidienne, sans bla-bla.",src:"Notion Personal OS",on:1,guard:0},
+    {a:"Frontend Developer",e:"🛠️",m:"Itère Maykenwil OS : 3D, glass, nouvelles vues. Design & build de ton cerveau.",src:"GitHub mkwceo",on:1,guard:0},
+    {a:"X/Twitter Intelligence Analyst",e:"🐦",m:"Veille X à ta place : extrait les vrais signaux de ton feed, tue le doomscroll.",src:"Automation PC",on:0,guard:0},
+    {a:"Content Creator",e:"✍️",m:"Contenu éducatif qui te positionne (X / Instagram), aligné sur ta trajectoire.",src:"Automation PC",on:0,guard:0}
+  ];
+  function toast(msg){var t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");clearTimeout(window.__tt);window.__tt=setTimeout(function(){t.classList.remove("show");},2600);}
+  function runAgent(i){
+    var c=COWORK[i];
+    var prompt='Utilise le sous-agent « '+c.a+' » de The Agency pour : '+c.m+' Sers-toi de ma mémoire Maykenwil (Samy Zertit, holding 6 branches, Phase 0, retour Marseille août 2026), suis sa méthodologie complète, et termine par des actions concrètes — pas d\'infrastructure vide (règle anti-dispersion : 2 priorités max).';
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(prompt).then(function(){toast("📋 Invocation « "+c.a+" » copiée — colle-la dans Claude Code");}).catch(function(){toast("Copie impossible — sélectionne manuellement.");});}
+    else toast("Copie non supportée sur ce navigateur.");
+  }
+  function renderCowork(){
+    document.getElementById("cwgrid").innerHTML=COWORK.map(function(c,i){
+      return '<div class="cw">'+(c.guard?'<span class="guard">GARDE-FOU</span>':'')+
+        '<div class="cw-top"><span class="cw-e">'+c.e+'</span><div><div class="cw-nm">'+c.a+'</div><div class="cw-ag">The Agency · agent</div></div></div>'+
+        '<div class="cw-ms">'+c.m+'</div>'+
+        '<div class="cw-foot"><span class="src">🔗 '+c.src+'</span><span class="st '+(c.on?'on':'off')+'">'+(c.on?'Connecté':'À connecter')+'</span>'+
+        '<button class="run" onclick="runAgent('+i+')">Lancer ▸</button></div></div>';
+    }).join("");
+  }
+
   /* ===== agence IA ===== */
   function norm(s){return (s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");}
   function agentCard(a){return '<div class="agt"><span class="agt-e">'+(a.emoji||"•")+'</span><div><b>'+a.name+'</b><span>'+(a.desc||"")+'</span></div></div>';}
@@ -486,7 +558,7 @@
   }
 
   /* init */
-  renderBranches();renderConnectors();
+  renderBranches();renderConnectors();renderCowork();
   var h=(location.hash||"").replace("#","");
   if(h&&document.getElementById("v-"+h))go(h);
 </script>

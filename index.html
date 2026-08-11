@@ -358,46 +358,179 @@
   body.dark .toast{background:#efe9df;color:#12161a;}
   body.dark .search{background:rgba(255,255,255,.05);border-color:var(--glass-line);}
 
-  /* ═══════════════ COCKPIT ═══════════════ */
-  .ck-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:6px;}
-  .ck-hello{font-family:var(--serif);font-size:clamp(2rem, 1.2rem + 2.6vw, 3.1rem);font-weight:500;letter-spacing:-1px;line-height:1.05;}
-  .ck-hello em{font-style:normal;color:var(--gold);}
-  .ck-date{font-size:12.5px;color:var(--ink-faint);letter-spacing:.04em;text-transform:uppercase;padding-bottom:7px;}
+  /* ══════════════════════════════════════════════════════════════════
+     COCKPIT IMMERSIF — bureau spatial : photo réelle, verre flottant, dock
+     ══════════════════════════════════════════════════════════════════ */
+  body.imm{overflow:hidden;}
+  body.imm .side,body.imm .topbar{display:none;}
+  body.imm::before{display:none;}
+  body.imm .os{grid-template-columns:1fr;}
+  body.imm .main{padding:0;max-width:none;}
+  body.imm #v-cockpit.active{display:block;position:fixed;inset:0;z-index:5;}
 
-  .dock-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(196px,1fr));gap:13px;margin-top:6px;}
-  .dk{position:relative;display:flex;align-items:flex-start;gap:12px;padding:15px 16px;border-radius:var(--r-lg);
-    background:rgba(255,255,255,.045);border:1px solid var(--glass-line);cursor:pointer;overflow:hidden;
-    transition:transform .22s cubic-bezier(.22,1,.36,1),background .22s,border-color .22s;
-    opacity:0;animation:dkin .5s cubic-bezier(.22,1,.36,1) forwards;}
-  @keyframes dkin{from{opacity:0;transform:translateY(9px);}to{opacity:1;transform:none;}}
-  .dk:hover{transform:translateY(-3px);background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.16);}
-  .dk::after{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:var(--dkc);opacity:.85;}
-  .dk.off{border-style:dashed;border-color:rgba(255,255,255,.13);background:rgba(255,255,255,.018);}
-  .dk.off .dk-sig{filter:grayscale(1);opacity:.42;}
-  .dk.off::after{opacity:.22;}
-  .dk-sig{width:38px;height:38px;border-radius:11px;flex-shrink:0;display:grid;place-items:center;
-    font-weight:700;font-size:15px;color:#0d1011;background:var(--dkc);box-shadow:0 4px 14px rgba(0,0,0,.35);}
-  .dk{min-height:134px;}
-  .dk-b{min-width:0;flex:1;display:flex;flex-direction:column;}
-  .dk-n{font-size:14px;font-weight:600;display:flex;align-items:center;gap:7px;}
-  .dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
-  .dot.actif{background:#3ddc97;box-shadow:0 0 0 3px rgba(61,220,151,.16);}
-  .dot.partiel{background:var(--gold);box-shadow:0 0 0 3px rgba(217,180,95,.16);}
-  .dot.vide{background:#4DA6FF;box-shadow:0 0 0 3px rgba(77,166,255,.16);}
-  .dot.absent{background:#6f675c;}
-  .dk-s{font-size:11.5px;color:var(--ink-faint);margin-top:3px;line-height:1.4;
-    display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
-  .dk-tag{margin-top:auto;padding-top:0;align-self:flex-start;display:inline-block;font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
-    padding:3px 8px;border-radius:999px;border:1px solid var(--glass-line);color:var(--ink-soft);}
+  /* la pièce */
+  .scene{position:absolute;inset:0;overflow:hidden;background:#070a0b;}
+  .scene .ph{position:absolute;inset:0;background-size:cover;background-position:center;
+    opacity:0;transition:opacity 1.1s ease;animation:sceneBreathe 46s ease-in-out infinite alternate;}
+  .scene .ph.on{opacity:1;}
+  @keyframes sceneBreathe{from{transform:scale(1.05) translate3d(-.6%,0,0);}to{transform:scale(1.11) translate3d(.6%,-.8%,0);}}
+  .scene .fb{position:absolute;inset:0;background:
+      radial-gradient(52% 58% at 16% 8%,#123a30 0%,transparent 66%),
+      radial-gradient(44% 52% at 88% 14%,#33291a 0%,transparent 70%),
+      radial-gradient(80% 70% at 68% 104%,#0a1e26 0%,transparent 74%),
+      linear-gradient(158deg,#0a0d0c 0%,#121719 54%,#070909 100%);}
+  .scene .vg{position:absolute;inset:0;background:
+      radial-gradient(88% 74% at 50% 6%,rgba(4,8,10,.06),rgba(4,8,10,.34) 58%,rgba(3,6,7,.62)),
+      linear-gradient(180deg,rgba(4,7,9,.2) 0%,rgba(4,7,9,.12) 34%,rgba(3,5,6,.55) 100%);}
+  body.perso .scene .vg{background:
+      radial-gradient(88% 74% at 50% 6%,rgba(6,10,12,.1),rgba(5,9,11,.4) 58%,rgba(4,7,8,.66)),
+      linear-gradient(180deg,rgba(5,9,11,.26) 0%,rgba(5,9,11,.18) 34%,rgba(4,7,8,.6) 100%);}
 
-  .ck-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:13px;margin:20px 0 4px;}
-  .ck-t{padding:16px 18px;border-radius:var(--r-lg);background:rgba(255,255,255,.042);border:1px solid var(--glass-line);}
-  .ck-t .v{font-family:var(--serif);font-size:31px;font-weight:500;letter-spacing:-1px;line-height:1;}
-  .ck-t .v small{font-size:.42em;color:var(--ink-faint);letter-spacing:0;}
-  .ck-t .k{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin-top:7px;}
-  .ck-t.go .v{color:var(--gold);}
+  .imm{position:relative;z-index:2;height:100vh;display:grid;grid-template-columns:246px 1fr;}
 
-  @media(max-width:980px){ .dock-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));} }
+  /* sidebar flottante */
+  .imm-side{margin:16px 0 16px 16px;border-radius:22px;padding:16px 13px;display:flex;flex-direction:column;gap:3px;
+    background:rgba(12,16,18,.5);backdrop-filter:blur(34px) saturate(1.5);-webkit-backdrop-filter:blur(34px) saturate(1.5);
+    border:1px solid rgba(255,255,255,.09);box-shadow:0 24px 60px rgba(0,0,0,.5);overflow-y:auto;}
+  .imm-side::-webkit-scrollbar{width:0;}
+  .imm-brand{display:flex;align-items:center;gap:11px;padding:5px 8px 15px;}
+  .imm-brand .lg{width:33px;height:33px;border-radius:10px;display:grid;place-items:center;font-weight:800;font-size:12px;
+    color:#0b0e0f;background:linear-gradient(140deg,#f2d693,#c79a3f);box-shadow:0 6px 18px rgba(0,0,0,.45);}
+  .imm-brand b{font-size:12px;letter-spacing:.06em;display:block;}
+  .imm-brand span{font-size:9.5px;color:var(--ink-faint);letter-spacing:.05em;}
+  .im-n{display:flex;align-items:center;gap:11px;padding:9px 11px;border-radius:11px;font-size:12.5px;
+    color:var(--ink-soft);cursor:pointer;transition:background .18s,color .18s;}
+  .im-n:hover{background:rgba(255,255,255,.06);color:var(--ink);}
+  .im-n.on{background:rgba(255,255,255,.1);color:var(--ink);font-weight:600;}
+  .im-n .ic{width:16px;height:16px;}
+  .im-n .soon{margin-left:auto;font-size:8px;letter-spacing:.07em;color:var(--ink-faint);
+    border:1px solid var(--hairline);padding:1px 5px;border-radius:999px;}
+  .imm-me{margin-top:auto;display:flex;align-items:center;gap:11px;padding:11px;border-radius:14px;
+    background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);}
+  .imm-me .av{width:32px;height:32px;border-radius:10px;background:linear-gradient(140deg,#2b6d5b,#16a87f);
+    display:grid;place-items:center;font-size:11px;font-weight:700;flex-shrink:0;}
+  .imm-me b{font-size:11.5px;display:block;}
+  .imm-me span{font-size:9.5px;color:var(--ink-faint);}
+
+  /* zone panneaux */
+  .imm-main{overflow-y:auto;padding:22px 22px 134px;}
+  .imm-main::-webkit-scrollbar{width:0;}
+  .imm-hello{margin:2px 0 18px;}
+  .imm-hello h1{font-size:clamp(1.5rem, 1rem + 1.5vw, 2.05rem);font-weight:600;letter-spacing:-.6px;}
+  .imm-hello p{font-size:13px;color:var(--ink-soft);margin-top:3px;}
+
+  .imm-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px;align-items:start;}
+  .gp{grid-column:span 3;border-radius:19px;padding:16px 17px;position:relative;overflow:hidden;
+    background:rgba(14,18,21,.44);backdrop-filter:blur(26px) saturate(1.45);-webkit-backdrop-filter:blur(26px) saturate(1.45);
+    border:1px solid rgba(255,255,255,.085);box-shadow:0 16px 44px rgba(0,0,0,.42);
+    opacity:0;animation:gpin .62s cubic-bezier(.22,1,.36,1) forwards;}
+  @keyframes gpin{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
+  .gp::before{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
+    background:linear-gradient(150deg,rgba(255,255,255,.07),transparent 44%);}
+  .gp>*{position:relative;}
+  .gp.w2{grid-column:span 2;} .gp.w4{grid-column:span 4;} .gp.w5{grid-column:span 5;} .gp.w6{grid-column:span 6;}
+  .gp-h{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;}
+  .gp-h b{font-size:12.5px;font-weight:600;}
+  .gp-h .sub{font-size:9.5px;color:var(--ink-faint);}
+  .gp-live{display:flex;align-items:center;gap:5px;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:#3ddc97;}
+  .gp-live i{width:5px;height:5px;border-radius:50%;background:#3ddc97;animation:pulse 2.2s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.25;}}
+  .gp-foot{margin-top:12px;display:block;text-align:center;font-size:10.5px;color:var(--ink-soft);
+    padding:8px;border-radius:10px;background:rgba(255,255,255,.05);border:1px solid var(--hairline);cursor:pointer;transition:background .18s;}
+  .gp-foot:hover{background:rgba(255,255,255,.1);}
+
+  .ln{display:flex;align-items:flex-start;gap:11px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.05);}
+  .ln:last-of-type{border-bottom:0;}
+  .ln .num{width:19px;height:19px;border-radius:6px;flex-shrink:0;display:grid;place-items:center;font-size:10px;font-weight:700;
+    background:rgba(255,255,255,.08);color:var(--ink-soft);}
+  .ln .tx{flex:1;min-width:0;}
+  .ln .tx b{font-size:11.5px;font-weight:600;display:block;line-height:1.35;}
+  .ln .tx span{font-size:10px;color:var(--ink-faint);}
+  .pill{font-size:8.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:999px;flex-shrink:0;}
+  .pill.hi{color:#ff9b8b;background:rgba(255,120,100,.14);border:1px solid rgba(255,120,100,.3);}
+  .pill.md{color:var(--gold);background:rgba(217,180,95,.14);border:1px solid rgba(217,180,95,.32);}
+  .pill.lo{color:var(--ink-soft);background:rgba(255,255,255,.07);border:1px solid var(--hairline);}
+
+  .brs{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;}
+  .brs .b{text-align:center;cursor:pointer;padding:9px 3px;border-radius:13px;transition:background .18s,transform .18s;}
+  .brs .b:hover{background:rgba(255,255,255,.07);transform:translateY(-2px);}
+  .brs .sg{width:41px;height:41px;border-radius:13px;margin:0 auto 8px;display:grid;place-items:center;
+    font-family:var(--serif);font-size:17px;font-weight:600;color:#0a0d0e;box-shadow:0 6px 18px rgba(0,0,0,.4);}
+  .brs .nm{font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;}
+  .brs .pg{font-size:9px;color:var(--ink-faint);margin-top:2px;}
+
+  .ms{display:flex;align-items:center;gap:11px;padding:7px 0;}
+  .ms .sq{width:9px;height:9px;border-radius:3px;flex-shrink:0;}
+  .ms .tx{flex:1;min-width:0;}
+  .ms .tx b{font-size:11px;font-weight:600;display:block;}
+  .ms .tx span{font-size:9.5px;color:var(--ink-faint);}
+  .ms .pc{font-size:11.5px;font-weight:700;font-variant-numeric:tabular-nums;}
+  .msbar{height:4px;border-radius:999px;background:rgba(255,255,255,.09);overflow:hidden;margin-top:5px;}
+  .msbar i{display:block;height:100%;border-radius:999px;width:0;transition:width 1.1s cubic-bezier(.22,1,.36,1);}
+
+  .ring{display:grid;place-items:center;position:relative;margin:2px auto 10px;}
+  .ring svg{transform:rotate(-90deg);}
+  .ring .val{position:absolute;text-align:center;}
+  .ring .val b{font-family:var(--serif);font-size:26px;font-weight:500;line-height:1;display:block;}
+  .ring .val span{font-size:8.5px;color:var(--ink-faint);letter-spacing:.09em;text-transform:uppercase;}
+  .hl-row{display:flex;align-items:center;gap:8px;padding:4px 0;font-size:10.5px;}
+  .hl-row .nm{flex:1;color:var(--ink-soft);}
+  .hl-row .vv{font-weight:700;font-variant-numeric:tabular-nums;}
+
+  .cons{width:100%;height:180px;display:block;}
+  .cons .lnk{stroke:rgba(255,255,255,.13);stroke-width:1;}
+  .cons .nd{cursor:pointer;transition:opacity .2s;}
+  .cons .nd:hover{opacity:.7;}
+  .cons text{font-size:7.5px;fill:var(--ink-faint);text-anchor:middle;letter-spacing:.05em;}
+
+  .ev{display:flex;gap:10px;padding:7px 0;align-items:flex-start;}
+  .ev .tm{font-size:10px;color:var(--ink-faint);width:36px;flex-shrink:0;font-variant-numeric:tabular-nums;padding-top:1px;}
+  .ev .dt{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:3px;}
+  .ev .tx b{font-size:11px;font-weight:600;display:block;}
+  .ev .tx span{font-size:9.5px;color:var(--ink-faint);}
+  .vide{font-size:11px;color:var(--ink-faint);line-height:1.6;padding:5px 0;}
+  .vide b{color:var(--ink-soft);}
+
+  .fin-v{font-family:var(--serif);font-size:32px;font-weight:500;letter-spacing:-1.3px;line-height:1;}
+  .fin-k{font-size:9.5px;color:var(--ink-faint);letter-spacing:.09em;text-transform:uppercase;margin-top:6px;}
+  .fin-sep{height:1px;background:rgba(255,255,255,.07);margin:12px 0;}
+
+  /* ═════ DOCK ═════ */
+  .dock{position:fixed;left:50%;bottom:17px;transform:translateX(-50%);z-index:40;display:flex;align-items:center;gap:9px;
+    padding:9px 11px;border-radius:21px;max-width:calc(100vw - 36px);
+    background:rgba(14,18,21,.58);backdrop-filter:blur(34px) saturate(1.6);-webkit-backdrop-filter:blur(34px) saturate(1.6);
+    border:1px solid rgba(255,255,255,.11);box-shadow:0 22px 55px rgba(0,0,0,.6);}
+  .dseg{display:flex;align-items:center;gap:3px;padding:3px;border-radius:13px;background:rgba(255,255,255,.06);flex-shrink:0;}
+  .dseg .lb{font-size:10px;color:var(--ink-faint);padding:0 7px;}
+  .dseg button{border:0;cursor:pointer;font-family:inherit;font-size:11px;font-weight:600;padding:6px 12px;border-radius:10px;
+    background:transparent;color:var(--ink-soft);transition:background .2s,color .2s;}
+  .dseg button.on{background:rgba(255,255,255,.15);color:var(--ink);}
+  .dsep{width:1px;height:28px;background:rgba(255,255,255,.1);flex-shrink:0;}
+  .dapps{display:flex;align-items:center;gap:4px;overflow-x:auto;padding:0 2px;}
+  .dapps::-webkit-scrollbar{height:0;}
+  .da{position:relative;width:47px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:4px;
+    padding:5px 2px;border-radius:12px;cursor:pointer;transition:transform .2s cubic-bezier(.34,1.56,.64,1),background .2s;}
+  .da:hover{transform:translateY(-6px) scale(1.05);background:rgba(255,255,255,.08);}
+  .da .ico{width:31px;height:31px;border-radius:9px;display:grid;place-items:center;font-size:13px;font-weight:800;color:#0b0e0f;
+    box-shadow:0 5px 14px rgba(0,0,0,.45);}
+  .da .lb{font-size:8px;color:var(--ink-faint);white-space:nowrap;max-width:47px;overflow:hidden;text-overflow:ellipsis;}
+  .da .st{position:absolute;top:3px;right:6px;width:6px;height:6px;border-radius:50%;border:1.5px solid rgba(10,14,15,.9);}
+  .da.off .ico{filter:grayscale(1);opacity:.4;}
+  .dact{cursor:pointer;font-family:inherit;font-size:11px;font-weight:600;padding:9px 14px;border-radius:13px;flex-shrink:0;
+    background:rgba(255,255,255,.09);color:var(--ink);border:1px solid rgba(255,255,255,.1);transition:background .2s;}
+  .dact:hover{background:rgba(255,255,255,.16);}
+
+  @media(max-width:1250px){ .gp,.gp.w4,.gp.w5,.gp.w2{grid-column:span 6;} .gp.w6{grid-column:span 12;} }
+  @media(max-width:900px){
+    body.imm{overflow:auto;}
+    .imm{grid-template-columns:1fr;height:auto;}
+    .imm-side{display:none;}
+    .imm-main{height:auto;padding:18px 14px 150px;}
+    .gp,.gp.w2,.gp.w4,.gp.w5,.gp.w6{grid-column:span 12;}
+    .brs{grid-template-columns:repeat(3,1fr);}
+    .dock{bottom:10px;padding:7px 8px;gap:7px;}
+    .dseg .lb{display:none;}
+  }
 </style>
 </head>
 <body class="dark">
@@ -513,16 +646,34 @@
       <div class="apps-grid" id="appsgrid"></div>
     </section>
 
-    <!-- COCKPIT -->
+    <!-- COCKPIT IMMERSIF -->
     <section class="view" id="v-cockpit">
-      <div class="ck-head">
-        <div class="ck-hello">Maykenwil <em>Cockpit</em></div>
-        <div class="ck-date" id="ckdate"></div>
+      <div class="scene">
+        <div class="fb"></div>
+        <div class="ph" id="scph"></div>
+        <div class="vg"></div>
       </div>
-      <div class="ck-strip" id="ckstrip"></div>
-      <div class="sec-t">🔌 Mes applications <span id="cknote"></span></div>
-      <div class="dock-grid" id="ckdock"></div>
-      <div class="note" id="ckfoot"></div>
+      <div class="imm">
+        <aside class="imm-side">
+          <div class="imm-brand"><div class="lg">MW</div><div><b>MAYKENWIL OS</b><span>Command Center</span></div></div>
+          <div id="immnav"></div>
+          <div class="imm-me"><span class="av">SZ</span><span><b>Samy Zertit</b><span>Founder &amp; Operator</span></span></div>
+        </aside>
+        <div class="imm-main">
+          <div class="imm-hello"><h1 id="immh1"></h1><p id="immp"></p></div>
+          <div class="imm-grid" id="immgrid"></div>
+        </div>
+      </div>
+      <div class="dock">
+        <div class="dseg"><span class="lb">Apps :</span>
+          <button id="mHolding" class="on" onclick="setMode('holding')">Holding</button>
+          <button id="mPerso" onclick="setMode('perso')">Personnel</button>
+        </div>
+        <div class="dsep"></div>
+        <div class="dapps" id="dapps"></div>
+        <div class="dsep"></div>
+        <button class="dact" onclick="go('progression')">Progression ↑</button>
+      </div>
     </section>
 
     <!-- PROGRESSION -->
@@ -587,7 +738,8 @@
     document.querySelectorAll(".nav").forEach(n=>n.classList.toggle("active",n.dataset.v===v));
     if(window.galaxySet) galaxySet(v==="accueil");
     if(v==="agents"&&!window.__agents) loadAgents();
-    if(v==="cockpit") loadCockpit();
+    document.body.classList.toggle("imm",v==="cockpit");
+    if(v==="cockpit"){ setScene(); loadCockpit(); }
     if(v==="progression") loadProgression();
     if(v==="calendrier") openAgenda();
     try{location.hash=v;}catch(e){}
@@ -624,15 +776,29 @@
   function closeOv(){document.getElementById("ov").classList.remove("open");}
   document.addEventListener("keydown",e=>{if(e.key==="Escape")closeOv();});
 
-  /* ===== cockpit ===== */
+  /* ===== cockpit immersif ===== */
+  var CK_MODE="holding";
   var STATUTS={
-    actif:  {t:"Opérationnel",   off:0},
-    partiel:{t:"Droits partiels",off:0},
-    vide:   {t:"Répond, vide",   off:0},
-    absent: {t:"À connecter",    off:1}
+    actif:  {t:"Opérationnel",   c:"#3ddc97", off:0},
+    partiel:{t:"Droits partiels",c:"#d9b45f", off:0},
+    vide:   {t:"Répond, vide",   c:"#4DA6FF", off:0},
+    absent: {t:"À connecter",    c:"#6f675c", off:1}
   };
+  var IMNAV=[
+    {k:"cockpit",     n:"Home",          d:"M3 10l9-7 9 7v9a2 2 0 01-2 2H5a2 2 0 01-2-2z"},
+    {k:"accueil",     n:"Command Center",d:"M4 4h16v6H4zM4 14h7v6H4zM15 14h5v6h-5z"},
+    {k:"branches",    n:"Branches",      d:"M4 4h6v6H4zM14 4h6v6h-6zM14 14h6v6h-6zM4 14h6v6H4z"},
+    {k:"agents",      n:"AI Assistant",  d:"M12 4a4 4 0 110 8 4 4 0 010-8zM4 21v-1a6 6 0 0112 0v1"},
+    {k:"cowork",      n:"Cowork",        d:"M12 9a3 3 0 110 6 3 3 0 010-6zM12 2v3M12 19v3M2 12h3M19 12h3"},
+    {k:"progression", n:"Progression",   d:"M3 17l6-6 4 4 8-8M21 7h-5V2"},
+    {k:"connecteurs", n:"Connecteurs",   d:"M6 3v6a6 6 0 0012 0V3M6 21v-6M18 21v-6"},
+    {k:"calendrier",  n:"Calendar",      d:"M3 4h18v17H3zM3 9h18M8 2v4M16 2v4"},
+    {k:null,          n:"Missions",      d:"M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"},
+    {k:null,          n:"Systems",       d:"M12 3l8 4.5v9L12 21l-8-4.5v-9z"},
+    {k:null,          n:"Analytics",     d:"M4 20V10M10 20V4M16 20v-7M22 20h-20"},
+    {k:null,          n:"Knowledge",     d:"M4 4h11a3 3 0 013 3v13H7a3 3 0 01-3-3z"}
+  ];
 
-  /* une seule source de vérité pour l'état des apps : data/apps.json */
   function loadApps(){
     if(window.__apps) return Promise.resolve(window.__apps);
     return fetch("data/apps.json",{cache:"no-store"})
@@ -643,49 +809,220 @@
 
   function loadCockpit(){
     loadApps().then(function(d){
-      if(d) renderCockpit();
-      else document.getElementById("ckdock").innerHTML=
-        '<div class="note">data/apps.json introuvable — à générer.</div>';
+      if(!d){document.getElementById("immgrid").innerHTML='<div class="gp w6"><div class="vide">data/apps.json introuvable.</div></div>';return;}
+      renderCockpit();
     });
+  }
+
+  function setScene(){
+    var ph=document.getElementById("scph");
+    var img=CK_MODE==="holding"?"assets/scene-holding.jpg":"assets/scene-personal.jpg";
+    var probe=new Image();
+    probe.onload=function(){ph.style.backgroundImage="url('"+img+"')";ph.classList.add("on");};
+    probe.onerror=function(){ph.classList.remove("on");};   /* le dégradé de secours reste visible */
+    probe.src=img;
+  }
+
+  function setMode(m){
+    CK_MODE=m;
+    document.getElementById("mHolding").classList.toggle("on",m==="holding");
+    document.getElementById("mPerso").classList.toggle("on",m==="perso");
+    document.body.classList.toggle("perso",m==="perso");
+    setScene(); renderCockpit();
   }
 
   function renderCockpit(){
     var d=window.__apps; if(!d) return;
-    var prg=window.__prg;
+    var prg=window.__prg||{pourcentage:0,etapes_validees:0,etapes_total:13};
 
-    document.getElementById("ckdate").textContent=
-      new Date().toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
-
-    var actives=d.apps.filter(function(a){return a.statut==="actif";}).length;
-    var brActives=Object.keys(BRANCHES).filter(function(k){return BRANCHES[k].status==="Active";}).length;
-
-    document.getElementById("ckstrip").innerHTML=
-      '<div class="ck-t go"><div class="v">'+(prg?prg.pourcentage:0)+'<small>%</small></div><div class="k">Progression</div></div>'+
-      '<div class="ck-t"><div class="v">'+actives+'<small> / '+d.apps.length+'</small></div><div class="k">Apps opérationnelles</div></div>'+
-      '<div class="ck-t"><div class="v">'+brActives+'<small> / '+Object.keys(BRANCHES).length+'</small></div><div class="k">Branches actives</div></div>'+
-      '<div class="ck-t"><div class="v" style="font-size:15px;line-height:1.3;padding-top:4px">'+
-        prgEsc(prg&&prg.prochaine_etape?prg.prochaine_etape.titre:"—")+'</div><div class="k">Prochaine étape</div></div>';
-
-    document.getElementById("cknote").textContent="(état mesuré le "+prgEsc(d.verifie_le)+", pas déclaré)";
-
-    document.getElementById("ckdock").innerHTML=d.apps.map(function(a,i){
-      var s=STATUTS[a.statut]||STATUTS.absent;
-      return '<div class="dk'+(s.off?" off":"")+'" style="--dkc:'+prgEsc(a.couleur)+';animation-delay:'+(i*45)+'ms"'+
-        ' onclick="dockClick(\''+prgEsc(a.id)+'\')">'+
-        '<span class="dk-sig">'+prgEsc(a.sigle)+'</span>'+
-        '<span class="dk-b">'+
-          '<span class="dk-n"><span class="dot '+prgEsc(a.statut)+'"></span>'+prgEsc(a.nom)+'</span>'+
-          '<span class="dk-s">'+prgEsc(a.detail)+'</span>'+
-          '<span class="dk-tag">'+prgEsc(s.t)+'</span>'+
-        '</span></div>';
+    document.getElementById("immnav").innerHTML=IMNAV.map(function(x){
+      var on=x.k==="cockpit"?" on":"";
+      var clic=x.k?' onclick="go(\''+x.k+'\')"':'';
+      return '<div class="im-n'+on+'"'+clic+'>'+
+        '<svg class="ic" viewBox="0 0 24 24"><path d="'+x.d+'"/></svg>'+prgEsc(x.n)+
+        (x.k?'':'<span class="soon">à venir</span>')+'</div>';
     }).join("");
 
-    document.getElementById("ckfoot").textContent=d.note;
+    var h=new Date().getHours();
+    document.getElementById("immh1").innerHTML=CK_MODE==="holding"
+      ? "Welcome back, Samy 👋"
+      : (h<18?"Bonjour Samy ☀️":"Bonsoir Samy 🌙");
+    document.getElementById("immp").textContent=CK_MODE==="holding"
+      ? "Let's build the future."
+      : "Focus · Discipline · Progress";
+
+    document.getElementById("immgrid").innerHTML=
+      (CK_MODE==="holding"?panneauxHolding(d,prg):panneauxPerso(d,prg));
+
+    renderDock(d);
+    requestAnimationFrame(function(){
+      document.querySelectorAll(".msbar i").forEach(function(b){b.style.width=b.dataset.w+"%";});
+      var r=document.getElementById("ringarc");
+      if(r) r.style.strokeDashoffset=r.dataset.off;
+    });
+  }
+
+  function gp(cls,titre,sousTitre,corps,pied,i){
+    return '<div class="gp '+cls+'" style="animation-delay:'+(i*55)+'ms">'+
+      '<div class="gp-h"><b>'+titre+'</b>'+(sousTitre||'')+'</div>'+corps+
+      (pied?'<span class="gp-foot" '+pied.clic+'>'+pied.t+'</span>':'')+'</div>';
+  }
+
+  function panneauxHolding(d,prg){
+    var ids=Object.keys(BRANCHES);
+    var actives=d.apps.filter(function(a){return a.statut==="actif";}).length;
+    var sante=Math.round(actives*100/d.apps.length);
+
+    /* 1 — AI Assistant : priorités réelles */
+    var actions=[
+      {t:"Préparation examen FFF",     s:"Priorité 1 — Mai 2027",              p:"hi"},
+      {t:"Premier revenu — Marseille", s:"Priorité 2 — 1 action / semaine",    p:"hi"},
+      {t:prg.prochaine_etape?prg.prochaine_etape.titre:"Parcours terminé",
+       s:"Code — te fait passer à "+(prg.palier_suivant||100)+" %",             p:"md"}
+    ];
+    var p1=gp("","AI Assistant",'<span class="gp-live"><i></i>en ligne</span>',
+      '<div style="font-size:10px;color:var(--ink-faint);margin-bottom:4px">3 actions prioritaires pour aujourd\'hui</div>'+
+      actions.map(function(a,k){
+        return '<div class="ln"><span class="num">'+(k+1)+'</span><span class="tx"><b>'+prgEsc(a.t)+'</b>'+
+          '<span>'+prgEsc(a.s)+'</span></span><span class="pill '+a.p+'">'+(a.p==="hi"?"Haute":"Moyenne")+'</span></div>';
+      }).join(""),
+      {t:"Ouvrir le parcours →",clic:'onclick="go(\'progression\')"'},0);
+
+    /* 2 — les 6 branches */
+    var p2=gp("w5","MAYKENWIL HOLDING",'<span class="sub">6 branches · 0 système déployé</span>',
+      '<div class="brs">'+ids.map(function(id){
+        var b=BRANCHES[id];
+        return '<div class="b" onclick="openBranch(\''+id+'\')">'+
+          '<div class="sg" style="background:linear-gradient(140deg,'+b.color+',rgba(255,255,255,.55))">'+
+          prgEsc(b.name.charAt(0))+'</div>'+
+          '<div class="nm">'+prgEsc(b.name.split(" ")[0])+'</div>'+
+          '<div class="pg">'+b.progress+' %</div></div>';
+      }).join("")+'</div>',
+      {t:"Explorer les branches →",clic:'onclick="go(\'branches\')"'},1);
+
+    /* 3 — agenda (privé, local) */
+    var p3=gp("w4","Aujourd'hui",'<span class="sub">'+
+      new Date().toLocaleDateString("fr-FR",{day:"numeric",month:"long"})+'</span>',
+      '<div class="vide"><b>Agenda privé.</b> Tes événements restent sur ton appareil et ne sont jamais publiés. '+
+      'Active le <b>Mode privé</b> pour les afficher ici.</div>',
+      {t:"Ouvrir le calendrier →",clic:'onclick="go(\'calendrier\')"'},2);
+
+    /* 4 — missions = avancement réel des branches */
+    var p4=gp("","Missions actives",'<span class="sub">avancement réel</span>',
+      ids.map(function(id){
+        var b=BRANCHES[id];
+        return '<div><div class="ms"><span class="sq" style="background:'+b.color+'"></span>'+
+          '<span class="tx"><b>'+prgEsc(b.name.split("—")[0].trim())+'</b><span>'+prgEsc(b.status)+'</span></span>'+
+          '<span class="pc" style="color:'+b.color+'">'+b.progress+'%</span></div>'+
+          '<div class="msbar"><i data-w="'+b.progress+'" style="background:'+b.color+'"></i></div></div>';
+      }).join(""),null,3);
+
+    /* 5 — constellation */
+    var p5=gp("w5","System Overview",'<span class="sub">0 système actif — à construire</span>',
+      constellation(ids),null,4);
+
+    /* 6 — santé = connecteurs mesurés */
+    var circ=2*Math.PI*40, off=circ*(1-sante/100);
+    var p6=gp("w4","System Health",'<span class="sub">mesuré le '+prgEsc(d.verifie_le)+'</span>',
+      '<div class="ring" style="width:104px;height:104px">'+
+        '<svg width="104" height="104"><circle cx="52" cy="52" r="40" fill="none" stroke="rgba(255,255,255,.09)" stroke-width="8"/>'+
+        '<circle id="ringarc" cx="52" cy="52" r="40" fill="none" stroke="#3ddc97" stroke-width="8" stroke-linecap="round" '+
+        'stroke-dasharray="'+circ.toFixed(1)+'" stroke-dashoffset="'+circ.toFixed(1)+'" data-off="'+off.toFixed(1)+'" '+
+        'style="transition:stroke-dashoffset 1.2s cubic-bezier(.22,1,.36,1)"/></svg>'+
+        '<span class="val"><b>'+sante+'<small style="font-size:.5em">%</small></b><span>connecteurs</span></span></div>'+
+      d.apps.slice(0,5).map(function(a){
+        var s=STATUTS[a.statut]||STATUTS.absent;
+        return '<div class="hl-row"><span class="dt" style="width:7px;height:7px;border-radius:50%;background:'+s.c+'"></span>'+
+          '<span class="nm">'+prgEsc(a.nom)+'</span><span class="vv" style="color:'+s.c+'">'+s.t+'</span></div>';
+      }).join(""),
+      {t:"Voir le détail →",clic:'onclick="go(\'connecteurs\')"'},5);
+
+    /* 7 — activité réelle */
+    var p7=gp("w5","Recent Activity",'<span class="sub">journal</span>',
+      '<div class="vide">Aucune activité enregistrée. Le journal se remplira quand un script écrira dans '+
+      '<b>data/</b> — c\'est l\'étape 9 du parcours.</div>',null,6);
+
+    /* 8 — finance honnête */
+    var p8=gp("w4","Vue financière",'<span class="sub">consolidé</span>',
+      '<div class="fin-v">0 €</div><div class="fin-k">Revenu consolidé</div>'+
+      '<div class="fin-sep"></div>'+
+      '<div class="hl-row"><span class="nm">Score GO / NO-GO</span><span class="vv" style="color:var(--gold)">61 / 100</span></div>'+
+      '<div class="hl-row"><span class="nm">Branches génératrices</span><span class="vv">0 / 6</span></div>'+
+      '<div class="vide" style="margin-top:6px">Faiblesse n°1 du GO/NO-GO. C\'est ici que se joue la suite, pas dans le design.</div>',
+      null,7);
+
+    /* 9 — parcours */
+    var p9=gp("","Mon apprentissage",'<span class="sub">'+prg.etapes_validees+' / '+prg.etapes_total+'</span>',
+      '<div class="fin-v" style="color:var(--gold)">'+prg.pourcentage+' <small style="font-size:.45em">%</small></div>'+
+      '<div class="fin-k">Code &amp; exploitation</div>'+
+      '<div class="msbar" style="margin-top:12px"><i data-w="'+prg.pourcentage+'" style="background:linear-gradient(90deg,#c79a3f,#f2d693)"></i></div>'+
+      '<div class="vide" style="margin-top:9px">Prochaine : <b>'+
+      prgEsc(prg.prochaine_etape?prg.prochaine_etape.titre:"—")+'</b></div>',
+      {t:"Coder maintenant →",clic:'onclick="go(\'progression\')"'},8);
+
+    return p1+p2+p3+p4+p5+p6+p7+p8+p9;
+  }
+
+  function panneauxPerso(d,prg){
+    var p1=gp("w4","Mes objectifs",'<span class="sub">à connecter</span>',
+      '<div class="vide">Aucun objectif enregistré. Ce panneau lira <b>data/objectifs.json</b> — '+
+      'un fichier que tu écriras toi-même, comme players.json.</div>',null,0);
+    var p2=gp("w4","Mon agenda",'<span class="sub">privé</span>',
+      '<div class="vide"><b>Privé.</b> Tes données restent sur cet appareil, jamais publiées sur le site.</div>',
+      {t:"Ouvrir →",clic:'onclick="go(\'calendrier\')"'},1);
+    var p3=gp("w4","Messages",'<span class="sub">Gmail — mesuré</span>',
+      '<div class="fin-v">47 480</div><div class="fin-k">Messages non lus</div>'+
+      '<div class="vide" style="margin-top:10px">Sur 51 663. Une règle de tri automatique ferait tomber ce chiffre — '+
+      'étape 7 puis 10 du parcours.</div>',null,2);
+    var p4=gp("w6","Performance personnelle",'<span class="sub">à connecter</span>',
+      '<div class="vide">Rien de mesuré pour l\'instant. Pas de faux score : un indicateur n\'apparaît ici '+
+      'que s\'il vient d\'une source réelle.</div>',null,3);
+    var p5=gp("w6","Finances personnelles",'<span class="sub">privé — jamais publié</span>',
+      '<div class="vide"><b>Gitignoré.</b> <b>data/finance.json</b> n\'est jamais commité. '+
+      'Ce panneau ne lira que ton appareil.</div>',null,4);
+    return p1+p2+p3+p4+p5;
+  }
+
+  function constellation(ids){
+    var cx=50, cy=50, r=33, n=ids.length;
+    var noeuds=ids.map(function(id,i){
+      var a=(i/n)*Math.PI*2-Math.PI/2;
+      return {id:id,x:cx+Math.cos(a)*r,y:cy+Math.sin(a)*r,b:BRANCHES[id]};
+    });
+    var liens=noeuds.map(function(p){
+      return '<line class="lnk" x1="'+cx+'" y1="'+cy+'" x2="'+p.x.toFixed(1)+'" y2="'+p.y.toFixed(1)+'"/>';
+    }).join("");
+    var pts=noeuds.map(function(p){
+      var rr=3.4+(p.b.progress/100)*2.4;
+      return '<g class="nd" onclick="openBranch(\''+p.id+'\')">'+
+        '<circle cx="'+p.x.toFixed(1)+'" cy="'+p.y.toFixed(1)+'" r="'+rr.toFixed(1)+'" fill="'+p.b.color+'" opacity="'+
+        (0.35+p.b.progress/160).toFixed(2)+'"/>'+
+        '<text x="'+p.x.toFixed(1)+'" y="'+(p.y+ (p.y<cy? -6.5 : 9.5)).toFixed(1)+'">'+
+        prgEsc(p.b.name.split(" ")[0].toUpperCase())+'</text></g>';
+    }).join("");
+    return '<svg class="cons" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">'+liens+
+      '<circle cx="'+cx+'" cy="'+cy+'" r="9" fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.2)"/>'+
+      '<text x="'+cx+'" y="'+(cy+2.6)+'" style="font-size:7px;fill:#f2d693;font-weight:700">MW</text>'+pts+'</svg>';
+  }
+
+  function renderDock(d){
+    var perso=[{id:"messages",nom:"Messages",sigle:"💬",couleur:"#3ddc97",statut:"absent"},
+               {id:"whatsapp",nom:"WhatsApp",sigle:"W", couleur:"#25D366",statut:"absent"},
+               {id:"photos",  nom:"Photos",  sigle:"P", couleur:"#FF7A9C",statut:"absent"}];
+    var liste=CK_MODE==="holding"?d.apps:d.apps.slice(0,5).concat(perso);
+    document.getElementById("dapps").innerHTML=liste.map(function(a){
+      var s=STATUTS[a.statut]||STATUTS.absent;
+      return '<div class="da'+(s.off?" off":"")+'" onclick="dockClick(\''+prgEsc(a.id)+'\')" title="'+prgEsc(a.nom)+'">'+
+        '<span class="st" style="background:'+s.c+'"></span>'+
+        '<span class="ico" style="background:'+prgEsc(a.couleur)+'">'+prgEsc(a.sigle)+'</span>'+
+        '<span class="lb">'+prgEsc(a.nom)+'</span></div>';
+    }).join("");
   }
 
   function dockClick(id){
     var a=(window.__apps.apps||[]).find(function(x){return x.id===id;});
     if(a) toast(a.nom+" — "+a.mission);
+    else  toast("Application non branchée pour l'instant.");
   }
 
   /* ===== progression (parcours d'apprentissage) ===== */

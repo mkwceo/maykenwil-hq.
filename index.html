@@ -407,7 +407,8 @@
   .im-n .ic{width:16px;height:16px;}
   .im-n .soon{margin-left:auto;font-size:8px;letter-spacing:.07em;color:var(--ink-faint);
     border:1px solid var(--hairline);padding:1px 5px;border-radius:999px;}
-  .imm-me{margin-top:auto;display:flex;align-items:center;gap:11px;padding:11px;border-radius:14px;
+  .imm-tag{margin-top:auto;}
+  .imm-me{display:flex;align-items:center;gap:11px;padding:11px;border-radius:14px;
     background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);}
   .imm-me .av{width:32px;height:32px;border-radius:10px;background:linear-gradient(140deg,#2b6d5b,#16a87f);
     display:grid;place-items:center;font-size:11px;font-weight:700;flex-shrink:0;}
@@ -502,6 +503,108 @@
   .fin-k{font-size:9.5px;color:var(--ink-faint);letter-spacing:.09em;text-transform:uppercase;margin-top:6px;}
   .spark{width:100%;height:40px;display:block;margin-top:11px;}
   .fin-sep{height:1px;background:rgba(255,255,255,.07);margin:12px 0;}
+
+  /* ═════ en-tête central ═════ */
+  .hh{text-align:center;padding:6px 0 14px;}
+  .hh h1{font-size:clamp(1.6rem, 1.1rem + 1.7vw, 2.35rem);font-weight:600;letter-spacing:-.8px;}
+  .hh p{font-size:14px;color:var(--ink-soft);margin-top:2px;}
+  .hh .axes{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:11px;
+    font-size:9.5px;letter-spacing:.22em;color:var(--ink-faint);text-transform:uppercase;flex-wrap:wrap;}
+  .hh .axes i{width:3px;height:3px;border-radius:50%;background:var(--gold);opacity:.65;}
+
+  /* ═════ carrousel de branches ═════ */
+  .car{display:flex;align-items:flex-end;justify-content:center;gap:11px;padding:4px 0 8px;}
+  .bc{flex:1 1 0;min-width:0;height:312px;border-radius:20px;position:relative;overflow:hidden;cursor:pointer;
+    display:flex;flex-direction:column;justify-content:flex-end;padding:19px 17px;
+    border:1px solid rgba(255,255,255,.12);box-shadow:0 26px 60px rgba(0,0,0,.55);
+    opacity:0;animation:bcin .75s cubic-bezier(.22,1,.36,1) forwards;
+    transition:transform .4s cubic-bezier(.22,1,.36,1),box-shadow .4s,border-color .3s;}
+  @keyframes bcin{from{opacity:0;transform:translateY(26px) scale(.96);}to{opacity:1;transform:none;}}
+  .bc:hover{transform:translateY(-9px);border-color:rgba(255,255,255,.26);box-shadow:0 40px 84px rgba(0,0,0,.66);}
+  .bc.mid{height:368px;flex:1.28 1 0;border-color:rgba(217,180,95,.4);box-shadow:0 34px 76px rgba(0,0,0,.66),0 0 44px rgba(217,180,95,.14);}
+  .bc .bg{position:absolute;inset:0;}
+  .bc .sh{position:absolute;inset:0;background:linear-gradient(180deg,rgba(4,6,8,.16) 0%,rgba(4,6,8,.5) 46%,rgba(3,5,6,.9) 100%);}
+  .bc .ct{position:relative;}
+  .bc .wm{position:absolute;top:34px;left:50%;transform:translateX(-50%) scale(4.6);opacity:.09;pointer-events:none;}
+  .bc .glow{position:absolute;left:50%;top:14%;width:150%;height:56%;transform:translateX(-50%);pointer-events:none;
+    background:radial-gradient(closest-side,var(--bcg),transparent 72%);opacity:.5;}
+  .bc .mk{font-family:var(--serif);font-size:clamp(17px, 1.45vw, 25px);font-weight:500;letter-spacing:1.6px;line-height:1;
+    white-space:nowrap;overflow:hidden;padding-right:3px;}
+  .bc .mk.long{font-size:clamp(11px, .95vw, 17px);letter-spacing:.4px;}
+  .bc.mid .mk.long{font-size:clamp(14px, 1.2vw, 21px);}
+  .bc.mid .mk{font-size:30px;}
+  .bc .kd{font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint);margin-top:7px;}
+  .bc .sl{font-size:10.5px;line-height:1.65;color:var(--ink-soft);margin-top:13px;letter-spacing:.03em;}
+  .bc .go{margin-top:14px;display:inline-flex;align-items:center;gap:7px;font-size:10px;font-weight:600;
+    padding:7px 13px;border-radius:999px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);
+    transition:background .2s;}
+  .bc:hover .go{background:rgba(255,255,255,.2);}
+  .bc.mid .go{background:rgba(217,180,95,.2);border-color:rgba(217,180,95,.45);color:#f2d693;}
+  .bc .em{position:absolute;top:19px;left:17px;width:34px;height:34px;border-radius:11px;display:grid;place-items:center;
+    background:rgba(255,255,255,.11);border:1px solid rgba(255,255,255,.17);}
+  .bc .pgt{position:absolute;top:24px;right:18px;font-size:10px;font-weight:700;font-variant-numeric:tabular-nums;}
+  .carfx{height:26px;margin:-6px 0 14px;border-radius:0 0 40px 40px;
+    background:linear-gradient(180deg,rgba(255,255,255,.05),transparent 78%);filter:blur(9px);}
+
+  /* ═════ colonnes basses ═════ */
+  .low{display:grid;grid-template-columns:repeat(12,1fr);gap:13px;}
+  .low>.gp{grid-column:span 6;}
+  .stt{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;text-align:center;}
+  .stt .s b{font-family:var(--serif);font-size:20px;font-weight:500;display:block;line-height:1;}
+  .stt .s span{font-size:8px;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-faint);display:block;margin-top:5px;}
+  .stt .s .ic{width:15px;height:15px;margin:0 auto 7px;color:var(--ink-faint);}
+
+  /* ═════ rail droit ═════ */
+  .imm-body{display:grid;grid-template-columns:1fr 296px;gap:15px;align-items:start;}
+  .rail{display:flex;flex-direction:column;gap:13px;}
+  .msg{display:flex;align-items:center;gap:10px;padding:7px 0;}
+  .msg .av{width:27px;height:27px;border-radius:50%;flex-shrink:0;display:grid;place-items:center;font-size:10px;font-weight:700;color:#0b0e0f;}
+  .msg .tx{flex:1;min-width:0;}
+  .msg .tx b{font-size:11px;font-weight:600;display:block;}
+  .msg .tx span{font-size:9.5px;color:var(--ink-faint);display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .msg .hr{font-size:9px;color:var(--ink-faint);flex-shrink:0;font-variant-numeric:tabular-nums;}
+  .qc{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;}
+  .qc button{background:rgba(255,255,255,.05);border:1px solid var(--hairline);border-radius:12px;padding:11px 4px;
+    cursor:pointer;font-family:inherit;color:var(--ink-soft);transition:background .2s,transform .2s;}
+  .qc button:hover{background:rgba(255,255,255,.12);transform:translateY(-2px);color:var(--ink);}
+  .qc .ic{width:16px;height:16px;margin:0 auto 5px;}
+  .qc span{font-size:8.5px;letter-spacing:.05em;}
+
+  /* ═════ barre du bas ═════ */
+  .bbar{position:fixed;left:262px;right:0;bottom:0;z-index:40;display:flex;align-items:center;gap:11px;
+    padding:11px 18px;flex-wrap:nowrap;
+    background:linear-gradient(180deg,rgba(6,9,11,0),rgba(6,9,11,.72) 42%,rgba(5,7,9,.92));}
+  .bpod{display:flex;align-items:center;gap:9px;padding:8px 11px;border-radius:19px;
+    background:linear-gradient(170deg,rgba(26,31,36,.62),rgba(10,14,17,.5));
+    backdrop-filter:blur(44px) saturate(1.75);-webkit-backdrop-filter:blur(44px) saturate(1.75);
+    border:1px solid rgba(255,255,255,.14);box-shadow:0 22px 54px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.15);}
+  .bpod.grow{flex:1;min-width:0;}
+  .ask{flex:1;min-width:0;display:flex;align-items:center;gap:10px;font-size:12px;color:var(--ink-faint);cursor:text;}
+  .ask input{flex:1;min-width:0;background:transparent;border:0;outline:0;font-family:inherit;font-size:12px;color:var(--ink);}
+  .ask input::placeholder{color:var(--ink-faint);}
+  .ask .orb{width:22px;height:22px;border-radius:50%;flex-shrink:0;
+    background:conic-gradient(from 210deg,#8b7bff,#4DA6FF,#3ddc97,#f2d693,#8b7bff);
+    box-shadow:0 0 14px rgba(139,123,255,.5);animation:orb 9s linear infinite;}
+  @keyframes orb{to{transform:rotate(360deg);}}
+  .bfoot{position:fixed;left:270px;bottom:2px;z-index:39;font-size:8px;letter-spacing:.16em;text-transform:uppercase;
+    color:rgba(255,255,255,.22);pointer-events:none;}
+  .bfoot.r{left:auto;right:18px;}
+
+  .imm-tag{font-size:10.5px;line-height:1.6;color:var(--ink-faint);padding:12px 10px 4px;font-style:italic;}
+
+  @media(max-width:1500px){ .bc .mk{font-size:20px;letter-spacing:1.6px;} .bc.mid .mk{font-size:24px;} .bc .sl{font-size:9.5px;} }
+  @media(max-width:1250px){
+    .imm-body{grid-template-columns:1fr;}
+    .car{flex-wrap:wrap;} .bc{flex:1 1 30%;height:250px;} .bc.mid{flex:1 1 46%;height:280px;}
+    .low>.gp{grid-column:span 6;}
+  }
+  @media(max-width:900px){
+    .bc,.bc.mid{flex:1 1 100%;height:210px;}
+    .low>.gp{grid-column:span 12;}
+    .bbar{flex-wrap:wrap;padding:9px 10px;gap:8px;}
+    .bpod.grow{order:3;width:100%;flex:1 1 100%;}
+    .stt{grid-template-columns:repeat(3,1fr);}
+  }
 
   /* ═════ DOCK ═════ */
   .dock{position:fixed;left:50%;bottom:17px;transform:translateX(-50%);z-index:40;display:flex;align-items:center;gap:9px;
@@ -668,23 +771,29 @@
         <aside class="imm-side">
           <div class="imm-brand"><div class="lg">MW</div><div><b>MAYKENWIL OS</b><span>Command Center</span></div></div>
           <div id="immnav"></div>
+          <div class="imm-tag">Better systems.<br>A greater impact.<br>A freer future.</div>
           <div class="imm-me"><span class="av">SZ</span><span><b>Samy Zertit</b><span>Founder &amp; Operator</span></span></div>
         </aside>
         <div class="imm-main">
-          <div class="imm-hello"><h1 id="immh1"></h1><p id="immp"></p></div>
+          <div class="hh"><h1 id="immh1"></h1><p id="immp"></p>
+            <div class="axes"><span>Vision</span><i></i><span>People</span><i></i><span>Business</span><i></i><span>Impact</span><i></i><span>Legacy</span></div>
+          </div>
           <div class="imm-grid" id="immgrid"></div>
         </div>
       </div>
-      <div class="dock">
-        <div class="dseg"><span class="lb">Apps :</span>
+      <div class="bbar">
+        <div class="bpod"><span class="dseg"><span class="lb">Vues</span>
           <button id="mHolding" class="on" onclick="setMode('holding')">Holding</button>
-          <button id="mPerso" onclick="setMode('perso')">Personnel</button>
-        </div>
-        <div class="dsep"></div>
-        <div class="dapps" id="dapps"></div>
-        <div class="dsep"></div>
+          <button id="mPerso" onclick="setMode('perso')">Personal</button></span></div>
+        <div class="bpod"><div class="dapps" id="dapps"></div></div>
+        <div class="bpod grow"><label class="ask">
+          <svg class="ic ic-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.4-4.4"/></svg>
+          <input type="text" placeholder="Ask anything, Samy…" onkeydown="askClaude(event)">
+          <span class="orb"></span></label></div>
         <button class="dact" onclick="go('progression')">Progression ↑</button>
       </div>
+      <div class="bfoot">Maykenwil Holding · Systems · People · A better tomorrow</div>
+      <div class="bfoot r">Idées → Systèmes → Impact</div>
     </section>
 
     <!-- PROGRESSION -->
@@ -941,111 +1050,149 @@
       (pied?'<span class="gp-foot" '+pied.clic+'>'+pied.t+'</span>':'')+'</div>';
   }
 
+  /* ===== identités de marque (référence design v3) ===== */
+  var MARQUES={
+    sport:      {mk:"MKW",       sub:"SPORT",       kd:"Football Agency",         sl:"Represent.<br>Develop.<br>Succeed.",        g:"linear-gradient(165deg,#0d2b24,#06110e)"},
+    events:     {mk:"JE",        sub:"JADEVENT",    kd:"Events",                  sl:"Simplify.<br>Create.<br>Inspire.",          g:"linear-gradient(165deg,#2b1b3a,#100a17)"},
+    logistique: {mk:"NORDEX",    sub:"",            kd:"Transport & Logistics",   sl:"Move.<br>Connect.<br>Deliver.",             g:"linear-gradient(165deg,#12283f,#070e16)"},
+    beaute:     {mk:"MG",        sub:"MAYANGLAM",   kd:"Beauty & Aesthetics",     sl:"Elegance.<br>Confidence.<br>Impact.",       g:"linear-gradient(165deg,#3a3230,#171313)"},
+    capital:    {mk:"KxW",       sub:"CAPITAL",     kd:"Private Investments",     sl:"Invest.<br>Grow.<br>Sustain.",              g:"linear-gradient(165deg,#2c3410,#0d1006)"},
+    northvision:{mk:"KF",        sub:"KENORTH FUTURE",kd:"Development · Marseille",sl:"Build.<br>Impact.<br>Legacy.",             g:"linear-gradient(165deg,#132e28,#08130f)"}
+  };
+  var MWMARK='<svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.6" '+
+    'stroke-linecap="round" stroke-linejoin="round"><path d="M3 19V6l6 8 6-8v13"/><path d="M15 19l3-6 3 6"/></svg>';
+  var ORDRE=["sport","events","logistique","__hq__","beaute","capital","northvision"];
+
+  function carrousel(){
+    return '<div class="car">'+ORDRE.map(function(id,i){
+      var st='animation-delay:'+(i*70)+'ms';
+      if(id==="__hq__"){
+        return '<div class="bc mid" style="'+st+'" onclick="go(\'branches\')">'+
+          '<div class="bg" style="background:linear-gradient(168deg,#221a09,#0a0805)"></div>'+
+          '<div class="glow" style="--bcg:rgba(217,180,95,.34)"></div><div class="sh"></div>'+
+          '<div class="wm" style="color:#f2d693">'+MWMARK+'</div>'+
+          '<div class="em" style="color:#f2d693">'+MWMARK+'</div>'+
+          '<div class="ct"><div class="mk" style="color:#f2d693">MW</div>'+
+          '<div class="kd" style="color:#c9a24b;letter-spacing:.26em">MAYKENWIL HOLDING</div>'+
+          '<div class="sl">People.<br>Capital.<br>A greater tomorrow.</div>'+
+          '<span class="go">View holding →</span></div></div>';
+      }
+      var b=BRANCHES[id], m=MARQUES[id];
+      return '<div class="bc" style="'+st+'" onclick="openBranch(\''+id+'\')">'+
+        '<div class="bg" style="background:'+m.g+'"></div>'+
+        '<div class="glow" style="--bcg:'+b.color+'3d"></div><div class="sh"></div>'+
+        '<div class="wm" style="color:'+b.color+'">'+briconOf(id)+'</div>'+
+        '<div class="em" style="color:'+b.color+'">'+briconOf(id)+'</div>'+
+        '<div class="pgt" style="color:'+b.color+'">'+b.progress+'%</div>'+
+        '<div class="ct"><div class="mk'+(m.mk.length>4?' long':'')+'" style="color:'+b.color+'">'+m.mk+'</div>'+
+        (m.sub?'<div class="kd" style="letter-spacing:.24em;color:var(--ink-soft)">'+m.sub+'</div>':'')+
+        '<div class="kd">'+m.kd+'</div>'+
+        '<div class="sl">'+m.sl+'</div>'+
+        '<span class="go">View branch →</span></div></div>';
+    }).join("")+'</div><div class="carfx"></div>';
+  }
+
   function panneauxHolding(d,prg){
     var ids=Object.keys(BRANCHES);
     var actives=d.apps.filter(function(a){return a.statut==="actif";}).length;
     var sante=Math.round(actives*100/d.apps.length);
-
-    /* 1 — AI Assistant : priorités réelles */
-    var actions=[
-      {t:"Préparation examen FFF",     s:"Priorité 1 — Mai 2027",              p:"hi"},
-      {t:"Premier revenu — Marseille", s:"Priorité 2 — 1 action / semaine",    p:"hi"},
-      {t:prg.prochaine_etape?prg.prochaine_etape.titre:"Parcours terminé",
-       s:"Code — te fait passer à "+(prg.palier_suivant||100)+" %",             p:"md"}
-    ];
-    var p1=gp("","AI Assistant",'<span class="gp-live"><i></i>en ligne</span>',
-      '<div style="font-size:10px;color:var(--ink-faint);margin-bottom:4px">3 actions prioritaires pour aujourd\'hui</div>'+
-      actions.map(function(a,k){
-        return '<div class="ln"><span class="num">'+(k+1)+'</span><span class="tx"><b>'+prgEsc(a.t)+'</b>'+
-          '<span>'+prgEsc(a.s)+'</span></span><span class="pill '+a.p+'">'+(a.p==="hi"?"Haute":"Moyenne")+'</span></div>';
-      }).join(""),
-      {t:"Ouvrir le parcours →",clic:'onclick="go(\'progression\')"'},0);
-
-    /* 2 — les 6 branches */
-    var p2=gp("w5","MAYKENWIL HOLDING",'<span class="sub">6 branches · 0 système déployé</span>',
-      '<div class="brs">'+ids.map(function(id){
-        var b=BRANCHES[id];
-        return '<div class="b" onclick="openBranch(\''+id+'\')">'+
-          '<div class="sg" style="background:linear-gradient(150deg,'+b.color+'2e,'+b.color+'0f);'+
-          'border:1px solid '+b.color+'55;color:'+b.color+';box-shadow:0 6px 20px '+b.color+'22">'+briconOf(id)+'</div>'+
-          '<div class="nm">'+prgEsc(b.name.split(" ")[0])+'</div>'+
-          '<div class="pg">'+b.progress+' %</div></div>';
-      }).join("")+'</div>',
-      {t:"Explorer les branches →",clic:'onclick="go(\'branches\')"'},1);
-
-    /* 3 — agenda (privé, local) */
-    var p3=gp("w4","Aujourd'hui",'<span class="sub">'+
-      new Date().toLocaleDateString("fr-FR",{day:"numeric",month:"long"})+'</span>',
-      '<div class="vide"><b>Agenda privé.</b> Tes événements restent sur ton appareil et ne sont jamais publiés. '+
-      'Active le <b>Mode privé</b> pour les afficher ici.</div>',
-      {t:"Ouvrir le calendrier →",clic:'onclick="go(\'calendrier\')"'},2);
-
-    /* 4 — missions = avancement réel des branches */
-    var p4=gp("","Missions actives",'<span class="sub">avancement réel</span>',
-      ids.map(function(id){
-        var b=BRANCHES[id];
-        return '<div><div class="ms"><span class="sq" style="background:'+b.color+'"></span>'+
-          '<span class="tx"><b>'+prgEsc(b.name.split("—")[0].trim())+'</b><span>'+prgEsc(b.status)+'</span></span>'+
-          '<span class="pc" style="color:'+b.color+'">'+b.progress+'%</span></div>'+
-          '<div class="msbar"><i data-w="'+b.progress+'" style="background:'+b.color+'"></i></div></div>';
-      }).join(""),null,3);
-
-    /* 5 — constellation */
-    var p5=gp("w5","System Overview",'<span class="sub">0 système actif — à construire</span>',
-      constellation(ids),null,4);
-
-    /* 6 — santé = connecteurs mesurés */
     var circ=2*Math.PI*40, off=circ*(1-sante/100);
-    var p6=gp("w4","System Health",'<span class="sub">mesuré le '+prgEsc(d.verifie_le)+'</span>',
+
+    /* ---- compteurs réels (aucun n'est inventé) ---- */
+    var stats=[
+      {k:"Projets",     v:0, d:"M4 5h6l2 2h8v12H4z"},
+      {k:"Workflows",   v:0, d:"M7 5v6a4 4 0 004 4h6M17 11l4 4-4 4"},
+      {k:"Automations", v:0, d:"M12 3v3M12 18v3M3 12h3M18 12h3M6 6l2 2M16 16l2 2M18 6l-2 2M8 16l-2 2"},
+      {k:"Utilisateurs",v:1, d:"M12 4a4 4 0 110 8 4 4 0 010-8zM4 21v-1a6 6 0 0112 0v1"},
+      {k:"Branches",    v:6, d:"M4 4h6v6H4zM14 4h6v6h-6zM14 14h6v6h-6zM4 14h6v6H4z"}
+    ];
+    var pOverview=gp("w4","System Overview",'<span class="sub">0 système actif</span>',
+      '<div class="stt">'+stats.map(function(s){
+        return '<div class="s"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" '+
+          'stroke-linecap="round" stroke-linejoin="round"><path d="'+s.d+'"/></svg>'+
+          '<b style="'+(s.v?'':'color:var(--ink-faint)')+'">'+s.v+'</b><span>'+s.k+'</span></div>';
+      }).join("")+'</div>'+
+      '<div class="vide" style="margin-top:12px">Ta référence affiche 18 / 128 / 43. Ces chiffres monteront quand des systèmes existeront.</div>',
+      null,0);
+
+    var pActivity=gp("w3","Recent Activity",'<span class="gp-live"><i></i>live</span>',
+      '<div class="vide">Aucune activité. Le flux se remplira quand un script écrira dans <b>data/</b> — étape 9.</div>',null,1);
+
+    var actions=[
+      {n:"01",t:"Préparation examen FFF", s:"Priorité 1 — Mai 2027",        p:"hi",l:"Haute"},
+      {n:"02",t:"Premier revenu",         s:"Priorité 2 — Marseille",       p:"hi",l:"Haute"},
+      {n:"03",t:prg.prochaine_etape?prg.prochaine_etape.titre:"Parcours terminé",
+                                          s:"Code — vers "+(prg.palier_suivant||100)+" %", p:"md",l:"Moyenne"}
+    ];
+    var pActions=gp("w3","3 Actions Prioritaires",'<span class="sub">aujourd\'hui</span>',
+      actions.map(function(a){
+        return '<div class="ln"><span class="num">'+a.n+'</span><span class="tx"><b>'+prgEsc(a.t)+'</b>'+
+          '<span>'+prgEsc(a.s)+'</span></span><span class="pill '+a.p+'">'+a.l+'</span></div>';
+      }).join(""),
+      {t:"Voir toutes les actions →",clic:'onclick="go(\'progression\')"'},2);
+
+    var pToday=gp("w2","Today",'<span class="sub">'+new Date().toLocaleDateString("fr-FR",{day:"numeric",month:"short"})+'</span>',
+      '<div class="vide"><b>Agenda privé.</b> Jamais publié. Active le Mode privé pour l\'afficher.</div>',
+      {t:"Ouvrir →",clic:'onclick="go(\'calendrier\')"'},3);
+
+    /* ---- rail droit ---- */
+    var pHealth=gp("","System Health",'<span class="sub">mesuré</span>',
       '<div class="ring" style="width:104px;height:104px">'+
-        '<svg width="104" height="104"><circle cx="52" cy="52" r="40" fill="none" stroke="rgba(255,255,255,.09)" stroke-width="8"/>'+
-        '<defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1">'+
+        '<svg width="104" height="104"><defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1">'+
         '<stop offset="0%" stop-color="#f2d693"/><stop offset="55%" stop-color="#3ddc97"/><stop offset="100%" stop-color="#2fb9c6"/>'+
         '</linearGradient><filter id="rglow"><feGaussianBlur stdDeviation="2.6" result="b"/>'+
         '<feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>'+
-        '<circle id="ringarc" cx="52" cy="52" r="40" fill="none" stroke="url(#rg)" filter="url(#rglow)" stroke-width="8" stroke-linecap="round" '+
-        'stroke-dasharray="'+circ.toFixed(1)+'" stroke-dashoffset="'+circ.toFixed(1)+'" data-off="'+off.toFixed(1)+'" '+
-        'style="transition:stroke-dashoffset 1.2s cubic-bezier(.22,1,.36,1)"/></svg>'+
+        '<circle cx="52" cy="52" r="40" fill="none" stroke="rgba(255,255,255,.09)" stroke-width="8"/>'+
+        '<circle id="ringarc" cx="52" cy="52" r="40" fill="none" stroke="url(#rg)" filter="url(#rglow)" stroke-width="8" '+
+        'stroke-linecap="round" stroke-dasharray="'+circ.toFixed(1)+'" stroke-dashoffset="'+circ.toFixed(1)+'" '+
+        'data-off="'+off.toFixed(1)+'" style="transition:stroke-dashoffset 1.3s cubic-bezier(.22,1,.36,1)"/></svg>'+
         '<span class="val"><b>'+sante+'<small style="font-size:.5em">%</small></b><span>connecteurs</span></span></div>'+
-      d.apps.slice(0,5).map(function(a){
-        var s=STATUTS[a.statut]||STATUTS.absent;
-        return '<div class="hl-row"><span class="dt" style="width:7px;height:7px;border-radius:50%;background:'+s.c+'"></span>'+
-          '<span class="nm">'+prgEsc(a.nom)+'</span><span class="vv" style="color:'+s.c+'">'+s.t+'</span></div>';
+      ids.map(function(id){
+        var b=BRANCHES[id];
+        return '<div class="hl-row"><span style="width:7px;height:7px;border-radius:50%;background:'+b.color+'"></span>'+
+          '<span class="nm">'+prgEsc((MARQUES[id].sub||MARQUES[id].mk))+'</span>'+
+          '<span class="vv" style="color:'+b.color+'">'+b.progress+'%</span></div>';
       }).join(""),
-      {t:"Voir le détail →",clic:'onclick="go(\'connecteurs\')"'},5);
+      {t:"Voir le détail →",clic:'onclick="go(\'connecteurs\')"'},4);
 
-    /* 7 — activité réelle */
-    var p7=gp("w5","Recent Activity",'<span class="sub">journal</span>',
-      '<div class="vide">Aucune activité enregistrée. Le journal se remplira quand un script écrira dans '+
-      '<b>data/</b> — c\'est l\'étape 9 du parcours.</div>',null,6);
+    var pMsg=gp("","Messages",'<span class="sub" style="color:var(--gold)">47 480 non lus</span>',
+      '<div class="msg"><span class="av" style="background:#EA4335">M</span><span class="tx"><b>Gmail</b>'+
+        '<span>51 663 messages, 47 480 non lus</span></span><span class="hr">réel</span></div>'+
+      '<div class="msg"><span class="av" style="background:#611f69;color:#fff">S</span><span class="tx"><b>Slack</b>'+
+        '<span>Aucun canal — connecteur vide</span></span><span class="hr">vide</span></div>'+
+      '<div class="vide" style="margin-top:4px">Un tri automatique ferait tomber le premier chiffre : étape 7 puis 10.</div>',
+      null,5);
 
-    /* 8 — finance honnête */
-    var p8=gp("w4","Vue financière",'<span class="sub">consolidé</span>',
-      '<div class="fin-v">0 €</div><div class="fin-k">Revenu consolidé</div>'+
-      '<svg class="spark" viewBox="0 0 200 40" preserveAspectRatio="none">'+
-        '<defs><linearGradient id="sk" x1="0" y1="0" x2="0" y2="1">'+
-        '<stop offset="0%" stop-color="rgba(217,180,95,.22)"/><stop offset="100%" stop-color="rgba(217,180,95,0)"/>'+
-        '</linearGradient></defs>'+
-        '<path d="M0 34 L200 34 L200 40 L0 40 Z" fill="url(#sk)"/>'+
-        '<path d="M0 34 H200" stroke="rgba(217,180,95,.55)" stroke-width="1.6" stroke-dasharray="4 5" fill="none"/>'+
-        '<circle cx="200" cy="34" r="2.6" fill="#d9b45f"/></svg>'+
-      '<div style="font-size:9.5px;color:var(--ink-faint);margin-top:2px">12 derniers mois — aucun mouvement</div>'+
-      '<div class="fin-sep"></div>'+
-      '<div class="hl-row"><span class="nm">Score GO / NO-GO</span><span class="vv" style="color:var(--gold)">61 / 100</span></div>'+
-      '<div class="hl-row"><span class="nm">Branches génératrices</span><span class="vv">0 / 6</span></div>'+
-      '<div class="vide" style="margin-top:6px">Faiblesse n°1 du GO/NO-GO. C\'est ici que se joue la suite, pas dans le design.</div>',
-      null,7);
+    var qc=[{n:"Note",d:"M4 4h11l5 5v11H4z"},{n:"Tâche",d:"M5 12l4 4L19 6"},
+            {n:"Brief",d:"M5 4h14v16H5zM8 9h8M8 13h6"},{n:"Upload",d:"M12 17V5M7 10l5-5 5 5M4 19h16"}];
+    var pQc=gp("","Quick Capture",'<span class="sub">à brancher</span>',
+      '<div class="qc">'+qc.map(function(x){
+        return '<button onclick="toast(\''+x.n+' — sera actif à l\\\'étape 9, quand un script pourra écrire dans data/\')">'+
+          '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" '+
+          'stroke-linejoin="round"><path d="'+x.d+'"/></svg><span>'+x.n+'</span></button>';
+      }).join("")+'</div>',null,6);
 
-    /* 9 — parcours */
-    var p9=gp("","Mon apprentissage",'<span class="sub">'+prg.etapes_validees+' / '+prg.etapes_total+'</span>',
+    var pParcours=gp("","Mon apprentissage",'<span class="sub">'+prg.etapes_validees+' / '+prg.etapes_total+'</span>',
       '<div class="fin-v" style="color:var(--gold)">'+prg.pourcentage+' <small style="font-size:.45em">%</small></div>'+
       '<div class="fin-k">Code &amp; exploitation</div>'+
-      '<div class="msbar" style="margin-top:12px"><i data-w="'+prg.pourcentage+'" style="background:linear-gradient(90deg,#c79a3f,#f2d693)"></i></div>'+
+      '<div class="msbar" style="margin-top:11px"><i data-w="'+prg.pourcentage+'" style="background:linear-gradient(90deg,#c79a3f,#f2d693)"></i></div>'+
       '<div class="vide" style="margin-top:9px">Prochaine : <b>'+
       prgEsc(prg.prochaine_etape?prg.prochaine_etape.titre:"—")+'</b></div>',
-      {t:"Coder maintenant →",clic:'onclick="go(\'progression\')"'},8);
+      {t:"Coder maintenant →",clic:'onclick="go(\'progression\')"'},7);
 
-    return p1+p2+p3+p4+p5+p6+p7+p8+p9;
+    return '<div class="imm-body"><div>'+carrousel()+
+      '<div class="low">'+pOverview+pActivity+pActions+pToday+'</div></div>'+
+      '<div class="rail">'+pHealth+pMsg+pQc+pParcours+'</div></div>';
+  }
+
+  function askClaude(e){
+    if(e.key!=="Enter") return;
+    var q=e.target.value.trim(); if(!q) return;
+    var p="Contexte : Maykenwil OS (voir MEMOIRE.md). Demande de Samy : "+q;
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(p).then(function(){toast("📋 Copié — colle-le dans Claude Code");});
+    } else toast("Copie impossible sur ce navigateur.");
+    e.target.value="";
   }
 
   function panneauxPerso(d,prg){

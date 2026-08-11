@@ -1,4 +1,4 @@
-const C = 'mkw-2026-08-11-progression';
+const C = 'mkw-2026-08-11-cockpit-dark';
 self.addEventListener('install', e => self.skipWaiting());
 self.addEventListener('activate', e => e.waitUntil((async () => {
   const keys = await caches.keys();

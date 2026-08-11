@@ -81,7 +81,7 @@
   .view{display:none;animation:fade .4s ease;}
   .view.active{display:block;}
   @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-  .h-title{font-family:var(--serif);font-size:clamp(1.7rem,1.3rem+1.4vw,2.2rem);font-weight:500;letter-spacing:-.5px;}
+  .h-title{font-family:var(--serif);font-size:clamp(1.7rem, 1.3rem + 1.4vw, 2.2rem);font-weight:500;letter-spacing:-.5px;}
   .h-sub{font-size:13px;color:var(--ink-soft);margin-top:3px;}
 
   /* cards */
@@ -111,7 +111,7 @@
   .kick{font-size:11px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-soft);margin-bottom:14px;}
   .chips{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
   .chip{font-size:11px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);padding:4px 11px;border-radius:999px;color:#fff;backdrop-filter:blur(6px);}
-  .hero h1{font-family:var(--serif);font-size:clamp(2.2rem,1.4rem+2.6vw,3.2rem);font-weight:500;line-height:1;letter-spacing:-1px;max-width:15ch;text-shadow:0 2px 30px rgba(0,0,0,.5);}
+  .hero h1{font-family:var(--serif);font-size:clamp(2.2rem, 1.4rem + 2.6vw, 3.2rem);font-weight:500;line-height:1;letter-spacing:-1px;max-width:15ch;text-shadow:0 2px 30px rgba(0,0,0,.5);}
   .hl{display:inline-block;padding:.02em .32em;border-radius:8px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);backdrop-filter:blur(6px);box-shadow:inset 0 1px 0 rgba(255,255,255,.3);}
   .hl.gold{background:rgba(201,162,75,.2);border-color:rgba(201,162,75,.5);color:#f3e2b8;}
   .hero .slo{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-soft);margin-top:13px;}
@@ -294,13 +294,118 @@
     .hero p{max-width:100%;}
   }
   @media(prefers-reduced-motion:reduce){*{animation:none!important;}}
+
+  /* ══════════════════════════════════════════════════════════════════
+     DARK PREMIUM — environnement sombre, verre, fond architectural
+     ══════════════════════════════════════════════════════════════════ */
+  body.dark{
+    --ink:#efe9df; --ink-soft:#a49b8d; --ink-faint:#6f675c;
+    --gold:#d9b45f; --gold-soft:#f2d693;
+    --hairline:rgba(255,255,255,.075);
+    --glass:rgba(255,255,255,.045); --glass-line:rgba(255,255,255,.085);
+    --el-1:0 1px 2px rgba(0,0,0,.4),0 2px 10px rgba(0,0,0,.3);
+    --el-2:0 6px 22px rgba(0,0,0,.45);
+    --el-3:0 18px 50px rgba(0,0,0,.6);
+    color:var(--ink);
+    background:
+      radial-gradient(48% 55% at 14% 8%,  #10322a 0%, transparent 68%),
+      radial-gradient(42% 50% at 88% 16%, #2b2418 0%, transparent 70%),
+      radial-gradient(75% 65% at 66% 100%,#0b1a20 0%, transparent 72%),
+      linear-gradient(158deg,#0b0e0d 0%,#121618 52%,#080a0b 100%);
+    background-attachment:fixed;
+  }
+  /* trame architecturale + halo lent (animation retenue) */
+  body.dark::before{content:"";position:fixed;inset:-20%;z-index:0;pointer-events:none;
+    background:
+      repeating-linear-gradient(90deg,rgba(255,255,255,.016) 0 1px,transparent 1px 88px),
+      repeating-linear-gradient(0deg, rgba(255,255,255,.016) 0 1px,transparent 1px 88px),
+      radial-gradient(38% 34% at 30% 26%,rgba(217,180,95,.07),transparent 70%);
+    animation:mkwdrift 34s ease-in-out infinite alternate;}
+  @keyframes mkwdrift{from{transform:translate3d(-1.2%,-.8%,0) scale(1);}to{transform:translate3d(1.2%,.8%,0) scale(1.03);}}
+  body.dark::after{opacity:.055;mix-blend-mode:screen;}
+  body.dark .os{position:relative;z-index:1;}
+  body.dark ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.14);}
+
+  /* surfaces de verre — versions sombres */
+  body.dark .side{background:rgba(14,18,19,.6);border-right:1px solid var(--hairline);}
+  body.dark .nav:hover{background:rgba(255,255,255,.05);}
+  body.dark .nav.active{background:rgba(255,255,255,.09);color:var(--ink);}
+  body.dark .logo{box-shadow:0 0 0 1px rgba(255,255,255,.1),0 8px 22px rgba(0,0,0,.5);}
+  body.dark .card,
+  body.dark .kpi,
+  body.dark .conn,
+  body.dark .appt,
+  body.dark .agt,
+  body.dark .dept,
+  body.dark .agt-search,
+  body.dark .prg-do,
+  body.dark .cw,
+  body.dark .brief .bx,
+  body.dark .ovcell{background:rgba(255,255,255,.042);border-color:var(--glass-line);}
+  body.dark .card{box-shadow:var(--el-2),inset 0 1px 0 rgba(255,255,255,.06);}
+  body.dark .card::before{background:linear-gradient(135deg,rgba(255,255,255,.05),transparent 45%);}
+  body.dark .conn:hover,
+  body.dark .appt:hover,
+  body.dark .dept:hover,
+  body.dark .prg-step:hover{background:rgba(255,255,255,.075);}
+  body.dark .conn .ce,body.dark .cw .cw-e{background:rgba(255,255,255,.07);}
+  body.dark .chip,body.dark .hl,body.dark .abadge,body.dark .pri,body.dark .btn-o{
+    background:rgba(255,255,255,.06);border-color:var(--glass-line);}
+  body.dark .prg-bar{background:rgba(255,255,255,.07);}
+  body.dark .prg-ticks i{background:rgba(0,0,0,.5);}
+  body.dark .prg-rule{background:rgba(217,180,95,.08);border-color:rgba(217,180,95,.22);}
+  body.dark .prg-do code,body.dark .prg-rule code{background:rgba(255,255,255,.09);}
+  body.dark .toast{background:#efe9df;color:#12161a;}
+  body.dark .search{background:rgba(255,255,255,.05);border-color:var(--glass-line);}
+
+  /* ═══════════════ COCKPIT ═══════════════ */
+  .ck-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:6px;}
+  .ck-hello{font-family:var(--serif);font-size:clamp(2rem, 1.2rem + 2.6vw, 3.1rem);font-weight:500;letter-spacing:-1px;line-height:1.05;}
+  .ck-hello em{font-style:normal;color:var(--gold);}
+  .ck-date{font-size:12.5px;color:var(--ink-faint);letter-spacing:.04em;text-transform:uppercase;padding-bottom:7px;}
+
+  .dock-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(196px,1fr));gap:13px;margin-top:6px;}
+  .dk{position:relative;display:flex;align-items:flex-start;gap:12px;padding:15px 16px;border-radius:var(--r-lg);
+    background:rgba(255,255,255,.045);border:1px solid var(--glass-line);cursor:pointer;overflow:hidden;
+    transition:transform .22s cubic-bezier(.22,1,.36,1),background .22s,border-color .22s;
+    opacity:0;animation:dkin .5s cubic-bezier(.22,1,.36,1) forwards;}
+  @keyframes dkin{from{opacity:0;transform:translateY(9px);}to{opacity:1;transform:none;}}
+  .dk:hover{transform:translateY(-3px);background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.16);}
+  .dk::after{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:var(--dkc);opacity:.85;}
+  .dk.off{border-style:dashed;border-color:rgba(255,255,255,.13);background:rgba(255,255,255,.018);}
+  .dk.off .dk-sig{filter:grayscale(1);opacity:.42;}
+  .dk.off::after{opacity:.22;}
+  .dk-sig{width:38px;height:38px;border-radius:11px;flex-shrink:0;display:grid;place-items:center;
+    font-weight:700;font-size:15px;color:#0d1011;background:var(--dkc);box-shadow:0 4px 14px rgba(0,0,0,.35);}
+  .dk{min-height:134px;}
+  .dk-b{min-width:0;flex:1;display:flex;flex-direction:column;}
+  .dk-n{font-size:14px;font-weight:600;display:flex;align-items:center;gap:7px;}
+  .dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+  .dot.actif{background:#3ddc97;box-shadow:0 0 0 3px rgba(61,220,151,.16);}
+  .dot.partiel{background:var(--gold);box-shadow:0 0 0 3px rgba(217,180,95,.16);}
+  .dot.vide{background:#4DA6FF;box-shadow:0 0 0 3px rgba(77,166,255,.16);}
+  .dot.absent{background:#6f675c;}
+  .dk-s{font-size:11.5px;color:var(--ink-faint);margin-top:3px;line-height:1.4;
+    display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
+  .dk-tag{margin-top:auto;padding-top:0;align-self:flex-start;display:inline-block;font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+    padding:3px 8px;border-radius:999px;border:1px solid var(--glass-line);color:var(--ink-soft);}
+
+  .ck-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:13px;margin:20px 0 4px;}
+  .ck-t{padding:16px 18px;border-radius:var(--r-lg);background:rgba(255,255,255,.042);border:1px solid var(--glass-line);}
+  .ck-t .v{font-family:var(--serif);font-size:31px;font-weight:500;letter-spacing:-1px;line-height:1;}
+  .ck-t .v small{font-size:.42em;color:var(--ink-faint);letter-spacing:0;}
+  .ck-t .k{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin-top:7px;}
+  .ck-t.go .v{color:var(--gold);}
+
+  @media(max-width:980px){ .dock-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));} }
 </style>
 </head>
-<body>
+<body class="dark">
 <div class="os">
   <!-- SIDEBAR -->
   <aside class="side">
     <div class="brand"><div class="logo">M</div><div><b>Maykenwil OS</b><span>Command Center</span></div></div>
+    <div class="nav" data-v="cockpit"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg> Cockpit</div>
     <div class="nav active" data-v="accueil"><svg class="ic" viewBox="0 0 24 24"><path d="M3 10l9-7 9 7v9a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg> Accueil</div>
     <div class="nav" data-v="branches"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg> Branches</div>
     <div class="nav" data-v="agents"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0112 0v1"/><circle cx="19" cy="9" r="2.5"/></svg> Agence IA <span class="cnt" id="agcount">217</span></div>
@@ -408,6 +513,18 @@
       <div class="apps-grid" id="appsgrid"></div>
     </section>
 
+    <!-- COCKPIT -->
+    <section class="view" id="v-cockpit">
+      <div class="ck-head">
+        <div class="ck-hello">Maykenwil <em>Cockpit</em></div>
+        <div class="ck-date" id="ckdate"></div>
+      </div>
+      <div class="ck-strip" id="ckstrip"></div>
+      <div class="sec-t">🔌 Mes applications <span id="cknote"></span></div>
+      <div class="dock-grid" id="ckdock"></div>
+      <div class="note" id="ckfoot"></div>
+    </section>
+
     <!-- PROGRESSION -->
     <section class="view" id="v-progression">
       <div class="h-title">Progression</div>
@@ -470,6 +587,7 @@
     document.querySelectorAll(".nav").forEach(n=>n.classList.toggle("active",n.dataset.v===v));
     if(window.galaxySet) galaxySet(v==="accueil");
     if(v==="agents"&&!window.__agents) loadAgents();
+    if(v==="cockpit") loadCockpit();
     if(v==="progression") loadProgression();
     if(v==="calendrier") openAgenda();
     try{location.hash=v;}catch(e){}
@@ -505,6 +623,70 @@
   }
   function closeOv(){document.getElementById("ov").classList.remove("open");}
   document.addEventListener("keydown",e=>{if(e.key==="Escape")closeOv();});
+
+  /* ===== cockpit ===== */
+  var STATUTS={
+    actif:  {t:"Opérationnel",   off:0},
+    partiel:{t:"Droits partiels",off:0},
+    vide:   {t:"Répond, vide",   off:0},
+    absent: {t:"À connecter",    off:1}
+  };
+
+  /* une seule source de vérité pour l'état des apps : data/apps.json */
+  function loadApps(){
+    if(window.__apps) return Promise.resolve(window.__apps);
+    return fetch("data/apps.json",{cache:"no-store"})
+      .then(function(r){if(!r.ok)throw 0;return r.json();})
+      .then(function(d){window.__apps=d;renderConnectors();return d;})
+      .catch(function(){return null;});
+  }
+
+  function loadCockpit(){
+    loadApps().then(function(d){
+      if(d) renderCockpit();
+      else document.getElementById("ckdock").innerHTML=
+        '<div class="note">data/apps.json introuvable — à générer.</div>';
+    });
+  }
+
+  function renderCockpit(){
+    var d=window.__apps; if(!d) return;
+    var prg=window.__prg;
+
+    document.getElementById("ckdate").textContent=
+      new Date().toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+
+    var actives=d.apps.filter(function(a){return a.statut==="actif";}).length;
+    var brActives=Object.keys(BRANCHES).filter(function(k){return BRANCHES[k].status==="Active";}).length;
+
+    document.getElementById("ckstrip").innerHTML=
+      '<div class="ck-t go"><div class="v">'+(prg?prg.pourcentage:0)+'<small>%</small></div><div class="k">Progression</div></div>'+
+      '<div class="ck-t"><div class="v">'+actives+'<small> / '+d.apps.length+'</small></div><div class="k">Apps opérationnelles</div></div>'+
+      '<div class="ck-t"><div class="v">'+brActives+'<small> / '+Object.keys(BRANCHES).length+'</small></div><div class="k">Branches actives</div></div>'+
+      '<div class="ck-t"><div class="v" style="font-size:15px;line-height:1.3;padding-top:4px">'+
+        prgEsc(prg&&prg.prochaine_etape?prg.prochaine_etape.titre:"—")+'</div><div class="k">Prochaine étape</div></div>';
+
+    document.getElementById("cknote").textContent="(état mesuré le "+prgEsc(d.verifie_le)+", pas déclaré)";
+
+    document.getElementById("ckdock").innerHTML=d.apps.map(function(a,i){
+      var s=STATUTS[a.statut]||STATUTS.absent;
+      return '<div class="dk'+(s.off?" off":"")+'" style="--dkc:'+prgEsc(a.couleur)+';animation-delay:'+(i*45)+'ms"'+
+        ' onclick="dockClick(\''+prgEsc(a.id)+'\')">'+
+        '<span class="dk-sig">'+prgEsc(a.sigle)+'</span>'+
+        '<span class="dk-b">'+
+          '<span class="dk-n"><span class="dot '+prgEsc(a.statut)+'"></span>'+prgEsc(a.nom)+'</span>'+
+          '<span class="dk-s">'+prgEsc(a.detail)+'</span>'+
+          '<span class="dk-tag">'+prgEsc(s.t)+'</span>'+
+        '</span></div>';
+    }).join("");
+
+    document.getElementById("ckfoot").textContent=d.note;
+  }
+
+  function dockClick(id){
+    var a=(window.__apps.apps||[]).find(function(x){return x.id===id;});
+    if(a) toast(a.nom+" — "+a.mission);
+  }
 
   /* ===== progression (parcours d'apprentissage) ===== */
   function prgEsc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
@@ -584,7 +766,7 @@
 
   /* compteur de la barre latérale, dès le chargement */
   function initProgressionCounter(){
-    fetch("data/progression.json",{cache:"no-store"})
+    return fetch("data/progression.json",{cache:"no-store"})
       .then(function(r){return r.ok?r.json():null;})
       .then(function(d){
         if(!d)return;
@@ -595,9 +777,28 @@
   }
 
   /* ===== connecteurs ===== */
+  /* le badge reflète l'état réellement mesuré (data/apps.json), jamais un « Connecté » décoratif */
+  var CONN2APP={"Google Calendar":"agenda","Gmail":"gmail","Google Drive":"drive",
+                "Notion":"notion","Slack":"slack","HubSpot":"hubspot"};
+  var BADGE={
+    actif:  {label:"Opérationnel",   css:"color:#3ddc97;border-color:rgba(61,220,151,.4);background:rgba(61,220,151,.12)"},
+    partiel:{label:"Partiel",        css:"color:#d9b45f;border-color:rgba(217,180,95,.4);background:rgba(217,180,95,.12)"},
+    vide:   {label:"Vide",           css:"color:#4DA6FF;border-color:rgba(77,166,255,.4);background:rgba(77,166,255,.12)"},
+    absent: {label:"À connecter",    css:"color:#9a9188;border-color:rgba(255,255,255,.16);background:rgba(255,255,255,.05)"}
+  };
+  function connStatut(nom){
+    var id=CONN2APP[nom];
+    var d=window.__apps;
+    if(!id||!d) return {label:"À vérifier",css:"color:#9a9188;border-color:rgba(255,255,255,.16);background:rgba(255,255,255,.05)"};
+    var a=(d.apps||[]).find(function(x){return x.id===id;});
+    return a?(BADGE[a.statut]||BADGE.absent):BADGE.absent;
+  }
+
   function renderConnectors(){
     document.getElementById("conngrid").innerHTML=CONNECTORS.map(function(c){
-      return '<a class="conn" href="'+c.u+'" target="_blank" rel="noopener"><span class="ce">'+c.e+'</span><span class="ci"><b>'+c.n+'</b><span>'+c.d+'</span></span><span class="cbadge">Connecté</span></a>';
+      var st=connStatut(c.n);
+      return '<a class="conn" href="'+c.u+'" target="_blank" rel="noopener"><span class="ce">'+c.e+'</span><span class="ci"><b>'+c.n+'</b><span>'+c.d+'</span></span>'+
+        '<span class="cbadge" style="'+st.css+'">'+st.label+'</span></a>';
     }).join("");
     document.getElementById("appsgrid").innerHTML=APPS.map(function(a){
       return '<a class="appt" href="'+a.u+'" target="_blank" rel="noopener"><span class="ae">'+a.e+'</span><span>'+a.n+'</span></a>';
@@ -691,9 +892,10 @@
   }
 
   /* init */
-  renderBranches();renderConnectors();renderCowork();initProgressionCounter();
+  renderBranches();renderConnectors();renderCowork();
   var h=(location.hash||"").replace("#","");
   if(h&&document.getElementById("v-"+h))go(h);
+  else Promise.all([initProgressionCounter(),loadApps()]).then(function(){go("cockpit");});
 </script>
 
 <script type="module">

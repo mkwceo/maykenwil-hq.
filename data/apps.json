@@ -1,0 +1,60 @@
+{
+  "verifie_le": "2026-08-11",
+  "note": "Statuts mesurés depuis Claude Code (connecteurs MCP), pas déclarés. Le site étant statique, il affiche l'état constaté — il ne se connecte pas lui-même.",
+  "apps": [
+    {
+      "id": "claude", "nom": "Claude", "sigle": "C", "couleur": "#D97757",
+      "statut": "actif", "detail": "Le moteur. C'est lui qui lit les autres.",
+      "mission": "Rien à faire — c'est d'ici que part tout le reste.",
+      "url": "https://claude.ai"
+    },
+    {
+      "id": "notion", "nom": "Notion", "sigle": "N", "couleur": "#E6E1DA",
+      "statut": "actif", "detail": "Espace de Samy Zertit HQ · rôle owner",
+      "mission": "Étape 8 du parcours : écrire un script qui lit une base Notion.",
+      "url": "https://notion.so"
+    },
+    {
+      "id": "gmail", "nom": "Gmail", "sigle": "M", "couleur": "#EA4335",
+      "statut": "actif", "detail": "51 663 messages · 47 480 non lus",
+      "mission": "Un tri automatique ferait tomber ce chiffre. Étape 7 + 10.",
+      "url": "https://mail.google.com"
+    },
+    {
+      "id": "agenda", "nom": "Google Agenda", "sigle": "A", "couleur": "#4285F4",
+      "statut": "actif", "detail": "samyzertit@gmail.com",
+      "mission": "Alimenter le cockpit avec l'agenda du jour. Étape 9.",
+      "url": "https://calendar.google.com"
+    },
+    {
+      "id": "drive", "nom": "Drive", "sigle": "D", "couleur": "#FBBC04",
+      "statut": "actif", "detail": "Documents accessibles en lecture",
+      "mission": "Source possible pour la base de connaissances.",
+      "url": "https://drive.google.com"
+    },
+    {
+      "id": "hubspot", "nom": "HubSpot", "sigle": "H", "couleur": "#FF7A59",
+      "statut": "partiel", "detail": "Compte 343368326 · lecture Deals/Contacts/Sociétés OK, écriture à réautoriser",
+      "mission": "Réautoriser l'app avec les droits d'écriture, puis y poser le pipeline joueurs.",
+      "url": "https://app.hubspot.com"
+    },
+    {
+      "id": "slack", "nom": "Slack", "sigle": "S", "couleur": "#611f69",
+      "statut": "vide", "detail": "Le connecteur répond, mais aucun canal n'existe",
+      "mission": "Créer les canaux par branche, sinon le connecteur ne sert à rien.",
+      "url": "https://slack.com"
+    },
+    {
+      "id": "figma", "nom": "Figma", "sigle": "F", "couleur": "#A259FF",
+      "statut": "absent", "detail": "Aucun connecteur actif",
+      "mission": "À brancher seulement si tu produis vraiment du design.",
+      "url": "https://figma.com"
+    },
+    {
+      "id": "make", "nom": "Make", "sigle": "K", "couleur": "#6D00CC",
+      "statut": "absent", "detail": "Aucun connecteur actif",
+      "mission": "Étape 10 : commence par GitHub Actions, c'est gratuit et versionné.",
+      "url": "https://make.com"
+    }
+  ]
+}

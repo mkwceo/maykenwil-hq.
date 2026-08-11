@@ -1,0 +1,68 @@
+{
+  "_note": "Jeu de démonstration cohérent. Sert à présenter le produit. Le commutateur « Réel » de la barre basse rebascule sur les valeurs mesurées (data/apps.json, data/progression.json).",
+  "systemes_actifs": 42,
+  "overview": [
+    { "k": "Projets", "v": 18 },
+    { "k": "Workflows", "v": 128 },
+    { "k": "Automations", "v": 43 },
+    { "k": "Utilisateurs", "v": 12 },
+    { "k": "Branches", "v": 6 }
+  ],
+  "sante": {
+    "global": 92,
+    "branches": {
+      "sport": 95, "events": 88, "logistique": 90,
+      "beaute": 85, "capital": 93, "northvision": 91
+    }
+  },
+  "branches": {
+    "sport":       { "systemes": 8, "progress": 95 },
+    "events":      { "systemes": 7, "progress": 88 },
+    "logistique":  { "systemes": 6, "progress": 90 },
+    "beaute":      { "systemes": 5, "progress": 85 },
+    "capital":     { "systemes": 9, "progress": 93 },
+    "northvision": { "systemes": 7, "progress": 91 }
+  },
+  "actions": [
+    { "n": "01", "t": "Scouting Review", "s": "MKW Sport", "p": "hi", "l": "Haute" },
+    { "n": "02", "t": "Finaliser mandat", "s": "MKW Sport", "p": "hi", "l": "Haute" },
+    { "n": "03", "t": "Event Production", "s": "Jadevent", "p": "md", "l": "Moyenne" }
+  ],
+  "activite": [
+    { "t": "Mandat signé", "s": "MKW Sport", "h": "2 h", "c": "#16a87f" },
+    { "t": "Event production call", "s": "Jadevent", "h": "3 h", "c": "#A78BFA" },
+    { "t": "Brief logistique", "s": "Nordex", "h": "5 h", "c": "#4DA6FF" },
+    { "t": "Clôture financière", "s": "KxW Capital", "h": "6 h", "c": "#9fc40f" },
+    { "t": "Projet communautaire", "s": "Kenorth Future", "h": "8 h", "c": "#2E9E78" }
+  ],
+  "agenda": [
+    { "h": "09:00", "t": "Scouting Review", "s": "MKW Sport", "d": "30 min", "c": "#16a87f" },
+    { "h": "11:00", "t": "Event production call", "s": "Jadevent", "d": "1 h", "c": "#A78BFA" },
+    { "h": "14:00", "t": "Meeting — Holding Board", "s": "Maykenwil", "d": "1 h", "c": "#d9b45f" },
+    { "h": "16:00", "t": "Financial review", "s": "KxW Capital", "d": "1 h", "c": "#9fc40f" },
+    { "h": "18:00", "t": "Personal time", "s": "Gym", "d": "1 h", "c": "#FF4D88" }
+  ],
+  "messages": [
+    { "n": "Amine D.", "m": "On en parle ce soir ?", "h": "09:42", "c": "#16a87f" },
+    { "n": "Sarah T.", "m": "Super réunion !", "h": "09:33", "c": "#A78BFA" },
+    { "n": "Events Team", "m": "+12 nouveaux leads", "h": "08:17", "c": "#FF9B4D" },
+    { "n": "Hicham K.", "m": "Brief validé ✅", "h": "07:54", "c": "#4DA6FF" }
+  ],
+  "messages_total": 12,
+  "finance": { "perf": "+24.8 %", "aum": "2.45 M€", "investissements": 12 },
+  "apprentissage": { "pourcentage": 34, "etape": "Premier appel à l'API Claude" },
+  "personnel": {
+    "score": 82,
+    "axes": [
+      { "k": "Discipline", "v": 85 }, { "k": "Productivité", "v": 78 },
+      { "k": "Santé", "v": 88 }, { "k": "Apprentissage", "v": 80 }
+    ],
+    "objectifs": [
+      { "t": "Entraînement", "d": "45 min", "v": 100, "c": "#16a87f" },
+      { "t": "Lecture", "d": "30 min", "v": 70, "c": "#FF9B4D" },
+      { "t": "Travail profond", "d": "90 min", "v": 60, "c": "#4DA6FF" },
+      { "t": "Marche", "d": "8 000 pas", "v": 90, "c": "#A78BFA" }
+    ],
+    "finances": { "solde": "24 850 €", "revenus": "8 420 €", "depenses": "-5 230 €", "epargne": "3 190 €" }
+  }
+}

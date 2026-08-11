@@ -1,4 +1,4 @@
-const C = 'mkw-2026-08-11-carrousel';
+const C = 'mkw-2026-08-11-v4-environnement';
 self.addEventListener('install', e => self.skipWaiting());
 self.addEventListener('activate', e => e.waitUntil((async () => {
   const keys = await caches.keys();
